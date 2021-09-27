@@ -41,15 +41,26 @@ jooq {
                         records = true
                         immutablePojos = true
                         fluentSetters = true
+                        daos = true
+                        pojos = true
+                        comments = false
+                        indexes = false
+                        keys = false
+                        links = false
+                        queues = false
+                        routines = false
+                        sequences = false
+                        pojosEqualsAndHashCode = true
                     }
                     database {
-                        inputSchema = "public"
+                        inputSchema = 'public'
                         name = 'org.jooq.meta.postgres.PostgresDatabase'
                         includes = '.*'
                         excludes = ''
                     }
                     target {
                         packageName = 'com.sldd'
+//                        directory = ''
                     }
                 }
             }
