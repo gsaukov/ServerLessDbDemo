@@ -1,8 +1,9 @@
 plugins {
     id 'java'
+    id 'nu.studer.jooq' version '6.0.1'
 }
 
-group 'org.sldd'
+group 'com.sldd'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -11,30 +12,47 @@ repositories {
 
 dependencies {
     compile 'org.jooq:jooq:3.15.3'
-    compile "org.postgresql:postgresql"
-
+    compile 'org.jooq:jooq-codegen:3.15.3'
+    jooqGenerator 'org.postgresql:postgresql:42.2.23'
+    compile 'org.jooq:jooq'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
-import org.jooq.codegen.GenerationTool
-import org.jooq.meta.jaxb.*
-
-GenerationTool.generate(new Configuration()
-        .withJdbc(new Jdbc()
-                .withDriver('org.h2.Driver')
-                .withUrl('jdbc:h2:~/test-gradle')
-                .withUser('sa')
-                .withPassword(''))
-        .withGenerator(new Generator()
-                .withDatabase(new Database())
-                .withGenerate(new Generate()
-                        .withPojos(true)
-                        .withDaos(true))
-                .withTarget(new Target()
-                        .withPackageName('org.jooq.example.gradle.db')
-                        .withDirectory('src/main/java'))))
 
 test {
     useJUnitPlatform()
+}
+
+jooq {
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/serveles_db'
+                    user = 'serveles_db'
+                    password = 'serveles_db'
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    generate {
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                    }
+                    database {
+                        inputSchema = "public"
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        includes = '.*'
+                        excludes = ''
+                    }
+                    target {
+                        packageName = 'com.sldd'
+                    }
+                }
+            }
+        }
+    }
 }
