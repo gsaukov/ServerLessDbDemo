@@ -10,9 +10,30 @@ repositories {
 }
 
 dependencies {
+    compile 'org.jooq:jooq:3.15.3'
+    compile "org.postgresql:postgresql"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
+
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.*
+
+GenerationTool.generate(new Configuration()
+        .withJdbc(new Jdbc()
+                .withDriver('org.h2.Driver')
+                .withUrl('jdbc:h2:~/test-gradle')
+                .withUser('sa')
+                .withPassword(''))
+        .withGenerator(new Generator()
+                .withDatabase(new Database())
+                .withGenerate(new Generate()
+                        .withPojos(true)
+                        .withDaos(true))
+                .withTarget(new Target()
+                        .withPackageName('org.jooq.example.gradle.db')
+                        .withDirectory('src/main/java'))))
 
 test {
     useJUnitPlatform()
