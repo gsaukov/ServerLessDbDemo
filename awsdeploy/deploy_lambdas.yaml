@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  signin:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: "com.sldd.handlers.HiHandler::handleRequest"
+      Runtime: java11
+      CodeUri: s3://my-new-lambda-bucket-6328764287364/CRServer-1.0-SNAPSHOT.jar
+      Description: ""
+      MemorySize: 512
+      Timeout: 30
+      Role: "arn:aws:iam::XXXXXXXXXXXXXX:role/lambda_basic_execution"
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /hi/handler
+            Method: GET
