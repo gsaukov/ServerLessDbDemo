@@ -19,6 +19,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
+sourceSets.main.java.srcDirs += ['src/main/generated']
 
 test {
     useJUnitPlatform()
@@ -59,8 +60,8 @@ jooq {
                         excludes = ''
                     }
                     target {
-                        packageName = 'com.sldd'
-//                        directory = ''
+                        packageName = 'com.sldd.persistence'
+                        directory = 'src/main/generated'
                     }
                 }
             }
