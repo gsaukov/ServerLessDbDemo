@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.sldd'
-version '1.0-SNAPSHOT'
+version "${appVersion}"
 
 repositories {
     mavenCentral()

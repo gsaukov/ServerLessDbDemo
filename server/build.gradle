@@ -11,12 +11,9 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jooq:jooq:3.15.3'
-    compile 'org.jooq:jooq-codegen:3.15.3'
-    jooqGenerator 'org.postgresql:postgresql:42.2.23'
-    compile 'org.jooq:jooq'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    compile "org.jooq:jooq:${jooqVersion}"
+    compile "org.jooq:jooq-codegen:${jooqVersion}"
+    jooqGenerator "org.postgresql:postgresql:${postgresqlVersion}"
 }
 
 sourceSets.main.java.srcDirs += ['src/main/generated']
