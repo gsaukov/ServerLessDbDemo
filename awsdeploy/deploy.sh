@@ -17,8 +17,8 @@
 #brew install jq
 
 #create s3 bucket and upload java application jar
-echo 'Creating s3 bucket deployment-bilby-lambdas-...'
-aws s3 mb s3://my-new-lambda-bucket-6328764287364 --region ap-southeast-2
+echo 'Creating s3 bucket deployment-lambdas-...'
+aws s3 mb s3://my-new-lambda-bucket-6328764287364 --region us-east-2
 echo 'Copying file to s3'
 aws s3 cp ../server/build/server-1.0-SNAPSHOT.jar s3://my-new-lambda-bucket-6328764287364/
 
@@ -29,7 +29,7 @@ echo '==================   Stack creation COMPLETE        ======================
 
 #create role for lambda
 echo 'creating role for lambda...'
-aws iam create-role --role-name lambda_basic_execution --assume-role-policy-document file://permissionpolicy.json
+aws iam create-role --role-name lambda_basic_execution --assume-role-policy-document file://trust-policy.json
 echo 'attaching policies for lambda'
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonRDSFullAccess --role-name lambda_basic_execution
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess --role-name lambda_basic_execution
@@ -42,8 +42,8 @@ export lambdarole
 
 #create cognito user pool
 #echo 'creating cognito user pool'
-#aws cognito-idp create-user-pool --pool-name bilby-app-pool
-#echo '===================bilby-app-pool user pool CREATED ===================='
+#aws cognito-idp create-user-pool --pool-name app-pool
+#echo '===================app-pool user pool CREATED ===================='
 
 # deploy new stack that creates all lambdas in new account
 echo 'Deploying all lambdas'

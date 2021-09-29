@@ -11,7 +11,7 @@ public class HiHandler implements RequestHandler<Map<String,String>, String>{
     @Override
     public String handleRequest(Map<String,String> event, Context context) {
         LambdaLogger logger = context.getLogger();
-        String response = new String("200 OK");
+        String response = "200 OK";
         // log execution details
         logger.log("ENVIRONMENT VARIABLES: " + System.getenv());
         logger.log("CONTEXT: " + context);
