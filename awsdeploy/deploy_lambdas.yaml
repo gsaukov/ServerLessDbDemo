@@ -7,11 +7,11 @@ Resources:
     Properties:
       Handler: "com.sldd.handlers.HiHandler::handleRequest"
       Runtime: java11
-      CodeUri: s3://my-new-lambda-bucket-6328764287364/CRServer-1.0-SNAPSHOT.jar
+      CodeUri: s3://my-new-lambda-bucket-6328764287364/server-1.0-SNAPSHOT.jar
       Description: ""
       MemorySize: 512
       Timeout: 30
-      Role: "arn:aws:iam::XXXXXXXXXXXXXX:role/lambda_basic_execution"
+      Role: "arn:aws:iam::041007482309:role/lambda_basic_execution"
       Events:
         Api1:
           Type: Api
