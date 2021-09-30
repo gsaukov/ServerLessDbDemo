@@ -15,10 +15,17 @@ dependencies {
     compile "org.jooq:jooq-codegen:${jooqVersion}"
     jooqGenerator "org.postgresql:postgresql:${postgresqlVersion}"
 
-    implementation "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
+    compile "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
 }
 
 sourceSets.main.java.srcDirs += ['src/main/generated']
+
+//compile jar with dependencies.
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 test {
     useJUnitPlatform()
