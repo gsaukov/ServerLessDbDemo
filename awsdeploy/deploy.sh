@@ -20,7 +20,7 @@
 echo 'Creating s3 bucket deployment-lambdas-...'
 aws s3 mb s3://my-new-lambda-bucket-6328764287364 --region us-east-1
 echo 'Copying file to s3'
-aws s3 cp ../server/build/libs/server-1.0-SNAPSHOT.jar s3://my-new-lambda-bucket-6328764287364/
+aws s3 cp ../server/build/libs/SLDB-0.1.0.jar s3://my-new-lambda-bucket-6328764287364/
 
 # run cloudformation template
 #echo 'Creating stack...'

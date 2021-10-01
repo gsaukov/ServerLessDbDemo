@@ -20,12 +20,22 @@ dependencies {
 
 sourceSets.main.java.srcDirs += ['src/main/generated']
 
-//compile jar with dependencies.
-jar {
+//compile jar with dependencies inside.
+//jar {
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
+
+//or build dependency zip layer
+task zip(type: Zip) {
     from {
+        archiveFileName = "dependency.zip"
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+zip.dependsOn jar
 
 test {
     useJUnitPlatform()
