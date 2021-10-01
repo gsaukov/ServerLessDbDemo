@@ -28,14 +28,14 @@ sourceSets.main.java.srcDirs += ['src/main/generated']
 //}
 
 //or build dependency zip layer
-task zip(type: Zip) {
+task zipDependencies(type: Zip) {
     from {
-        archiveFileName = "dependency.zip"
+        archiveFileName = "dependencies.zip"
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
-zip.dependsOn jar
+build.finalizedBy(zipDependencies)
 
 test {
     useJUnitPlatform()
