@@ -25,13 +25,13 @@ Parameters:
     Description: |
       Database engine version
       https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engineversion
-    Default: aurora-postgresql-10.7
+    Default: aurora-postgresql-11.11
     AllowedValues:
-      - 'aurora-postgresql-10.7' # aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`provisioned`)].EngineVersion'
-      - 'aurora-postgresql-10.6'
-      - 'aurora-postgresql-10.5'
-      - 'aurora-postgresql-10.4'
-      - 'aurora-postgresql-9.6.12'
+      - 'aurora-postgresql-11.9' # aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`provisioned`)].EngineVersion'
+      - 'aurora-postgresql-11.10'
+      - 'aurora-postgresql-11.11'
+      - 'aurora-postgresql-11.12'
+      - 'aurora-postgresql-12.7'
       - 'aurora-postgresql'
   DBInstanceClass:
     Type: String
@@ -71,10 +71,10 @@ Resources:
   DBClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
-      Family: aurora-postgresql-10.7
+      Family: aurora-postgresql-11.11
       Description: DB cluster parameter group
       Parameters:
-        time_zone: Asia/Tokyo
+        time_zone: Europe/Berlin
         server_audit_logging: 1
         server_audit_logs_upload: 1
         server_audit_events: QUERY
@@ -85,7 +85,7 @@ Resources:
   DBParameterGroup:
     Type: AWS::RDS::DBParameterGroup
     Properties:
-      Family: aurora-postgresql-10.7
+      Family: aurora-postgresql-11.11
       Description: DB parameter group
       Parameters:
         log_output: FILE
@@ -150,7 +150,7 @@ Resources:
         - error
         - slowquery
         - audit
-      Engine: aurora-mysql
+      Engine: aurora-postgresql
       EngineMode: provisioned
       EngineVersion: !Ref DBEngineVersion
       MasterUsername: !Ref MasterUsername
@@ -175,7 +175,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance1
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: aurora-mysql
+      Engine: aurora-postgresql
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
@@ -191,7 +191,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance2
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: aurora-mysql
+      Engine: aurora-postgresql
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
@@ -207,7 +207,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance3
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: aurora-mysql
+      Engine: aurora-postgresql
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
