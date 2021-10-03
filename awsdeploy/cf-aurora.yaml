@@ -213,3 +213,26 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${Env}-db-instance3
+
+  # ---------------------------------------------------------------------- #
+  # Security Group (Aurora)
+  # ---------------------------------------------------------------------- #
+
+  AuroraSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Env}-sg-aurora
+      GroupDescription: Aurora security group
+#      VpcId:
+#        Fn::ImportValue: !Sub ${Env}-vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-sg-aurora
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+#          SourceSecurityGroupId: !Ref ECSSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
