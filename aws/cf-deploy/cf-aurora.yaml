@@ -223,8 +223,8 @@ Resources:
     Properties:
       GroupName: !Sub ${Env}-sg-aurora
       GroupDescription: Aurora security group
-#      VpcId:
-#        Fn::ImportValue: !Sub ${Env}-vpc
+      VpcId:
+        Fn::ImportValue: !Sub ${Env}-vpc
       Tags:
         - Key: Name
           Value: !Sub ${Env}-sg-aurora
@@ -237,8 +237,38 @@ Resources:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
 
+  # -------------------------- #
+  #  Private Subnet
+  # -------------------------- #
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      CidrBlock: !Select [ 1, !Cidr [ !GetAtt VPC.CidrBlock, 4, 8 ]]
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-private-subnet-1a
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1b
+      CidrBlock: !Select [ 3, !Cidr [ !GetAtt VPC.CidrBlock, 4, 8 ]]
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-private-subnet-1b
+
 Outputs:
   AuroraSecurityGroup:
     Value: !Ref AuroraSecurityGroup
     Export:
       Name: !Sub ${Env}-sg-aurora
+  PrivateSubnet1:
+    Value: !Ref PrivateSubnet1a
+    Export:
+      Name: !Sub ${Env}-private-subnet1
+  PrivateSubnet2:
+    Value: !Ref PrivateSubnet1c
+    Export:
+      Name: !Sub ${Env}-private-subnet2
