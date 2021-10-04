@@ -10,9 +10,6 @@ Parameters:
       - dev
       - uat
       - prd
-  VPCID:
-    Description: VPC ID of a stack
-    Type: String
   DatabaseName:
     Description: DB name
     Type: String
@@ -34,8 +31,6 @@ Parameters:
       - 'aurora-postgresql-11.10'
       - 'aurora-postgresql-11.11'
       - 'aurora-postgresql-11.12'
-      - 'aurora-postgresql-12.7'
-      - 'aurora-postgresql'
   DBInstanceClass:
     Type: String
     Description: |
@@ -71,30 +66,27 @@ Resources:
   # ---------------------------------------------------------------------------- #
   # DB Parameter Group
   # ---------------------------------------------------------------------------- #
+
+  # https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Reference.html#AuroraPostgreSQL.Reference.ParameterGroups
   DBClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
-      Family: aurora-postgresql-11.11
+      Family: aurora-postgresql11
       Description: DB cluster parameter group
       Parameters:
-        time_zone: Europe/Berlin
-        server_audit_logging: 1
-        server_audit_logs_upload: 1
-        server_audit_events: QUERY
-        binlog_format: ROW
+        rds.force_ssl: 1
       Tags:
         - Key: Name
           Value: !Sub ${Env}-db-cluster-parameter-group
   DBParameterGroup:
     Type: AWS::RDS::DBParameterGroup
     Properties:
-      Family: aurora-postgresql-11.11
+      Family: aurora-postgresql11
       Description: DB parameter group
       Parameters:
-        log_output: FILE
-        general_log: 1
-        slow_query_log: 1
-        long_query_time: 0
+        deadlock_timeout: 450
+        max_connections: 100
+        idle_in_transaction_session_timeout: 900
       Tags:
         - Key: Name
           Value: !Sub ${Env}-db-parameter-group
@@ -216,62 +208,3 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${Env}-db-instance3
-
-  # ---------------------------------------------------------------------- #
-  # Security Group (Aurora)
-  # ---------------------------------------------------------------------- #
-
-  AuroraSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupName: !Sub ${Env}-sg-aurora
-      GroupDescription: Aurora security group
-      VpcId:
-        Fn::ImportValue: !Sub ${Env}-vpc
-      Tags:
-        - Key: Name
-          Value: !Sub ${Env}-sg-aurora
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
-#          SourceSecurityGroupId: !Ref ECSSecurityGroup
-      SecurityGroupEgress:
-        - IpProtocol: -1
-          CidrIp: 0.0.0.0/0
-
-  # -------------------------- #
-  #  Private Subnet
-  # -------------------------- #
-  PrivateSubnet1:
-    Type: AWS::EC2::Subnet
-    Properties:
-      AvailabilityZone: us-east-1a
-      CidrBlock: 10.21.0.0/16
-      VpcId: !Ref VPCID
-      Tags:
-        - Key: Name
-          Value: !Sub ${Env}-private-subnet-1a
-  PrivateSubnet2:
-    Type: AWS::EC2::Subnet
-    Properties:
-      AvailabilityZone: us-east-1b
-      CidrBlock: 10.22.0.0/16
-      VpcId: !Ref VPCID
-      Tags:
-        - Key: Name
-          Value: !Sub ${Env}-private-subnet-1b
-
-Outputs:
-  AuroraSecurityGroup:
-    Value: !Ref AuroraSecurityGroup
-    Export:
-      Name: !Sub ${Env}-sg-aurora
-  PrivateSubnet1:
-    Value: !Ref PrivateSubnet1a
-    Export:
-      Name: !Sub ${Env}-private-subnet1
-  PrivateSubnet2:
-    Value: !Ref PrivateSubnet1c
-    Export:
-      Name: !Sub ${Env}-private-subnet2

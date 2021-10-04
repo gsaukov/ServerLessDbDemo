@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Aurora
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - uat
+      - prd
+  VPCID:
+    Description: VPC ID of a stack
+    Type: String
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  # Security Group (Aurora)
+  # ---------------------------------------------------------------------- #
+
+  AuroraSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Env}-sg-aurora
+      GroupDescription: Aurora security group
+      VpcId: !Ref VPCID
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-sg-aurora
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+      #          SourceSecurityGroupId: !Ref ECSSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  # -------------------------- #
+  #  Private Subnet
+  # -------------------------- #
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      CidrBlock: 172.31.200.0/24
+      VpcId: !Ref VPCID
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-private-subnet1
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1b
+      CidrBlock: 172.31.201.0/24
+      VpcId: !Ref VPCID
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-private-subnet2
+
+Outputs:
+  AuroraSecurityGroup:
+    Value: !Ref AuroraSecurityGroup
+    Export:
+      Name: !Sub ${Env}-sg-aurora
+  PrivateSubnet1:
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: !Sub ${Env}-private-subnet1
+  PrivateSubnet2:
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: !Sub ${Env}-private-subnet2
