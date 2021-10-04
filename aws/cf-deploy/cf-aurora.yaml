@@ -10,6 +10,9 @@ Parameters:
       - dev
       - uat
       - prd
+  VPCID:
+    Description: VPC ID of a stack
+    Type: String
   DatabaseName:
     Description: DB name
     Type: String
@@ -244,8 +247,8 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: us-east-1a
-      CidrBlock: !Select [ 1, !Cidr [ !GetAtt VPC.CidrBlock, 4, 8 ]]
-      VpcId: !Ref VPC
+      CidrBlock: 10.21.0.0/16
+      VpcId: !Ref VPCID
       Tags:
         - Key: Name
           Value: !Sub ${Env}-private-subnet-1a
@@ -253,8 +256,8 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: us-east-1b
-      CidrBlock: !Select [ 3, !Cidr [ !GetAtt VPC.CidrBlock, 4, 8 ]]
-      VpcId: !Ref VPC
+      CidrBlock: 10.22.0.0/16
+      VpcId: !Ref VPCID
       Tags:
         - Key: Name
           Value: !Sub ${Env}-private-subnet-1b
