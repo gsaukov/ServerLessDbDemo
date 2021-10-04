@@ -48,6 +48,6 @@ export lambdarole
 
 # deploy new stack that creates all lambdas in new account
 echo 'Deploying all lambdas'
-sam deploy --template-file deploy_lambdas.yaml   --stack-name stack-all-lambdas
+sam deploy --template-file /lambda/deploy_lambdas.yaml   --stack-name stack-all-lambdas
 echo '======================== Lambdas all created =============================='
 #in case failed: aws cloudformation delete-stack --stack stack-all-lambdas

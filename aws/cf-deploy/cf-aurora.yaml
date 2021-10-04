@@ -236,3 +236,9 @@ Resources:
       SecurityGroupEgress:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
+
+Outputs:
+  AuroraSecurityGroup:
+    Value: !Ref AuroraSecurityGroup
+    Export:
+      Name: !Sub ${Env}-sg-aurora
