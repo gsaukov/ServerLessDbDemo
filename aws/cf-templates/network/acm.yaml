@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ACM
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  DomainName:
+    Type: String
+    Description: domain name
+    Default: example.com
+  ALBHostedZoneId:
+    Type: String
+    Description: ID for available hosted zone (alb.example.com)
+    Default: XXXXXXXXXXXXXXXXXXXXX
+  APIHostedZoneId:
+    Type: String
+    Description: ID for available hosted zone (api.example.com)
+    Default: XXXXXXXXXXXXXXXXXXXXX
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  # Certificate
+  # ---------------------------------------------------------------------- #
+  ALBCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub ${Env}.alb.${DomainName}
+      DomainValidationOptions:
+        - DomainName: !Sub ${Env}.alb.${DomainName}
+          HostedZoneId: !Sub ${ALBHostedZoneId}
+      ValidationMethod: DNS
+  APICertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub ${Env}.api.${DomainName}
+      DomainValidationOptions:
+        - DomainName: !Sub ${Env}.api.${DomainName}
+          HostedZoneId: !Sub ${APIHostedZoneId}
+      ValidationMethod: DNS
+
+Outputs:
+  ALBCertificate:
+    Value: !Ref ALBCertificate
+    Export:
+      Name: !Sub ${Env}-alb-certificate
+  APICertificate:
+    Value: !Ref APICertificate
+    Export:
+      Name: !Sub ${Env}-api-certificate

@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Custom Header
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  OriginProtectionCustomHeaderKey:
+    Type: String
+    Default: x-pre-shared-key
+  OriginProtectionCustomHeaderValue:
+    Type: String
+    Default: XXXXXXXXXXXXXXXXXXXXX
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  #  Parameter Store (Custom Header)
+  # ---------------------------------------------------------------------- #
+  OriginProtectionCustomHeaderKeyParameter:
+    Type: AWS::SSM::Parameter
+    Description: WAF settings for CloudFront and ALB
+    Properties:
+      Type: String
+      Name: !Sub ${Env}-origin-protection-custom-header-key
+      Value: !Ref OriginProtectionCustomHeaderKey
+  OriginProtectionCustomHeaderValueParameter:
+    Type: AWS::SSM::Parameter
+    Description: WAF settings for CloudFront and ALB
+    Properties:
+      Type: String
+      Name: !Sub ${Env}-origin-protection-custom-header-value
+      Value: !Ref OriginProtectionCustomHeaderValue
+
+Outputs:
+  OriginProtectionCustomHeaderKeyParameter:
+    Value: !GetAtt OriginProtectionCustomHeaderKeyParameter.Value
+    Export:
+      Name: !Sub ${Env}-origin-protection-custom-header-key
+  OriginProtectionCustomHeaderValueParameter:
+    Value: !GetAtt OriginProtectionCustomHeaderValueParameter.Value
+    Export:
+      Name: !Sub ${Env}-origin-protection-custom-header-value

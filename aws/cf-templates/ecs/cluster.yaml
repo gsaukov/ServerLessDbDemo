@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS cluster
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+
+Resources:
+  # ---------------------------------------------------------------------------- #
+  # ECS Cluster
+  # ---------------------------------------------------------------------------- #
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${Env}-api-ecs-cluster
+
+Outputs:
+  Cluster:
+    Value: !Ref Cluster
+    Export:
+      Name: !Sub ${Env}-api-ecs-cluster

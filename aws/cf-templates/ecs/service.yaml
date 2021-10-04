@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS Service
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  TaskDef:
+    Description: |
+      Task Definition ARN.
+      e.g. arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task-definition/dev-api-ecs-task:1
+    Type: String
+
+Mappings:
+  EnvMap:
+    dev:
+      NumberOfTask: 0
+      Port: 8088
+    stg:
+      NumberOfTask: 0
+      Port: 8088
+    stress:
+      NumberOfTask: 2
+      Port: 8088
+    prd:
+      NumberOfTask: 2
+      Port: 8088
+
+Resources:
+  # ---------------------------------------------------------------------------- #
+  # ECS Service
+  # ---------------------------------------------------------------------------- #
+  Service:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster:
+        Fn::ImportValue: !Sub ${Env}-api-ecs-cluster
+      DeploymentController:
+        Type: CODE_DEPLOY
+      DesiredCount: !FindInMap [ EnvMap, !Ref Env, NumberOfTask ]
+      LaunchType: FARGATE
+      LoadBalancers:
+        - ContainerName: !Sub ${Env}-api-ecs-service-container
+          ContainerPort: !FindInMap [ EnvMap, !Ref Env, Port ]
+          TargetGroupArn:
+            Fn::ImportValue: !Sub ${Env}-alb-tg
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          SecurityGroups:
+            - Fn::ImportValue: !Sub ${Env}-sg-ecs
+          Subnets:
+            - Fn::ImportValue: !Sub ${Env}-private-subnet1
+            - Fn::ImportValue: !Sub ${Env}-private-subnet2
+      PlatformVersion: LATEST
+      SchedulingStrategy: REPLICA
+      ServiceName: !Sub ${Env}-api-ecs-service
+      TaskDefinition: !Ref TaskDef

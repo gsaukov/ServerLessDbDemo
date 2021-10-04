@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Log group
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+
+Resources:
+  # ---------------------------------------------------------------------------- #
+  # Log Group
+  # ---------------------------------------------------------------------------- #
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/logs/${Env}-api-ecs-log-group
+
+Outputs:
+  LogGroup:
+    Value: !Ref LogGroup
+    Export:
+      Name: !Sub ${Env}-api-ecs-log-group

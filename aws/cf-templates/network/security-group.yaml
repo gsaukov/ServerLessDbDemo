@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Security Group
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  # Security Group (ALB)
+  # ---------------------------------------------------------------------- #
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Env}-sg-alb
+      GroupDescription: ALB security group
+      VpcId:
+        Fn::ImportValue: !Sub ${Env}-vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-sg-alb
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  # ---------------------------------------------------------------------- #
+  # Security Group (ECS)
+  # ---------------------------------------------------------------------- #
+  ECSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Env}-sg-ecs
+      GroupDescription: ECS security group
+      VpcId:
+        Fn::ImportValue: !Sub ${Env}-vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-sg-ecs
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8088
+          ToPort: 8088
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  # ---------------------------------------------------------------------- #
+  # Security Group (Aurora)
+  # ---------------------------------------------------------------------- #
+  AuroraSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Env}-sg-aurora
+      GroupDescription: Aurora security group
+      VpcId:
+        Fn::ImportValue: !Sub ${Env}-vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-sg-aurora
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref ECSSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+Outputs:
+  ALBSecurityGroup:
+    Value: !Ref ALBSecurityGroup
+    Export:
+      Name: !Sub ${Env}-sg-alb
+  ECSSecurityGroup:
+    Value: !Ref ECSSecurityGroup
+    Export:
+      Name: !Sub ${Env}-sg-ecs
+  AuroraSecurityGroup:
+    Value: !Ref AuroraSecurityGroup
+    Export:
+      Name: !Sub ${Env}-sg-aurora

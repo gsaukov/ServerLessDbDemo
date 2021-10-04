@@ -1,0 +1,150 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS AutoScaling Policy
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+
+Mappings:
+  EnvMap:
+    dev:
+      AutoScalingMinCapacity: 1
+      AutoScalingMaxCapacity: 1
+    stg:
+      AutoScalingMinCapacity: 1
+      AutoScalingMaxCapacity: 1
+    stress:
+      AutoScalingMinCapacity: 2
+      AutoScalingMaxCapacity: 8
+    prd:
+      AutoScalingMinCapacity: 2
+      AutoScalingMaxCapacity: 8
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  # AutoScaling
+  # ---------------------------------------------------------------------- #
+  ServiceScalableTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: !FindInMap
+        - EnvMap
+        - !Ref Env
+        - AutoScalingMaxCapacity
+      MinCapacity: !FindInMap
+        - EnvMap
+        - !Ref Env
+        - AutoScalingMinCapacity
+      ResourceId: !Sub
+        - service/${EcsClusterName}/${EcsServiceName}
+        - EcsClusterName: !Sub ${Env}-api-ecs-cluster
+          EcsServiceName: !Sub ${Env}-api-ecs-service
+      RoleARN: !GetAtt EcsAutoScalingIamRole.Arn
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  # ---------------------------------------------------------------------- #
+  # IAM Role
+  # ---------------------------------------------------------------------- #
+  EcsAutoScalingIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${Env}-ecs-autoscaling-role
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - application-autoscaling.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+
+  # ---------------------------------------------------------------------- #
+  # AutoScaling Trigger
+  #  - CPUUtilization > 75 : ScaleOut
+  #  - CPUUtilization < 20 : ScaleIn
+  # ---------------------------------------------------------------------- #
+  CPUScaleOutAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${Env}-CPUUtilization-greater-than-75%
+      AlarmDescription: Alarm if cpu utilization greater than 75% of reserved cpu
+      Namespace: AWS/ECS
+      MetricName: CPUUtilization
+      Dimensions:
+        - Name: ClusterName
+          Value: !Sub ${Env}-api-ecs-cluster
+        - Name: ServiceName
+          Value: !Sub ${Env}-api-ecs-service
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 75
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions:
+        - !Ref ServiceScaleOutPolicy
+
+  CPUScaleInAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${Env}-CPUUtilization-less-than-20%
+      AlarmDescription: Alarm if cpu utilization less than 20% of reserved cpu
+      Namespace: AWS/ECS
+      MetricName: CPUUtilization
+      Dimensions:
+        - Name: ClusterName
+          Value: !Sub ${Env}-api-ecs-cluster
+        - Name: ServiceName
+          Value: !Sub ${Env}-api-ecs-service
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 5
+      Threshold: 20
+      ComparisonOperator: LessThanThreshold
+      AlarmActions:
+        - !Ref ServiceScaleInPolicy
+
+  # ---------------------------------------------------------------------- #
+  # ScaleOut
+  # ---------------------------------------------------------------------- #
+  ServiceScaleOutPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub ${Env}-scale-out-policy
+      PolicyType: StepScaling
+      ScalingTargetId: !Ref ServiceScalableTarget
+      StepScalingPolicyConfiguration:
+        AdjustmentType: ChangeInCapacity
+        Cooldown: 60
+        MetricAggregationType: Average
+        StepAdjustments:
+          - MetricIntervalLowerBound: 0
+            ScalingAdjustment: 2
+
+  # ---------------------------------------------------------------------- #
+  # ScaleIn
+  # ---------------------------------------------------------------------- #
+  ServiceScaleInPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub ${Env}-scale-in-policy
+      PolicyType: StepScaling
+      ScalingTargetId: !Ref ServiceScalableTarget
+      StepScalingPolicyConfiguration:
+        AdjustmentType: ChangeInCapacity
+        Cooldown: 60
+        MetricAggregationType: Average
+        StepAdjustments:
+          - MetricIntervalUpperBound: 0
+            ScalingAdjustment: -2

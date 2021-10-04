@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS task definition
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  Tag:
+    Description: tag
+    Type: String
+    Default: latest
+
+Mappings:
+  EnvMap:
+    dev:
+      CpuSize: 256
+      MemorySize: 512
+      MemoryReservationSize: 512
+      Port: 8088
+    stg:
+      CpuSize: 256
+      MemorySize: 512
+      MemoryReservationSize: 512
+      Port: 8088
+    stress:
+      CpuSize: 1024
+      MemorySize: 2048
+      MemoryReservationSize: 2048
+      Port: 8088
+    prd:
+      CpuSize: 1024
+      MemorySize: 2048
+      MemoryReservationSize: 2048
+      Port: 8088
+
+Resources:
+  # ---------------------------------------------------------------------------- #
+  # ECS Task
+  # ---------------------------------------------------------------------------- #
+  Task:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities:
+        - FARGATE
+      TaskRoleArn:
+        Fn::ImportValue: !Sub ${Env}-api-task-role-arn
+      NetworkMode: awsvpc
+      Family: !Sub ${Env}-api-ecs-task
+      ExecutionRoleArn:
+        Fn::ImportValue: !Sub ${Env}-api-task-execution-role-arn
+      Memory: !FindInMap [ EnvMap, !Ref Env, MemorySize ]
+      Cpu: !FindInMap [ EnvMap, !Ref Env, CpuSize ]
+      ContainerDefinitions:
+        # -------------------------- #
+        #  API container
+        # -------------------------- #
+        - Name: !Sub ${Env}-api-ecs-service-container
+          Ulimits:
+            - HardLimit: 65536
+              Name: nofile
+              SoftLimit: 65536
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Env}-example-api:${Tag}
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group:
+                Fn::ImportValue: !Sub ${Env}-api-ecs-log-group
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: ecs
+          MemoryReservation: !FindInMap [ EnvMap, !Ref Env, MemoryReservationSize ]
+          PortMappings:
+            - HostPort: !FindInMap [ EnvMap, !Ref Env, Port ]
+              Protocol: tcp
+              ContainerPort: !FindInMap [ EnvMap, !Ref Env, Port ]
+          Environment:
+            - Name: APP_ENV
+              Value: !Ref Env
+          Secrets:
+            - Name: DB_USERNAME
+              ValueFrom: !Sub /${Env}/db/username
+            - Name: DB_PASSWORD
+              ValueFrom: !Sub /${Env}/db/password
+            - Name: DB_WRITE_ENDPOINT
+              ValueFrom: !Sub /${Env}/db/write-endpoint
+            - Name: DB_READ_ENDPOINT
+              ValueFrom: !Sub /${Env}/db/read-endpoint
+            - Name: DB_NAME
+              ValueFrom: !Sub /${Env}/db/name

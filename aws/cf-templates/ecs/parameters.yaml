@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Parameters
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  DBUserName:
+    Type: String
+  DBPassword:
+    Type: String
+  DBWriteEndpoint:
+    Type: String
+  DBReadEndpoint:
+    Type: String
+  DBName:
+    Type: String
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  #  Parameter Store (DB)
+  # ---------------------------------------------------------------------- #
+  DBUserNameParameter:
+    Type: AWS::SSM::Parameter
+    Description: DB username
+    Properties:
+      Type: String
+      Name: !Sub /${Env}/db/username
+      Value: !Ref DBUserName
+  DBPasswordParameter:
+    Type: AWS::SSM::Parameter
+    Description: DB password
+    Properties:
+      Type: String
+      Name: !Sub /${Env}/db/password
+      Value: !Ref DBPassword
+  DBWriteEndpointParameter:
+    Type: AWS::SSM::Parameter
+    Description: DB write endpoint
+    Properties:
+      Type: String
+      Name: !Sub /${Env}/db/write-endpoint
+      Value: !Ref DBWriteEndpoint
+  DBReadEndpointParameter:
+    Type: AWS::SSM::Parameter
+    Description: DB read only endpoint
+    Properties:
+      Type: String
+      Name: !Sub /${Env}/db/read-endpoint
+      Value: !Ref DBReadEndpoint
+  DBNameParameter:
+    Type: AWS::SSM::Parameter
+    Description: DB name
+    Properties:
+      Type: String
+      Name: !Sub /${Env}/db/name
+      Value: !Ref DBName

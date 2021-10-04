@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ACM
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  DomainName:
+    Type: String
+    Description: domain name
+    Default: example.com
+  HostedZoneId:
+    Type: String
+    Description: ID for available hosted zone (api.example.com)
+    Default: XXXXXXXXXXXXXXXXXXXXX
+
+Conditions:
+  IsPrd:
+    !Equals [!Ref Env, prd]
+  IsNotPrd:
+    !Not [!Equals [!Ref Env, prd]]
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  # Certificate
+  # ---------------------------------------------------------------------- #
+  CertificateNotPrd:
+    Condition: IsNotPrd
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub ${Env}.api.${DomainName}
+      DomainValidationOptions:
+        - DomainName: !Sub ${Env}.api.${DomainName}
+          HostedZoneId: !Sub ${HostedZoneId}
+      ValidationMethod: DNS
+  CertificatePrd:
+    Condition: IsPrd
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub api.${DomainName}
+      DomainValidationOptions:
+        - DomainName: !Sub api.${DomainName}
+          HostedZoneId: !Sub ${HostedZoneId}
+      ValidationMethod: DNS
+
+Outputs:
+  CertificateNotPrd:
+    Condition: IsNotPrd
+    Value: !Ref CertificateNotPrd
+    Export:
+      Name: !Sub ${Env}-api-certificate
+  CertificatePrd:
+    Condition: IsPrd
+    Value: !Ref CertificatePrd
+    Export:
+      Name: !Sub ${Env}-api-certificate

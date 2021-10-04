@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECR
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+
+Resources:
+  # ---------------------------------------------------------------------------- #
+  # ECR
+  # ---------------------------------------------------------------------------- #
+  APIRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Sub ${Env}-example-api
+      LifecyclePolicy:
+        LifecyclePolicyText: '
+{
+  "rules": [
+    {
+      "rulePriority": 1,
+      "selection": {
+        "tagStatus": "any",
+        "countType": "imageCountMoreThan",
+        "countNumber": 10
+      },
+      "action": {
+        "type": "expire"
+      }
+    }
+  ]
+}'

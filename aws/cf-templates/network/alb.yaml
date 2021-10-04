@@ -1,0 +1,178 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ALB
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+
+Resources:
+  # ---------------------------------------------------------------------- #
+  # ALB
+  # ---------------------------------------------------------------------- #
+  ALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub ${Env}-alb
+      Scheme: internet-facing
+      Subnets:
+        - Fn::ImportValue: !Sub ${Env}-public-subnet1
+        - Fn::ImportValue: !Sub ${Env}-public-subnet2
+      SecurityGroups:
+        - Fn::ImportValue: !Sub ${Env}-sg-alb
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-alb
+
+  # ---------------------------------------------------------------------- #
+  # ALB Listener
+  # ---------------------------------------------------------------------- #
+  ALBListenerHTTPS:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroupBlue
+      LoadBalancerArn: !Ref ALB
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn:
+            Fn::ImportValue: !Sub ${Env}-alb-certificate
+  ALBListenerHTTPSTest:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroupGreen
+      LoadBalancerArn: !Ref ALB
+      Port: 8080
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn:
+            Fn::ImportValue: !Sub ${Env}-alb-certificate
+
+  # ---------------------------------------------------------------------- #
+  # ALB Target Group ( Blue / Green )
+  # ---------------------------------------------------------------------- #
+  ALBTargetGroupBlue:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId:
+        Fn::ImportValue: !Sub ${Env}-vpc
+      HealthCheckIntervalSeconds: 30
+      UnhealthyThresholdCount: 2
+      HealthCheckTimeoutSeconds: 5
+      Matcher:
+        HttpCode: 200
+      HealthCheckPath: /v1/health
+      HealthCheckPort: 8088
+      Name: !Sub ${Env}-alb-blue-tg
+      Port: 8088
+      Protocol: HTTP
+      TargetType: ip
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-alb-blue-tg
+  ALBTargetGroupGreen:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId:
+        Fn::ImportValue: !Sub ${Env}-vpc
+      HealthCheckIntervalSeconds: 30
+      UnhealthyThresholdCount: 2
+      HealthCheckTimeoutSeconds: 5
+      Matcher:
+        HttpCode: 200
+      HealthCheckPath: /v1/health
+      HealthCheckPort: 8088
+      Name: !Sub ${Env}-alb-green-tg
+      Port: 8088
+      Protocol: HTTP
+      TargetType: ip
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-alb-green-tg
+
+  # -------------------------- #
+  #  WebACL (OR)
+  # -------------------------- #
+  ALBWebACL:
+    Type: AWS::WAFRegional::WebACL
+    Properties:
+      MetricName: !Sub ${Env}ALBWebACL
+      Name: !Sub ${Env}-alb-web-acl
+      DefaultAction:
+        Type: BLOCK
+      Rules:
+        # - Action:
+        #     Type: ALLOW
+        #   Priority: 10
+        #   RuleId: !Ref ALBInternalOfficeIPRule
+        - Action:
+            Type: ALLOW
+          Priority: 20
+          RuleId: !Ref ALBHeaderCheckRule
+
+  # ----------------------------------------------------------------------------------------- #
+  #  Rule
+  #   - IP restriction
+  #   - Header matching
+  # ----------------------------------------------------------------------------------------- #
+  # ALBInternalOfficeIPRule:
+  #   Type: AWS::WAFRegional::Rule
+  #   Properties:
+  #     MetricName: !Sub ${Env}InternalOfficeIP
+  #     Name: !Sub ${Env}-alb-internal-office-ip-rule
+  #     Predicates:
+  #       - Type: IPMatch
+  #         Negated: false
+  #         DataId: !Ref ALBWhitelistIPSet
+  # ALBWhitelistIPSet:
+  #   Type: AWS::WAFRegional::IPSet
+  #   Properties:
+  #     Name: !Sub ${Env}-alb-whitelist-ip-set
+  #     IPSetDescriptors:
+  #       - Type: IPV4
+  #         Value:
+
+  ALBHeaderCheckRule:
+    Type: AWS::WAFRegional::Rule
+    Properties:
+      MetricName: !Sub ${Env}ALBHeaderCheck
+      Name: !Sub ${Env}-alb-header-check-rule
+      Predicates:
+        - Type: ByteMatch
+          Negated: false
+          DataId: !Ref ALBHeaderCheckSet
+  ALBHeaderCheckSet:
+    Type: AWS::WAFRegional::ByteMatchSet
+    Properties:
+      Name: !Sub ${Env}-alb-header-check-set
+      ByteMatchTuples:
+        - FieldToMatch:
+            Type: HEADER
+            Data:
+              Fn::ImportValue: !Sub ${Env}-origin-protection-custom-header-key
+          PositionalConstraint: CONTAINS
+          TargetString:
+            Fn::ImportValue: !Sub ${Env}-origin-protection-custom-header-value
+          TextTransformation: URL_DECODE
+
+  ALBWebACLAssociation:
+    Type: AWS::WAFRegional::WebACLAssociation
+    Properties:
+      ResourceArn: !Ref ALB
+      WebACLId: !Ref ALBWebACL
+
+Outputs:
+  ALBTargetGroup:
+    Value: !Ref ALBTargetGroupBlue
+    Export:
+      Name: !Sub ${Env}-alb-tg

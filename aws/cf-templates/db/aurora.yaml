@@ -1,0 +1,216 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Aurora
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - stress
+      - prd
+  DatabaseName:
+    Description: DB name
+    Type: String
+  MasterUsername:
+    Description: DB master username
+    Type: String
+    Default: admin
+  MasterUserPassword:
+    Description: DB master password
+    Type: String
+  DBEngineVersion:
+    Type: String
+    Description: |
+      Database engine version
+      https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engineversion
+    Default: aurora-postgresql-11.11
+    AllowedValues:
+      - 'aurora-postgresql-11.9' # aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`provisioned`)].EngineVersion'
+      - 'aurora-postgresql-11.10'
+      - 'aurora-postgresql-11.11'
+      - 'aurora-postgresql-11.12'
+      - 'aurora-postgresql-12.7'
+      - 'aurora-postgresql'
+  DBInstanceClass:
+    Type: String
+    Description: |
+      Database instance class, e.g. db.t2.micro (free tier) - Engine support
+      https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
+      https://docs.aws.amazon.com/ja_jp/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html
+    Default: db.t3.small
+    ConstraintDescription: DB instance class is not supported
+    AllowedValues:
+      - db.t3.small
+      - db.t3.medium
+      - db.r5.large
+      - db.r5.xlarge
+      - db.r5.2xlarge
+      - db.r5.4xlarge
+      - db.r5.8xlarge
+      - db.r5.12xlarge
+      - db.r5.16xlarge
+      - db.r5.24xlarge
+  MonitoringInterval:
+    Type: Number
+    Default: 60
+    AllowedValues:
+      - 0
+      - 1
+      - 5
+      - 10
+      - 15
+      - 30
+      - 60
+
+Resources:
+  # ---------------------------------------------------------------------------- #
+  # DB Parameter Group
+  # ---------------------------------------------------------------------------- #
+  DBClusterParameterGroup:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Properties:
+      Family: aurora-mysql5.7
+      Description: DB cluster parameter group
+      Parameters:
+        time_zone: Asia/Tokyo
+        server_audit_logging: 1
+        server_audit_logs_upload: 1
+        server_audit_events: QUERY
+        binlog_format: ROW
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-db-cluster-parameter-group
+  DBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Family: aurora-mysql5.7
+      Description: DB parameter group
+      Parameters:
+        log_output: FILE
+        general_log: 1
+        slow_query_log: 1
+        long_query_time: 0
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-db-parameter-group
+
+  # ---------------------------------------------------------------------------- #
+  # DB Subnet Group
+  # ---------------------------------------------------------------------------- #
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: DB subnet group
+      SubnetIds:
+        - Fn::ImportValue: !Sub ${Env}-private-subnet1
+        - Fn::ImportValue: !Sub ${Env}-private-subnet2
+
+  # ---------------------------------------------------------------------------- #
+  # IAM Role
+  # ---------------------------------------------------------------------------- #
+  EnhancedMonitoringRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${Env}-aurora-monitoring-role
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - monitoring.rds.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+
+  # ---------------------------------------------------------------------------- #
+  # Aurora DB Cluster
+  # ---------------------------------------------------------------------------- #
+  DBCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      BackupRetentionPeriod: 3
+      PreferredBackupWindow: 19:30-20:00
+      RestoreType: copy-on-write
+      SourceRegion: ap-northeast-1
+      UseLatestRestorableTime: false
+      DatabaseName: !Ref DatabaseName
+      DBClusterIdentifier: !Sub ${Env}-aurora-cluster
+      DBClusterParameterGroupName: !Ref DBClusterParameterGroup
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DeletionProtection: false
+      VpcSecurityGroupIds:
+        - Fn::ImportValue: !Sub ${Env}-sg-aurora
+      EnableCloudwatchLogsExports:
+        - general
+        - error
+        - slowquery
+        - audit
+      Engine: aurora-mysql
+      EngineMode: provisioned
+      EngineVersion: !Ref DBEngineVersion
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      Port: 3306
+      PreferredMaintenanceWindow: thu:17:30-thu:18:00
+      StorageEncrypted: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-db-cluster
+
+  # ---------------------------------------------------------------------------- #
+  # Aurora DB Instance ( master, read replica x 2 )
+  # ---------------------------------------------------------------------------- #
+  DBInstance1:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllowMajorVersionUpgrade: false
+      AutoMinorVersionUpgrade: true
+      CopyTagsToSnapshot: true
+      DBClusterIdentifier: !Ref DBCluster
+      DBInstanceClass: !Ref DBInstanceClass
+      DBInstanceIdentifier: !Sub ${Env}-db-instance1
+      DBParameterGroupName: !Ref DBParameterGroup
+      Engine: aurora-mysql
+      MonitoringInterval: !Ref MonitoringInterval
+      MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-db-instance1
+  DBInstance2:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllowMajorVersionUpgrade: false
+      AutoMinorVersionUpgrade: true
+      CopyTagsToSnapshot: true
+      DBClusterIdentifier: !Ref DBCluster
+      DBInstanceClass: !Ref DBInstanceClass
+      DBInstanceIdentifier: !Sub ${Env}-db-instance2
+      DBParameterGroupName: !Ref DBParameterGroup
+      Engine: aurora-mysql
+      MonitoringInterval: !Ref MonitoringInterval
+      MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-db-instance2
+  DBInstance3:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllowMajorVersionUpgrade: false
+      AutoMinorVersionUpgrade: true
+      CopyTagsToSnapshot: true
+      DBClusterIdentifier: !Ref DBCluster
+      DBInstanceClass: !Ref DBInstanceClass
+      DBInstanceIdentifier: !Sub ${Env}-db-instance3
+      DBParameterGroupName: !Ref DBParameterGroup
+      Engine: aurora-mysql
+      MonitoringInterval: !Ref MonitoringInterval
+      MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-db-instance3
