@@ -13,10 +13,11 @@ Parameters:
   DatabaseName:
     Description: DB name
     Type: String
+    Default: AuroraPostgresDB
   MasterUsername:
     Description: DB master username
     Type: String
-    Default: admin
+    Default: postgres
   MasterUserPassword:
     Description: DB master password
     Type: String
@@ -41,10 +42,9 @@ Parameters:
       Database instance class, e.g. db.t2.micro (free tier) - Engine support
       https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
       https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html
-    Default: db.t3.small
+    Default: db.t3.medium
     ConstraintDescription: DB instance class is not supported
     AllowedValues:
-      - db.t3.small
       - db.t3.medium
       - db.r5.large
       - db.r5.xlarge
@@ -188,10 +188,7 @@ Resources:
       VpcSecurityGroupIds:
         - Fn::ImportValue: !Sub ${Env}-sg-aurora
       EnableCloudwatchLogsExports:
-        - general
-        - error
-        - slowquery
-        - audit
+        - postgresql
       Engine: aurora-postgresql
       EngineMode: provisioned
       EngineVersion: !FindInMap [EngineMap, !Ref DBEngineVersion, EngineVersion]
