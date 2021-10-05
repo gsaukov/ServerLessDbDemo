@@ -25,7 +25,7 @@ Parameters:
     Description: |
       Database engine version
       https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engineversion
-    Default: aurora-postgresql-11.11
+    Default: aurora-postgresql-12.7
     AllowedValues:
       - 'aurora-postgresql-11.9' # aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`provisioned`)].EngineVersion'
       - 'aurora-postgresql-11.10'
@@ -118,7 +118,7 @@ Resources:
   DBClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
-      Family: !FindInMap [EngineMap, !Ref Engine, DBFamily]
+      Family: !FindInMap [EngineMap, !Ref DBEngineVersion, DBFamily]
       Description: DB cluster parameter group
       Parameters:
         rds.force_ssl: 1
@@ -128,7 +128,7 @@ Resources:
   DBParameterGroup:
     Type: AWS::RDS::DBParameterGroup
     Properties:
-      Family: !FindInMap [EngineMap, !Ref Engine, DBFamily]
+      Family: !FindInMap [EngineMap, !Ref DBEngineVersion, DBFamily]
       Description: DB parameter group
       Parameters:
         deadlock_timeout: 450
@@ -194,7 +194,7 @@ Resources:
         - audit
       Engine: aurora-postgresql
       EngineMode: provisioned
-      EngineVersion: !FindInMap [EngineMap, !Ref Engine, EngineVersion]
+      EngineVersion: !FindInMap [EngineMap, !Ref DBEngineVersion, EngineVersion]
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterUserPassword
       Port: 3306
@@ -217,7 +217,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance1
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: !FindInMap [EngineMap, !Ref Engine, Engine]
+      Engine: !FindInMap [EngineMap, !Ref DBEngineVersion, Engine]
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
@@ -233,7 +233,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance2
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: !FindInMap [EngineMap, !Ref Engine, Engine]
+      Engine: !FindInMap [EngineMap, !Ref DBEngineVersion, Engine]
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
@@ -249,7 +249,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance3
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: !FindInMap [EngineMap, !Ref Engine, Engine]
+      Engine: !FindInMap [EngineMap, !Ref DBEngineVersion, Engine]
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
