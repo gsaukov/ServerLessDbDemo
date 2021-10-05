@@ -25,7 +25,7 @@ Parameters:
     Type: String
     Description: |
       Database engine version
-      https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engineversion
+      https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engineversion
     Default: aurora-postgresql-11.11
     AllowedValues:
       - 'aurora-postgresql-11.9' # aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`provisioned`)].EngineVersion'
@@ -39,7 +39,7 @@ Parameters:
     Description: |
       Database instance class, e.g. db.t2.micro (free tier) - Engine support
       https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
-      https://docs.aws.amazon.com/ja_jp/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html
+      https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html
     Default: db.t3.small
     ConstraintDescription: DB instance class is not supported
     AllowedValues:
