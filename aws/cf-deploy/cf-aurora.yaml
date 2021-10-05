@@ -31,6 +31,10 @@ Parameters:
       - 'aurora-postgresql-11.10'
       - 'aurora-postgresql-11.11'
       - 'aurora-postgresql-11.12'
+      - 'aurora-postgresql-12.4'
+      - 'aurora-postgresql-12.6'
+      - 'aurora-postgresql-12.7'
+      - 'aurora-postgresql-13.3'
   DBInstanceClass:
     Type: String
     Description: |
@@ -62,6 +66,49 @@ Parameters:
       - 30
       - 60
 
+Mappings:
+  EngineMap:
+    'aurora-postgresql-11.9':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '11.9'
+      Port: 5432
+      DBFamily: 'aurora-postgresql11'
+    'aurora-postgresql-10.5':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '11.10'
+      Port: 5432
+      DBFamily: 'aurora-postgresql11'
+    'aurora-postgresql-11.11':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '11.11'
+      Port: 5432
+      DBFamily: 'aurora-postgresql11'
+    'aurora-postgresql-11.12':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '11.12'
+      Port: 5432
+      DBFamily: 'aurora-postgresql11'
+    'aurora-postgresql-12.4':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '12.4'
+      Port: 5432
+      DBFamily: 'aurora-postgresql12'
+    'aurora-postgresql-12.6':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '12.6'
+      Port: 5432
+      DBFamily: 'aurora-postgresql12'
+    'aurora-postgresql-12.7':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '12.7'
+      Port: 5432
+      DBFamily: 'aurora-postgresql12'
+    'aurora-postgresql-13.3':
+      Engine: 'aurora-postgresql'
+      EngineVersion: '13.3'
+      Port: 5432
+      DBFamily: 'aurora-postgresql13'
+
 Resources:
   # ---------------------------------------------------------------------------- #
   # DB Parameter Group
@@ -71,7 +118,7 @@ Resources:
   DBClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
-      Family: aurora-postgresql11
+      Family: !FindInMap [EngineMap, !Ref Engine, DBFamily]
       Description: DB cluster parameter group
       Parameters:
         rds.force_ssl: 1
@@ -81,7 +128,7 @@ Resources:
   DBParameterGroup:
     Type: AWS::RDS::DBParameterGroup
     Properties:
-      Family: aurora-postgresql11
+      Family: !FindInMap [EngineMap, !Ref Engine, DBFamily]
       Description: DB parameter group
       Parameters:
         deadlock_timeout: 450
@@ -147,7 +194,7 @@ Resources:
         - audit
       Engine: aurora-postgresql
       EngineMode: provisioned
-      EngineVersion: !Ref DBEngineVersion
+      EngineVersion: !FindInMap [EngineMap, !Ref Engine, EngineVersion]
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterUserPassword
       Port: 3306
@@ -170,7 +217,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance1
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: aurora-postgresql
+      Engine: !FindInMap [EngineMap, !Ref Engine, Engine]
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
@@ -186,7 +233,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance2
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: aurora-postgresql
+      Engine: !FindInMap [EngineMap, !Ref Engine, Engine]
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
@@ -202,7 +249,7 @@ Resources:
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Sub ${Env}-db-instance3
       DBParameterGroupName: !Ref DBParameterGroup
-      Engine: aurora-postgresql
+      Engine: !FindInMap [EngineMap, !Ref Engine, Engine]
       MonitoringInterval: !Ref MonitoringInterval
       MonitoringRoleArn: !GetAtt EnhancedMonitoringRole.Arn
       Tags:
