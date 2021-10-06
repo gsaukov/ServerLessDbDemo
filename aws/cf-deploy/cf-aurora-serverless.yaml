@@ -1,0 +1,154 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Cloudformation Template to create Aurora-Serverless instance"
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - uat
+      - prd
+  DatabaseName:
+    Description: DB name
+    Type: String
+    Default: AuroraPostgresServerlessDB
+  MasterUsername:
+    Description: DB master username
+    Type: String
+    Default: postgres
+  DBBackupRetentionPeriod:
+    Description: "The number of days to keep snapshots of the database."
+    Type: Number
+    Default: 7
+  ScalingConfigurationMaxCapacity:
+    Type: Number
+    Default: 4
+    AllowedValues:
+      - 2
+      - 4
+      - 8
+      - 16
+      - 32
+      - 64
+  ScalingConfigurationMinCapacity:
+    Type: Number
+    Default: 2
+    AllowedValues:
+      - 2
+      - 4
+      - 8
+      - 16
+      - 32
+      - 64
+  ScalingConfigurationSecondsUntilAutoPause:
+    Type: Number
+    Default: 3600
+    AllowedValues:
+      - 300
+      - 900
+      - 3600
+      - 7200
+      - 14400
+      - 86400
+  EngineMode:
+    Type: String
+    Description: Aurora Engine Mode
+    Default: serverless
+    AllowedValues:
+      - serverless
+      - provisioned
+      - parallelquery
+      - global
+      - multimaster
+
+Resources:
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      Tags:
+        - Key: stack
+          Value: !Ref AWS::StackName
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-DBSubnetGroup"
+      DBSubnetGroupDescription: "DB subnet group"
+      SubnetIds:
+        - Fn::ImportValue: !Sub ${Env}-private-subnet1
+        - Fn::ImportValue: !Sub ${Env}-private-subnet2
+
+  DBSecrets:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: dynamically generated secret password
+      GenerateSecretString:
+        SecretStringTemplate: !Sub '{"username": "${MasterUsername}"}'
+        GenerateStringKey: "password"
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\&$#<>'
+        ExcludePunctuation: true
+
+  MasterDB:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      BackupRetentionPeriod: !Ref DBBackupRetentionPeriod
+      DatabaseName: !Ref DatabaseName
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DeletionProtection: true
+      EnableHttpEndpoint: false
+      Engine: aurora-postgresql
+      EngineMode: !Ref EngineMode
+      EngineVersion: 10.14 #aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`serverless`)].EngineVersion'
+      MasterUsername:
+        !Join [
+            "",
+          [
+              "{{resolve:secretsmanager:",
+              !Ref DBSecrets,
+              ":SecretString:username}}",
+          ],
+        ]
+      MasterUserPassword:
+        !Join [
+            "",
+          [
+              "{{resolve:secretsmanager:",
+              !Ref DBSecrets,
+              ":SecretString:password}}",
+          ],
+        ]
+      VpcSecurityGroupIds:
+        - Fn::ImportValue: !Sub ${Env}-sg-aurora
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-DBMaster"
+      ScalingConfiguration:
+        AutoPause: true
+        MaxCapacity: !Ref ScalingConfigurationMaxCapacity
+        MinCapacity: !Ref ScalingConfigurationMinCapacity
+        SecondsUntilAutoPause: !Ref ScalingConfigurationSecondsUntilAutoPause
+
+  SecretRDSInstanceAttachment:
+    Type: "AWS::SecretsManager::SecretTargetAttachment"
+    Properties:
+      SecretId: !Ref DBSecrets
+      TargetId: !Ref MasterDB
+      TargetType: AWS::RDS::DBCluster
+
+Outputs:
+  DBAddress:
+    Description: address database endpoint
+    Value: !GetAtt
+      - MasterDB
+      - Endpoint.Address
+
+  DBPort:
+    Description: address database endpoint
+    Value: !GetAtt
+      - MasterDB
+      - Endpoint.Port
+
+  DBSecrets:
+    Description: Arn of secrets
+    Value: !Ref DBSecrets
