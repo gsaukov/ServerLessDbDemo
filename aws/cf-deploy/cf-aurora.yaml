@@ -14,6 +14,10 @@ Parameters:
     Description: DB name
     Type: String
     Default: AuroraPostgresDB
+  EnableSSMPassword:
+    Description: Enables SSM password/secret generation
+    Type: Boolean
+    Default: false
   MasterUsername:
     Description: DB master username
     Type: String
@@ -172,9 +176,13 @@ Resources:
   # ---------------------------------------------------------------------------- #
   # Secret management
   # ---------------------------------------------------------------------------- #
+  Conditions:
+    isSSMEnabled:
+      !Equals [ !Ref EnableSSMPassword, "" ]
 
   DBSecrets:
     Type: AWS::SecretsManager::Secret
+    Condition: isSSMEnabled
     Properties:
       Description: dynamically generated secret password
       GenerateSecretString:
@@ -185,7 +193,8 @@ Resources:
         ExcludePunctuation: true
 
   SecretRDSInstanceAttachment:
-    Type: "AWS::SecretsManager::SecretTargetAttachment"
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Condition: isSSMEnabled
     Properties:
       SecretId: !Ref DBSecrets
       TargetId: !Ref DBCluster
@@ -214,24 +223,14 @@ Resources:
       Engine: aurora-postgresql
       EngineMode: provisioned
       EngineVersion: !FindInMap [EngineMap, !Ref DBEngineVersion, EngineVersion]
-      MasterUsername:
-        !Join [
-            "",
-          [
-              "{{resolve:secretsmanager:",
-              !Ref DBSecrets,
-              ":SecretString:username}}",
-          ],
-        ]
-      MasterUserPassword:
-        !Join [
-            "",
-          [
-              "{{resolve:secretsmanager:",
-              !Ref DBSecrets,
-              ":SecretString:password}}",
-          ],
-        ]
+      MasterUsername: !If [isSSMEnabled,
+                            !Join ["", ["{{resolve:secretsmanager:", !Ref DBSecrets, ":SecretString:username}}",],],
+                            !Ref MasterUsername
+                          ]
+      MasterUserPassword: !If [isSSMEnabled,
+                                !Join ["", ["{{resolve:secretsmanager:", !Ref DBSecrets,":SecretString:password}}",],]
+                                !Ref MasterUserPassword
+                              ]
       Port: 3306
       PreferredMaintenanceWindow: thu:17:30-thu:18:00
       StorageEncrypted: true
@@ -290,3 +289,21 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${Env}-db-instance3
+
+Outputs:
+  DBAddress:
+    Description: address database endpoint
+    Value: !GetAtt
+      - DBCluster
+      - Endpoint.Address
+
+  DBPort:
+    Description: address database endpoint
+    Value: !GetAtt
+      - DBCluster
+      - Endpoint.Port
+
+  DBSecrets:
+    Condition: isSSMEnabled
+    Description: Arn of secrets
+    Value: !Ref DBSecrets
