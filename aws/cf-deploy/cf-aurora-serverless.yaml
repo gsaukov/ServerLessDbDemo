@@ -95,7 +95,7 @@ Resources:
       BackupRetentionPeriod: !Ref DBBackupRetentionPeriod
       DatabaseName: !Ref DatabaseName
       DBSubnetGroupName: !Ref DBSubnetGroup
-      DeletionProtection: true
+      DeletionProtection: false
       EnableHttpEndpoint: false
       Engine: aurora-postgresql
       EngineMode: !Ref EngineMode

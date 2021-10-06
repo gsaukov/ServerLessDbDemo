@@ -17,10 +17,10 @@ Parameters:
     Default: AuroraPostgresDB
   EnableSSMPassword:
     Description: Enables SSM password/secret generation
-    Default: no
+    Default: 'no'
     AllowedValues:
-      - yes
-      - no
+      - 'yes'
+      - 'no'
     Type: String
   MasterUsername:
     Description: DB master username
@@ -119,7 +119,7 @@ Mappings:
 
 Conditions:
   isSSMEnabled:
-    !Equals [ !Ref EnableSSMPassword, "yes" ]
+    !Equals [ !Ref EnableSSMPassword, 'yes' ]
 
 Resources:
   # ---------------------------------------------------------------------------- #
