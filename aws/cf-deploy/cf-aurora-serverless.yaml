@@ -89,7 +89,7 @@ Resources:
         ExcludeCharacters: '"@/\&$#<>'
         ExcludePunctuation: true
 
-  MasterDB:
+  DBCluster:
     Type: AWS::RDS::DBCluster
     Properties:
       BackupRetentionPeriod: !Ref DBBackupRetentionPeriod
@@ -133,20 +133,20 @@ Resources:
     Type: "AWS::SecretsManager::SecretTargetAttachment"
     Properties:
       SecretId: !Ref DBSecrets
-      TargetId: !Ref MasterDB
+      TargetId: !Ref DBCluster
       TargetType: AWS::RDS::DBCluster
 
 Outputs:
   DBAddress:
     Description: address database endpoint
     Value: !GetAtt
-      - MasterDB
+      - DBCluster
       - Endpoint.Address
 
   DBPort:
     Description: address database endpoint
     Value: !GetAtt
-      - MasterDB
+      - DBCluster
       - Endpoint.Port
 
   DBSecrets:

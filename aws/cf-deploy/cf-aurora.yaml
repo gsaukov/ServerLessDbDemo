@@ -170,6 +170,28 @@ Resources:
       Path: /
 
   # ---------------------------------------------------------------------------- #
+  # Secret management
+  # ---------------------------------------------------------------------------- #
+
+  DBSecrets:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: dynamically generated secret password
+      GenerateSecretString:
+        SecretStringTemplate: !Sub '{"username": "${MasterUsername}"}'
+        GenerateStringKey: "password"
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\&$#<>'
+        ExcludePunctuation: true
+
+  SecretRDSInstanceAttachment:
+    Type: "AWS::SecretsManager::SecretTargetAttachment"
+    Properties:
+      SecretId: !Ref DBSecrets
+      TargetId: !Ref DBCluster
+      TargetType: AWS::RDS::DBCluster
+
+  # ---------------------------------------------------------------------------- #
   # Aurora DB Cluster
   # ---------------------------------------------------------------------------- #
   DBCluster:
@@ -192,8 +214,24 @@ Resources:
       Engine: aurora-postgresql
       EngineMode: provisioned
       EngineVersion: !FindInMap [EngineMap, !Ref DBEngineVersion, EngineVersion]
-      MasterUsername: !Ref MasterUsername
-      MasterUserPassword: !Ref MasterUserPassword
+      MasterUsername:
+        !Join [
+            "",
+          [
+              "{{resolve:secretsmanager:",
+              !Ref DBSecrets,
+              ":SecretString:username}}",
+          ],
+        ]
+      MasterUserPassword:
+        !Join [
+            "",
+          [
+              "{{resolve:secretsmanager:",
+              !Ref DBSecrets,
+              ":SecretString:password}}",
+          ],
+        ]
       Port: 3306
       PreferredMaintenanceWindow: thu:17:30-thu:18:00
       StorageEncrypted: true
