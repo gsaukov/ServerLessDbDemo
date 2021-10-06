@@ -1,3 +1,4 @@
+---
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Aurora
 
@@ -16,8 +17,11 @@ Parameters:
     Default: AuroraPostgresDB
   EnableSSMPassword:
     Description: Enables SSM password/secret generation
-    Type: Boolean
-    Default: false
+    Default: no
+    AllowedValues:
+      - yes
+      - no
+    Type: String
   MasterUsername:
     Description: DB master username
     Type: String
@@ -113,6 +117,10 @@ Mappings:
       Port: 5432
       DBFamily: 'aurora-postgresql13'
 
+Conditions:
+  isSSMEnabled:
+    !Equals [ !Ref EnableSSMPassword, "yes" ]
+
 Resources:
   # ---------------------------------------------------------------------------- #
   # DB Parameter Group
@@ -176,10 +184,6 @@ Resources:
   # ---------------------------------------------------------------------------- #
   # Secret management
   # ---------------------------------------------------------------------------- #
-  Conditions:
-    isSSMEnabled:
-      !Equals [ !Ref EnableSSMPassword, "" ]
-
   DBSecrets:
     Type: AWS::SecretsManager::Secret
     Condition: isSSMEnabled
@@ -223,14 +227,8 @@ Resources:
       Engine: aurora-postgresql
       EngineMode: provisioned
       EngineVersion: !FindInMap [EngineMap, !Ref DBEngineVersion, EngineVersion]
-      MasterUsername: !If [isSSMEnabled,
-                            !Join ["", ["{{resolve:secretsmanager:", !Ref DBSecrets, ":SecretString:username}}",],],
-                            !Ref MasterUsername
-                          ]
-      MasterUserPassword: !If [isSSMEnabled,
-                                !Join ["", ["{{resolve:secretsmanager:", !Ref DBSecrets,":SecretString:password}}",],]
-                                !Ref MasterUserPassword
-                              ]
+      MasterUsername: !If [isSSMEnabled, !Join ["", ["{{resolve:secretsmanager:", !Ref DBSecrets, ":SecretString:username}}", ], ], !Ref MasterUsername]
+      MasterUserPassword: !If [isSSMEnabled, !Join ["", ["{{resolve:secretsmanager:", !Ref DBSecrets,":SecretString:password}}", ], ], !Ref MasterUserPassword]
       Port: 3306
       PreferredMaintenanceWindow: thu:17:30-thu:18:00
       StorageEncrypted: true
