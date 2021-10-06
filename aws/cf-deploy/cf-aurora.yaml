@@ -289,19 +289,26 @@ Resources:
           Value: !Sub ${Env}-db-instance3
 
 Outputs:
-  DBAddress:
-    Description: address database endpoint
+  DBClusterEndpoint:
+    Description: Writer endpoint for the DB cluster.
     Value: !GetAtt
       - DBCluster
       - Endpoint.Address
-
-  DBPort:
-    Description: address database endpoint
+    Export:
+      Name: !Sub ${Env}-DBClusterEndpoint
+  ReadDBClusterEndpoint:
+    Description: The reader endpoint for the DB cluster.
+    Value: !GetAtt
+      - DBCluster
+      - ReadEndpoint.Address
+    Export:
+      Name: !Sub ${Env}-ReadDBClusterEndpoint
+  DBClusterEndpointPort:
+    Description: DB cluster endpoint port
     Value: !GetAtt
       - DBCluster
       - Endpoint.Port
-
-  DBSecrets:
+  DBClusterSecrets:
     Condition: isSSMEnabled
     Description: Arn of secrets
     Value: !Ref DBSecrets
