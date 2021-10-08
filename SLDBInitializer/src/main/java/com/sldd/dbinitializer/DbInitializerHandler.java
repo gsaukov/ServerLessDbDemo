@@ -18,10 +18,6 @@ import java.util.Map;
 
 public class DbInitializerHandler implements RequestHandler<Map<String, Object>, Object> {
 
-    private static enum Status {
-        SUCCESS, FAILED
-    }
-
     @Override
     public Object handleRequest(Map<String, Object> input, Context context) {
         LambdaLogger logger = context.getLogger();
@@ -55,6 +51,10 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
         }
         logger.log(String.format("[INFO] %s provisioned\n", dbHost));
         return Status.SUCCESS;
+    }
+
+    private static enum Status {
+        SUCCESS, FAILED
     }
 
 }
