@@ -35,7 +35,7 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
             conn = ConnectionUtils.createConnection();
             logger.log("[INFO] Connected to DB!\n");
             Database dataBase = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
-            Liquibase liquiBase = new Liquibase("MyChangeLog", new ClassLoaderResourceAccessor(), dataBase);
+            Liquibase liquiBase = new Liquibase("classpath:/db/changelog-master.yaml", new ClassLoaderResourceAccessor(), dataBase);
             liquiBase.update(new Contexts(), new LabelExpression());
         } catch (LiquibaseException e) {
             return Status.FAILED;

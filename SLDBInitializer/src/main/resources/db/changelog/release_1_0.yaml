@@ -1,0 +1,514 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: baseSchema
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: COMPANY_DESCRIPTION
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: COMPANY
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DISCOUNT
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: INFO
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PHONE
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: FACTORY_DESCRIPTION
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: PHONE
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: POSITION
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: CATEGORY
+                  type: varchar(180)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: NAME
+                  type: varchar(180)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PRIME_COST
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TYPE
+                  type: varchar(120)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: QUANTITY
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: SELL_COST
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PRODUCT_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_PRODUCT_ID
+                    references: PRODUCT (ID)
+        - createTable:
+            tableName: RELATION_TYPE
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: COMPANY_DESCRIPTION_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+                    foreignKeyName: FK_COMPANY_DESCRIPTION_ID
+                    references: COMPANY_DESCRIPTION (ID)
+              - column:
+                  name: FACTORY_DESCRIPTION_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+                    foreignKeyName: FK_FACTORY_DESCRIPTION_ID
+                    references: FACTORY_DESCRIPTION (ID)
+        - createTable:
+            tableName: ROLE
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: NAME
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
+            tableName: USER_DESCRIPTION
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: RELATION_TYPE_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_RELATION_TYPE_ID
+                    references: RELATION_TYPE (ID)
+              - column:
+                  name: ROLE_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_ROLE_ID
+                    references: ROLE (ID)
+        - createTable:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: EMAIL
+                  type: varchar(180)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: FULL_NAME
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: USER_DESCRIPTION_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USER_DESCRIPTION_ID
+                    references: USER_DESCRIPTION (ID)
+        - createTable:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: LOGIN
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PASSWORD
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: USERS_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_AUTH_USERS_ID
+                    references: users (ID)
+        - createTable:
+            tableName: ORDERS
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: COST
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: END_DATE
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: START_DATE
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STATUS
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: USERS_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USERS_ID
+                    references: USERS (ID)
+        - createTable:
+            tableName: ORDERS_PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: ORDERS_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_ORDERS_ID
+                    references: ORDERS (ID)
+              - column:
+                  name: PRODUCT_DETAILS_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: FK_PRODUCT_DETAILS_ID
+                    references: PRODUCT_DETAILS (ID)
+
+  - changeSet:
+      id: baseInserts
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: ROLE
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: NAME
+                  value: "USER"
+        - insert:
+            tableName: ROLE
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: NAME
+                  value: "ADMIN"
+        - insert:
+            tableName: FACTORY_DESCRIPTION
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: PHONE
+                  value: "+111111111111111"
+              - column:
+                  name: POSITION
+                  value: "CEO"
+        - insert:
+            tableName: FACTORY_DESCRIPTION
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: PHONE
+                  value: "+1111111111111111"
+              - column:
+                  name: POSITION
+                  value: "PRODUCTion manager"
+        - insert:
+            tableName: COMPANY_DESCRIPTION
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: COMPANY
+                  value: "Some company"
+              - column:
+                  name: DISCOUNT
+                  value: 10
+              - column:
+                  name: INFO
+                  value: "Sales"
+              - column:
+                  name: PHONE
+                  value: "+1111111111111111"
+        - insert:
+            tableName: RELATION_TYPE
+            columns:
+              - column:
+                  name: FACTORY_DESCRIPTION_ID
+                  value: 1
+        - insert:
+            tableName: RELATION_TYPE
+            columns:
+              - column:
+                  name: FACTORY_DESCRIPTION_ID
+                  value: 2
+        - insert:
+            tableName: RELATION_TYPE
+            columns:
+              - column:
+                  name: COMPANY_DESCRIPTION_ID
+                  value: 1
+        - insert:
+            tableName: USER_DESCRIPTION
+            columns:
+              - column:
+                  name: RELATION_TYPE_ID
+                  value: 1
+              - column:
+                  name: ROLE_ID
+                  value: 2
+        - insert:
+            tableName: USER_DESCRIPTION
+            columns:
+              - column:
+                  name: RELATION_TYPE_ID
+                  value: 2
+              - column:
+                  name: ROLE_ID
+                  value: 2
+        - insert:
+            tableName: USER_DESCRIPTION
+            columns:
+              - column:
+                  name: RELATION_TYPE_ID
+                  value: 3
+              - column:
+                  name: ROLE_ID
+                  value: 1
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: EMAIL
+                  value: "gs@mail.com"
+              - column:
+                  name: FULL_NAME
+                  value: "G S"
+              - column:
+                  name: USER_DESCRIPTION_ID
+                  value: 1
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: EMAIL
+                  value: "vs@mail.com"
+              - column:
+                  name: FULL_NAME
+                  value: "V S"
+              - column:
+                  name: USER_DESCRIPTION_ID
+                  value: 2
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: EMAIL
+                  value: "ts@mail.com"
+              - column:
+                  name: FULL_NAME
+                  value: "T S"
+              - column:
+                  name: USER_DESCRIPTION_ID
+                  value: 3
+        - insert:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: LOGIN
+                  value: "gs@mail.com"
+              - column:
+                  name: PASSWORD
+                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+              - column:
+                  name: USERS_ID
+                  value: 1
+        - insert:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: LOGIN
+                  value: "vs@mail.com"
+              - column:
+                  name: PASSWORD
+                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+              - column:
+                  name: USERS_ID
+                  value: 2
+        - insert:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: LOGIN
+                  value: "ts@mail.com"
+              - column:
+                  name: PASSWORD
+                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+              - column:
+                  name: USERS_ID
+                  value: 3
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Plate"
+              - column:
+                  name: NAME
+                  value: "Prime"
+              - column:
+                  name: PRIME_COST
+                  value: 2
+              - column:
+                  name: TYPE
+                  value: "Dishware"
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Spoon"
+              - column:
+                  name: NAME
+                  value: "Elite"
+              - column:
+                  name: PRIME_COST
+                  value: 40
+              - column:
+                  name: TYPE
+                  value: "Cutlery"
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Fork"
+              - column:
+                  name: NAME
+                  value: "Elite"
+              - column:
+                  name: PRIME_COST
+                  value: 12
+              - column:
+                  name: TYPE
+                  value: "Cutlery"
