@@ -14,3 +14,10 @@ dependencies {
     compile "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
     compile "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
 }
+
+//compile jar with dependencies inside.
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

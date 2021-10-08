@@ -1,13 +1,10 @@
 package com.sldd.dbinitializer;
 
-import com.amazonaws.SdkClientException;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
 import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
 import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,11 +30,6 @@ public class ConnectionUtils {
         return conn;
     }
 
-    /**
-     * Gets the SSM Parameter Value from AWS using the paramName
-     * @param paramName the name of the param to fetch
-     * @return the string value of the param
-     */
     private static String getSSMParameter(String paramName) {
         AWSSimpleSystemsManagement ssm = AWSSimpleSystemsManagementClientBuilder.defaultClient();
         if (paramName != null && !paramName.isEmpty()) {
