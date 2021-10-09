@@ -12,5 +12,12 @@ Resources:
       Runtime: java11
       Environment:
         Variables:
-          DATABASE_ENPOIT:
-            - Fn::ImportValue: dev-DBClusterEndpoint
+          DATABASE_ENDPOIT:
+            Fn::ImportValue:
+              Fn::Sub: "${Env}-DBClusterEndpoint"
+          DATABASE_ENDPOIT_PORT:
+            Fn::ImportValue:
+              Fn::Sub: "${Env}-DBClusterEndpointPort"
+          DATABASE_SECRETS:
+            Fn::ImportValue:
+              Fn::Sub: "${Env}-DBClusterSecrets"
