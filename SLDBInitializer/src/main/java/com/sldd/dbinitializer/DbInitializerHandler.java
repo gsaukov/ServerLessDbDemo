@@ -27,6 +27,7 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
         // Get Values from the event
         @SuppressWarnings("unchecked")
         Map<String,Object> resourceProps = (Map<String,Object>)input.get("ResourceProperties");
+        ConnectionUtils.createConnection();
         String dbHost = resourceProps.get("DBHost").toString();
         // Start the DB Connection
         logger.log(String.format("[INFO] Connecting to %s\n", dbHost));

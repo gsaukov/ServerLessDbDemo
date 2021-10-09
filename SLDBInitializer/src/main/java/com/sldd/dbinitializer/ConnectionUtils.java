@@ -1,9 +1,8 @@
 package com.sldd.dbinitializer;
 
-import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
-import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
-import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
-import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
+import com.amazonaws.services.secretsmanager.AWSSecretsManager;
+import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueRequest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,8 +17,8 @@ public class ConnectionUtils {
 
         try {
             String url = prop.getProperty("url");
-            String user = getSSMParameter(System.getenv("DB_USER"));
-            String password = getSSMParameter(System.getenv("DB_PASS"));
+            String user = getSecretManager();
+            String password = getSecretManager();
 
             conn = DriverManager.getConnection(url, user, password);
 
@@ -30,18 +29,13 @@ public class ConnectionUtils {
         return conn;
     }
 
-    private static String getSSMParameter(String paramName) {
-        AWSSimpleSystemsManagement ssm = AWSSimpleSystemsManagementClientBuilder.defaultClient();
-        if (paramName != null && !paramName.isEmpty()) {
-            GetParameterRequest request = new GetParameterRequest()
-                    .withName(paramName)
-                    .withWithDecryption(true);
-            GetParameterResult result = ssm.getParameter(request);
-            if (result != null) {
-                return result.getParameter().getValue();
-            }
-        }
-        return null;
+    private static String getSecretManager() {
+        final AWSSecretsManager sm = AWSSecretsManagerClientBuilder.defaultClient();
+        GetSecretValueRequest req = new GetSecretValueRequest().withSecretId(System.getenv("SECRET_ID"));
+        String secret = sm.getSecretValue(req).getSecretString();
+        return "";
     }
 
+    // sample secret responce:
+    //{"dbClusterIdentifier":"aurora-db-dbcluster-y0u68onssbsm","password":"NKZ3nHXyvVL8E9P8","dbname":"AuroraPostgresServerlessDB","engine":"postgres","port":5432,"host":"aurora-db-dbcluster-y0u68onssbsm.cluster-c5cp4a45gt3k.us-east-1.rds.amazonaws.com","username":"postgres"}
 }

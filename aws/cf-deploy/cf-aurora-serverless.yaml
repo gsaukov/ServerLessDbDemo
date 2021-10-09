@@ -137,18 +137,22 @@ Resources:
       TargetType: AWS::RDS::DBCluster
 
 Outputs:
-  DBAddress:
+  DBClusterEndpoint:
     Description: address database endpoint
     Value: !GetAtt
       - DBCluster
       - Endpoint.Address
-
+    Export:
+      Name: !Sub ${Env}-DBClusterEndpoint
   DBPort:
     Description: address database endpoint
     Value: !GetAtt
       - DBCluster
       - Endpoint.Port
-
+    Export:
+      Name: !Sub ${Env}-DBClusterPort
   DBSecrets:
     Description: Arn of secrets
     Value: !Ref DBSecrets
+    Export:
+      Name: !Sub ${Env}-DBSecrets

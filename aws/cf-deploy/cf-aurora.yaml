@@ -308,7 +308,11 @@ Outputs:
     Value: !GetAtt
       - DBCluster
       - Endpoint.Port
+    Export:
+      Name: !Sub ${Env}-DBClusterEndpointPort
   DBClusterSecrets:
     Condition: isSSMEnabled
     Description: Arn of secrets
     Value: !Ref DBSecrets
+    Export:
+      Name: !Sub ${Env}-DBClusterSecrets
