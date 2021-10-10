@@ -2,23 +2,28 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Description: An AWS Serverless Specification template describing your function.
 Resources:
-  HiHandler:
+  SLDBHandler:
     Type: "AWS::Serverless::Function"
     Properties:
       Handler: "com.sldd.handlers.HiHandler::handleRequest"
       Runtime: java11
-      CodeUri: s3://my-new-lambda-bucket-6328764287364/SLDB-0.1.0.jar
+      CodeUri: s3://my-new-lambda-bucket-6328764287365/SLDB-0.1.0.jar
       Description: ""
       MemorySize: 512
       Timeout: 30
       Role: "arn:aws:iam::041007482309:role/lambda_basic_execution"
+      Layers:
+        - !Ref SLDBDependencyLayer
       Events:
         Api1:
           Type: Api
           Properties:
             Path: /hi/handler
             Method: GET
-  DependencyLayer:
+  SLDBDependencyLayer:
     Type: 'AWS::Serverless::LayerVersion'
+#    CompatibleArchitectures:
+    compatibleRuntimes:
+      - java11
     Properties:
-      ContentUri: s3://my-new-lambda-bucket-6328764287364/dependencies.zip
+      ContentUri: s3://my-new-lambda-bucket-6328764287365/dependencies.zip

@@ -30,7 +30,7 @@ sourceSets.main.java.srcDirs += ['src/main/generated']
 //or build dependency zip layer
 task zipDependencies(type: Zip) {
     from {
-        archiveFileName = "dependencies.zip"
+        archiveFileName = "SLDB-dependencies.zip"
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

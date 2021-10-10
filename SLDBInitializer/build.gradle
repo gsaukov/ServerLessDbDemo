@@ -16,12 +16,21 @@ dependencies {
     compile "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
 }
 
-//compile jar with dependencies inside.
-jar {
+////compile jar with dependencies inside.
+//jar {
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
+
+task zipDependencies(type: Zip) {
     from {
+        archiveFileName = "SLDBInitializer-dependencies.zip"
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+build.finalizedBy(zipDependencies)
 
 task wrapper(type: Wrapper) {
     gradleVersion = '6.8'

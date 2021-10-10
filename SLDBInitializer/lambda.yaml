@@ -1,23 +1,42 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Description: Database initialization function.
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - uat
+      - prd
+
 Resources:
-  Function:
+  SLDBInitializerLambda:
     Type: AWS::Serverless::Function
     Properties:
       Timeout: 300
       MemorySize: 512
-      Handler: com.sldd.dbinitializer.DbInitializerHandler
-      CodeUri: /Users/georgy.saukov/Desktop/dev/work/ServerLessDbDemo/SLDBInitializer
+      Handler: com.sldd.dbinitializer.DbInitializerHandler::handleRequest
+      Layers:
+        - !Ref SLDBInitializerDependencyLayer
+      CodeUri: s3://my-new-lambda-bucket-6328764287365/SLDBInitializer-0.1.0.jar
       Runtime: java11
       Environment:
         Variables:
-          DATABASE_ENDPOIT:
+          DATABASE_ENDPOINT:
             Fn::ImportValue:
               Fn::Sub: "${Env}-DBClusterEndpoint"
-          DATABASE_ENDPOIT_PORT:
+          DATABASE_ENDPOINT_PORT:
             Fn::ImportValue:
-              Fn::Sub: "${Env}-DBClusterEndpointPort"
+              Fn::Sub: "${Env}-DBClusterPort"
           DATABASE_SECRETS:
             Fn::ImportValue:
-              Fn::Sub: "${Env}-DBClusterSecrets"
+              Fn::Sub: "${Env}-DBSecrets"
+  SLDBInitializerDependencyLayer:
+    Type: 'AWS::Serverless::LayerVersion'
+    compatibleRuntimes:
+      - java11
+    Properties:
+      ContentUri: s3://my-new-lambda-bucket-6328764287365/SLDBInitializer-dependencies.zip
