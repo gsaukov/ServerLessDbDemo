@@ -14,6 +14,7 @@ dependencies {
     compile "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
     compile "com.amazonaws:aws-java-sdk-secretsmanager:${awsSsmVersion}"
     compile "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    compile "com.google.code.gson:gson:${gsonVersion}"
 }
 
 ////compile jar with dependencies inside.

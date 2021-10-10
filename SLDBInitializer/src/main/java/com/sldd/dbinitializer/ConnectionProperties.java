@@ -10,6 +10,10 @@ public class ConnectionProperties{
 	private String host;
 	private String username;
 
+	public String getUrl() {
+		return "jdbc:postgresql://" + host + ":" + port;
+	}
+
 	public String getDbClusterIdentifier() {
 		return dbClusterIdentifier;
 	}
@@ -66,4 +70,15 @@ public class ConnectionProperties{
 		this.username = username;
 	}
 
+	@Override
+	public String toString() {
+		return "ConnectionProperties{" +
+				"dbClusterIdentifier='" + dbClusterIdentifier + '\'' +
+				", dbname='" + dbname + '\'' +
+				", engine='" + engine + '\'' +
+				", port=" + port +
+				", host='" + host + '\'' +
+				", username='" + username + '\'' +
+				'}';
+	}
 }

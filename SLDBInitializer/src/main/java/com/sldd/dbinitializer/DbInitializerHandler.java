@@ -21,24 +21,23 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
     @Override
     public Object handleRequest(Map<String, Object> input, Context context) {
         LambdaLogger logger = context.getLogger();
-        String requestType = input.get("RequestType").toString();
-        logger.log(String.format("[INFO] RequestType is %s\n", requestType));
+        logger.log("Log lambda input and environment\n");
+        logStrMap(logger, System.getenv());
+        logObjMap(logger, input);
 
-        // Get Values from the event
-        @SuppressWarnings("unchecked")
-        Map<String,Object> resourceProps = (Map<String,Object>)input.get("ResourceProperties");
-        ConnectionUtils.createConnection();
-        String dbHost = resourceProps.get("DBHost").toString();
         // Start the DB Connection
-        logger.log(String.format("[INFO] Connecting to %s\n", dbHost));
         Connection conn = null;
+        ConnectionProperties properties = null;
         try {
-            conn = ConnectionUtils.createConnection();
-            logger.log("[INFO] Connected to DB!\n");
+            properties = ConnectionUtils.getConnectionProperties();
+            logger.log("Recieved connection properties!\n" + properties);
+            conn = ConnectionUtils.createConnection(properties);
+            logger.log("Connected to DB!\n");
             Database dataBase = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
             Liquibase liquiBase = new Liquibase("classpath:/db/changelog-master.yaml", new ClassLoaderResourceAccessor(), dataBase);
             liquiBase.update(new Contexts(), new LabelExpression());
         } catch (LiquibaseException e) {
+            logger.log(e.getMessage());
             return Status.FAILED;
         } finally {
             try {
@@ -50,11 +49,22 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
                 logger.log(e.getMessage());
             }
         }
-        logger.log(String.format("[INFO] %s provisioned\n", dbHost));
         return Status.SUCCESS;
     }
 
-    private static enum Status {
+    private void logObjMap (LambdaLogger logger, Map<String, Object> map) {
+        for(Map.Entry<String, Object> item : map.entrySet()) {
+            logger.log(item.getKey() + " " + item.getValue());
+        }
+    }
+
+    private void logStrMap (LambdaLogger logger, Map<String, String> map) {
+        for(Map.Entry<String, String> item : map.entrySet()) {
+            logger.log(item.getKey() + " " + item.getValue());
+        }
+    }
+
+    private enum Status {
         SUCCESS, FAILED
     }
 
