@@ -23,6 +23,6 @@ aws cloudformation create-stack --stack-name cf-network --template-url https://s
 aws cloudformation wait stack-create-complete --stack-name cf-network
 aws cloudformation create-stack --stack-name cf-aurora-serverless --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-aurora-serverless.yaml --region=us-east-1
 aws cloudformation wait stack-create-complete --stack-name cf-aurora-serverless
-aws cloudformation create-stack --stack-name cf-sldb-initializer --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-sldb-initializer.yaml --region=us-east-1
+aws cloudformation create-stack --stack-name cf-sldb-initializer --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-sldb-initializer.yaml --capabilities CAPABILITY_AUTO_EXPAND --region=us-east-1
 aws cloudformation wait stack-create-complete --stack-name cf-sldb-initializer
 echo '==================   Stack creation COMPLETE        =========================='
