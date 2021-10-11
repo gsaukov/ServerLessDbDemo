@@ -17,21 +17,14 @@ dependencies {
     compile "com.google.code.gson:gson:${gsonVersion}"
 }
 
-////compile jar with dependencies inside.
-//jar {
-//    from {
-//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//}
-
-task zipDependencies(type: Zip) {
-    from {
-        archiveFileName = "SLDBInitializer-dependencies.zip"
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+task buildLayerArchive(type: Zip) {
+    archiveFileName = "SLDBInitializer-dependencies.zip"
+    into('java/lib') {
+        from configurations.runtime
     }
 }
 
-build.finalizedBy(zipDependencies)
+build.dependsOn buildLayerArchive
 
 task wrapper(type: Wrapper) {
     gradleVersion = '6.8'
