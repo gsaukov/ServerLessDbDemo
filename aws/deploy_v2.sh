@@ -16,13 +16,32 @@ aws s3 cp ./cf-deploy/cf-aurora-serverless.yaml s3://my-new-lambda-bucket-632876
 aws s3 cp ./cf-deploy/cf-sldb-initializer.yaml s3://my-new-lambda-bucket-6328764287365/
 echo '==================   Copying resource to s3 COMPLETE    =========================='
 
+
+
+echo '==================   SLDB_init_lambda_role creation STARTED        =========================='
+aws iam create-role --role-name SLDB_init_lambda_role --assume-role-policy-document file://trust-policy.json
+echo '==================   SLDB_init_lambda_role creation COMPLETE        =========================='
+
+echo '==================   Attach policies to SLDB_init_lambda_role STARTED        =========================='
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonRDSFullAccess --role-name SLDB_init_lambda_role
+aws iam attach-role-policy --policy-arn  arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs  --role-name SLDB_init_lambda_role
+
+echo '==================   Attach policies to SLDB_init_lambda_role STARTED        =========================='
+lambda_role_arn=$(aws iam get-role --role-name SLDB_init_lambda_role | jq '."Role".Arn')
+echo 'SLDB_init_lambda_role ARN: ' ${lambdarole}
+
+
+
 # run cloudformation template
 #echo 'Creating stack...'
 echo '==================   Stack creation STARTED        =========================='
-aws cloudformation create-stack --stack-name cf-network --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-network.yaml --region=us-east-1 --parameters ParameterKey=VPCID,ParameterValue=$vpc_id
+aws cloudformation create-stack --stack-name cf-network --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-network.yaml \
+--region=us-east-1 --parameters ParameterKey=VPCID,ParameterValue=$vpc_id
 aws cloudformation wait stack-create-complete --stack-name cf-network
-aws cloudformation create-stack --stack-name cf-aurora-serverless --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-aurora-serverless.yaml --region=us-east-1
+aws cloudformation create-stack --stack-name cf-aurora-serverless --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-aurora-serverless.yaml \
+--region=us-east-1
 aws cloudformation wait stack-create-complete --stack-name cf-aurora-serverless
-aws cloudformation create-stack --stack-name cf-sldb-initializer --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-sldb-initializer.yaml --capabilities CAPABILITY_AUTO_EXPAND CAPABILITY_IAM --region=us-east-1
+aws cloudformation create-stack --stack-name cf-sldb-initializer --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-sldb-initializer.yaml \
+--capabilities CAPABILITY_AUTO_EXPAND CAPABILITY_IAM --region=us-east-1 --parameters ParameterKey=LambdaExecutionRole,ParameterValue=$lambda_role_arn
 aws cloudformation wait stack-create-complete --stack-name cf-sldb-initializer
 echo '==================   Stack creation COMPLETE        =========================='

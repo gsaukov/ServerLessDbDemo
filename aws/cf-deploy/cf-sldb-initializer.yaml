@@ -11,6 +11,10 @@ Parameters:
       - dev
       - uat
       - prd
+  LambdaExecutionRole:
+    Description: Arn of a lambda execution role with
+    Type: String
+
 
 Resources:
   SLDBInitializerLambda:
