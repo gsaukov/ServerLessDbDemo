@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
 //    compile "com.amazonaws:aws-java-sdk-ssm:${awsSsmVersion}"
+    compile "org.postgresql:postgresql:${postgresqlVersion}"
     compile "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
     compile "com.amazonaws:aws-java-sdk-secretsmanager:${awsSsmVersion}"
     compile "org.liquibase:liquibase-core:${liquibaseCoreVersion}"

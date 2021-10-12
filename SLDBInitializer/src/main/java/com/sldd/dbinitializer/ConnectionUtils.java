@@ -23,7 +23,7 @@ public class ConnectionUtils {
 
     public Connection createConnection() {
         var properties = getConnectionProperties();
-        logger.log("Recieved connection properties: \n" + properties);
+        logger.log(properties + "\n");
         Connection conn;
         try {
             var url = properties.getUrl();
@@ -33,7 +33,7 @@ public class ConnectionUtils {
             conn = DriverManager.getConnection(url, user, password);
             logger.log("Connected to Database!\n");
         } catch (SQLException e) {
-            logger.log("Connection failed. " + e.getMessage());
+            logger.log("Connection failed. " + e.getMessage()) ;
             return null;
         }
         return conn;
@@ -41,11 +41,11 @@ public class ConnectionUtils {
 
     public ConnectionProperties getConnectionProperties() {
         var secretArn = System.getenv(DATABASE_SECRETS);
-        logger.log("AWSSecretsManager resolving secret: " + secretArn);
+        logger.log("AWSSecretsManager resolving secret: " + secretArn + "\n");
         AWSSecretsManager sm = AWSSecretsManagerClientBuilder.defaultClient();
         GetSecretValueRequest req = new GetSecretValueRequest().withSecretId(secretArn);
         GetSecretValueResult secret = sm.getSecretValue(req);
-        logger.log("AWSSecretsManager recieved: " + secret.getName());
+        logger.log("AWSSecretsManager recieved: " + secret.getName() + "\n");
         return toConnectionProperties(secret.getSecretString());
     }
 
