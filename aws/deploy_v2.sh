@@ -19,21 +19,20 @@ echo '==================   Copying resource to s3 COMPLETE    ==================
 
 
 echo '==================   SLDB_init_lambda_role creation STARTED        =========================='
-aws iam create-role --role-name SLDB_init_lambda_role --assume-role-policy-document file://trust-policy.json
+aws iam create-role --role-name SLDB_init_lambda_role --assume-role-policy-document file://cf-deploy/trust-policy.json
 echo '==================   SLDB_init_lambda_role creation COMPLETE        =========================='
 
 echo '==================   Attach policies to SLDB_init_lambda_role STARTED        =========================='
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonRDSFullAccess --role-name SLDB_init_lambda_role
-aws iam attach-role-policy --policy-arn  arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs  --role-name SLDB_init_lambda_role
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs  --role-name SLDB_init_lambda_role
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/SecretsManagerReadWrite --role-name SLDB_init_lambda_role
 
-echo '==================   Attach policies to SLDB_init_lambda_role STARTED        =========================='
-lambda_role_arn=$(aws iam get-role --role-name SLDB_init_lambda_role | jq '."Role".Arn')
-echo 'SLDB_init_lambda_role ARN: ' ${lambdarole}
+lambda_role_arn=$(aws iam get-role --role-name SLDB_init_lambda_role | jq -r '.Role.Arn')
+echo 'SLDB_init_lambda_role ARN: ' ${lambda_role_arn}
+echo '==================   Attach policies to SLDB_init_lambda_role COMPLETE        =========================='
 
 
 
-# run cloudformation template
-#echo 'Creating stack...'
 echo '==================   Stack creation STARTED        =========================='
 aws cloudformation create-stack --stack-name cf-network --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-network.yaml \
 --region=us-east-1 --parameters ParameterKey=VPCID,ParameterValue=$vpc_id

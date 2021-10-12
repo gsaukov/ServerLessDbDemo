@@ -22,6 +22,7 @@ Resources:
     Properties:
       Timeout: 300
       MemorySize: 512
+      Role: !Ref LambdaExecutionRole
       Handler: com.sldd.dbinitializer.DbInitializerHandler::handleRequest
       Layers:
         - !Ref SLDBInitializerDependencyLayer
