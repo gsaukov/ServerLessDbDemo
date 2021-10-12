@@ -18,20 +18,21 @@ import java.util.Map;
 
 public class DbInitializerHandler implements RequestHandler<Map<String, Object>, Object> {
 
+    private LambdaLogger logger;
+
     @Override
     public Object handleRequest(Map<String, Object> input, Context context) {
-        LambdaLogger logger = context.getLogger();
+        logger = context.getLogger();
         logger.log("Log lambda input and environment\n");
-        logStrMap(logger, System.getenv());
-        logObjMap(logger, input);
+        logMap(System.getenv());
+        logMap(input);
 
         // Start the DB Connection
+        ConnectionUtils connectionUtils = new ConnectionUtils(logger);
         Connection conn = null;
         ConnectionProperties properties = null;
         try {
-            properties = ConnectionUtils.getConnectionProperties();
-            logger.log("Recieved connection properties!\n" + properties);
-            conn = ConnectionUtils.createConnection(properties);
+            conn = connectionUtils.createConnection();
             logger.log("Connected to DB!\n");
             Database dataBase = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
             Liquibase liquiBase = new Liquibase("classpath:/db/changelog-master.yaml", new ClassLoaderResourceAccessor(), dataBase);
@@ -52,16 +53,16 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
         return Status.SUCCESS;
     }
 
-    private void logObjMap (LambdaLogger logger, Map<String, Object> map) {
-        for(Map.Entry<String, Object> item : map.entrySet()) {
-            logger.log(item.getKey() + " " + item.getValue());
+    private void logMap (Map<String, ?> map) {
+        for(Map.Entry<String, ?> item : map.entrySet()) {
+            var key = nvl(item.getKey());
+            var val = nvl(item.getValue());
+            logger.log(key + " " + val + "\n");
         }
     }
 
-    private void logStrMap (LambdaLogger logger, Map<String, String> map) {
-        for(Map.Entry<String, String> item : map.entrySet()) {
-            logger.log(item.getKey() + " " + item.getValue());
-        }
+    private String nvl(Object o) {
+        return o == null?"null":o.toString();
     }
 
     private enum Status {

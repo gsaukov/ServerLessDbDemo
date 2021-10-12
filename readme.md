@@ -4,3 +4,5 @@
 4. JAVA Layer should be packaged in java/lib (CLASSPATH) folder. Not just root! Otherwise classnotfound error.
    https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html#configuration-layers-path
 5. Poll cloud about resources you need and describe them, pass them into variables.
+6. Testing you can get/find some test events in Test Event section of lambda.
+7. Required IAM right for methods are usually listed in Methods Javadocs for example com.amazonaws.services.secretsmanager.AWSSecretsManager.getSecretValue
