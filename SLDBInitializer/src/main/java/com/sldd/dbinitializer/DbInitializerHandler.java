@@ -9,11 +9,9 @@ import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
 
 public class DbInitializerHandler implements RequestHandler<Map<String, Object>, Object> {
@@ -33,9 +31,9 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
         try {
             conn = connectionUtils.createConnection();
             Database dataBase = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
-            Liquibase liquiBase = new Liquibase("classpath:/db/changelog-master.yaml", new ClassLoaderResourceAccessor(), dataBase);
+            Liquibase liquiBase = new Liquibase("/db/changelog-master.yaml", new ClassLoaderResourceAccessor(), dataBase);
             liquiBase.update(new Contexts(), new LabelExpression());
-        } catch (LiquibaseException e) {
+        } catch (Exception e) {
             logger.log(e.getMessage());
             return Status.FAILED;
         } finally {
@@ -43,7 +41,7 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
                 if (!conn.isClosed() || conn != null) {
                     conn.close();
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 logger.log(e.getMessage());
             }

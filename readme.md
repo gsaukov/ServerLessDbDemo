@@ -6,3 +6,5 @@
 5. Poll cloud about resources you need and describe them, pass them into variables.
 6. Testing you can get/find some test events in Test Event section of lambda.
 7. Required IAM right for methods are usually listed in Methods Javadocs for example com.amazonaws.services.secretsmanager.AWSSecretsManager.getSecretValue
+8. com.amazonaws.services.lambda.runtime.Context is not that scary and canbe just mocked.
+9. Catch everything, base Exceptions not Specific extensions, there is n framework to catch and log it for you, things will be just missed.

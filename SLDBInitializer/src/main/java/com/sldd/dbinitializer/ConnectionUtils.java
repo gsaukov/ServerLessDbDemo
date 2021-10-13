@@ -54,4 +54,13 @@ public class ConnectionUtils {
     private ConnectionProperties toConnectionProperties(String secret) {
         return new Gson().fromJson(secret, ConnectionProperties.class);
     }
+
+    private ConnectionProperties getLocalConnectionProperties() {
+        var properties = new ConnectionProperties();
+        properties.setHost("localhost");
+        properties.setPort(5432);
+        properties.setUsername("serveles_db");
+        properties.setPassword("serveles_db");
+        return properties;
+    }
 }
