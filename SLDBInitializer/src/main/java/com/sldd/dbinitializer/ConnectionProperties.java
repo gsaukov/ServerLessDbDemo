@@ -11,7 +11,7 @@ public class ConnectionProperties{
 	private String username;
 
 	public String getUrl() {
-		return "jdbc:postgresql://" + host + ":" + port;
+		return "jdbc:postgresql://" + host + ":" + port + "/";
 	}
 
 	public String getDbClusterIdentifier() {
