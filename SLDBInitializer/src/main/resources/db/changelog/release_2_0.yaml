@@ -9,7 +9,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: ACCOUNT_NUMBER
-                  type: NUMBER(19)
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -31,7 +31,7 @@ databaseChangeLog:
                     nullable: false
 
   - changeSet:
-      id: createAccountsTable
+      id: createTransactionsTable
       author: gsaukov
       changes:
         - createTable:
@@ -39,7 +39,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: ID
-                  type: NUMBER(19)
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
