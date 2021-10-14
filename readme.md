@@ -8,3 +8,5 @@
 7. Required IAM right for methods are usually listed in Methods Javadocs for example com.amazonaws.services.secretsmanager.AWSSecretsManager.getSecretValue
 8. com.amazonaws.services.lambda.runtime.Context is not that scary and canbe just mocked.
 9. Catch everything, base Exceptions not Specific extensions, there is n framework to catch and log it for you, things will be just missed.
+10. Try https://github.com/localstack/localstack to mock AWS resources locally.
+11. Start up time is crucial. 
