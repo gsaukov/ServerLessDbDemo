@@ -39,9 +39,17 @@ Resources:
           DATABASE_SECRETS:
             Fn::ImportValue:
               Fn::Sub: "${Env}-DBSecrets"
+
   SLDBInitializerDependencyLayer:
     Type: 'AWS::Serverless::LayerVersion'
     compatibleRuntimes:
       - java11
     Properties:
       ContentUri: s3://my-new-lambda-bucket-6328764287365/SLDBInitializer-dependencies.zip
+
+  InvokeSLDBInitializerLambda:
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn: SLDBInitializerLambda
+    Version: "1.0"
+    Properties:
+      ServiceToken: !GetAtt SLDBInitializerLambda.Arn
