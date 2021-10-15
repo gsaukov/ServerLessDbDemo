@@ -15,6 +15,29 @@ Parameters:
     Type: String
 
 Resources:
+
+  # ---------------------------------------------------------------------- #
+  # Security Group (TLS)
+  # ---------------------------------------------------------------------- #
+
+  TLSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Env}-sg-tls
+      GroupDescription: TLS security group
+      VpcId: !Ref VPCID
+      Tags:
+        - Key: Name
+          Value: !Sub ${Env}-sg-tls
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
   # ---------------------------------------------------------------------- #
   # Security Group (Aurora)
   # ---------------------------------------------------------------------- #
@@ -60,6 +83,10 @@ Resources:
           Value: !Sub ${Env}-private-subnet2
 
 Outputs:
+  TLSSecurityGroup:
+    Value: !Ref TLSSecurityGroup
+    Export:
+      Name: !Sub ${Env}-sg-tls
   AuroraSecurityGroup:
     Value: !Ref AuroraSecurityGroup
     Export:
@@ -72,3 +99,7 @@ Outputs:
     Value: !Ref PrivateSubnet2
     Export:
       Name: !Sub ${Env}-private-subnet2
+  VPCID:
+    Value: !Ref VPCID
+    Export:
+      Name: VPCID

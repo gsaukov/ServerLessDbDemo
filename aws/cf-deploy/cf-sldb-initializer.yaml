@@ -31,6 +31,7 @@ Resources:
       VpcConfig:
         SecurityGroupIds:
           - Fn::ImportValue: !Sub ${Env}-sg-aurora
+          - Fn::ImportValue: !Sub ${Env}-sg-tls
         SubnetIds:
           - Fn::ImportValue: !Sub ${Env}-private-subnet1
           - Fn::ImportValue: !Sub ${Env}-private-subnet2
@@ -53,9 +54,9 @@ Resources:
     Properties:
       ContentUri: s3://my-new-lambda-bucket-6328764287365/SLDBInitializer-dependencies.zip
 
-  InvokeSLDBInitializerLambda:
-    Type: AWS::CloudFormation::CustomResource
-    DependsOn: SLDBInitializerLambda
-    Version: "1.0"
-    Properties:
-      ServiceToken: !GetAtt SLDBInitializerLambda.Arn
+#  InvokeSLDBInitializerLambda:
+#    Type: AWS::CloudFormation::CustomResource
+#    DependsOn: SLDBInitializerLambda
+#    Version: "1.0"
+#    Properties:
+#      ServiceToken: !GetAtt SLDBInitializerLambda.Arn
