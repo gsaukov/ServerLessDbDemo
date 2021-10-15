@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class ConnectionUtils {
 
@@ -21,21 +20,16 @@ public class ConnectionUtils {
         this.logger = logger;
     }
 
-    public Connection createConnection() {
+    public Connection createConnection() throws Exception {
         var properties = getConnectionProperties();
         logger.log(properties + "\n");
         Connection conn;
-        try {
-            var url = properties.getUrl();
-            var user = properties.getUsername();
-            var password = properties.getPassword();
-            logger.log("Establishing Database connection.\n");
-            conn = DriverManager.getConnection(url, user, password);
-            logger.log("Connected to Database!\n");
-        } catch (SQLException e) {
-            logger.log("Connection failed. " + e.getMessage()) ;
-            return null;
-        }
+        var url = properties.getUrl();
+        var user = properties.getUsername();
+        var password = properties.getPassword();
+        logger.log("Establishing Database connection.\n");
+        conn = DriverManager.getConnection(url, user, password);
+        logger.log("Connected to Database!\n");
         return conn;
     }
 
