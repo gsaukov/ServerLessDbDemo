@@ -26,6 +26,7 @@ echo '==================   Attach policies to SLDB_init_lambda_role STARTED     
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonRDSFullAccess --role-name SLDB_init_lambda_role
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs  --role-name SLDB_init_lambda_role
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/SecretsManagerReadWrite --role-name SLDB_init_lambda_role
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole --role-name SLDB_init_lambda_role
 
 lambda_role_arn=$(aws iam get-role --role-name SLDB_init_lambda_role | jq -r '.Role.Arn')
 echo 'SLDB_init_lambda_role ARN: ' ${lambda_role_arn}

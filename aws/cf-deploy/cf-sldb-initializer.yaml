@@ -28,6 +28,12 @@ Resources:
         - !Ref SLDBInitializerDependencyLayer
       CodeUri: s3://my-new-lambda-bucket-6328764287365/SLDBInitializer-0.1.0.jar
       Runtime: java11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::ImportValue: !Sub ${Env}-sg-aurora
+        SubnetIds:
+          - Fn::ImportValue: !Sub ${Env}-private-subnet1
+          - Fn::ImportValue: !Sub ${Env}-private-subnet2
       Environment:
         Variables:
           DATABASE_ENDPOINT:

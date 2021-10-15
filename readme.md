@@ -10,3 +10,5 @@
 9. Catch everything, base Exceptions not Specific extensions, there is n framework to catch and log it for you, things will be just missed.
 10. Try https://github.com/localstack/localstack to mock AWS resources locally.
 11. Start up time is crucial. 
+12. Connection, Exception, Transaction handlers is now your responsibility.
+13. Lambda must have access to your VPC/Subnet/Security Group to access resources such as database and EC2.
