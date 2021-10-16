@@ -55,7 +55,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-      SourceSecurityGroupId: !Ref TLSSecurityGroup
+          SourceSecurityGroupId: !Ref TLSSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
