@@ -96,7 +96,7 @@ Resources:
       DatabaseName: !Ref DatabaseName
       DBSubnetGroupName: !Ref DBSubnetGroup
       DeletionProtection: false
-      EnableHttpEndpoint: false
+      EnableHttpEndpoint: true
       Engine: aurora-postgresql
       EngineMode: !Ref EngineMode
       EngineVersion: 10.14 #aws rds describe-db-engine-versions --engine aurora-postgresql --query 'DBEngineVersions[?contains(SupportedEngineModes,`serverless`)].EngineVersion'
