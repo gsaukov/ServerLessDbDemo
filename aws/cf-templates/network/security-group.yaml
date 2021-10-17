@@ -76,8 +76,8 @@ Resources:
           Value: !Sub ${Env}-sg-aurora
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
+          FromPort: 5432
+          ToPort: 5432
           SourceSecurityGroupId: !Ref ECSSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: -1
