@@ -14,3 +14,4 @@
 13. Lambda must have access to your VPC/Subnet/Security Group to access resources such as database and EC2.
 14. CloudFormation stacks is the best way to understand what your cloud is. Both at Macro and Micro levels. You can search across you resources and see the references between them. It is a lot more visual and transparent way to have a grip on your cloud resources. Neither CLI, nor console gives you such posibilities.
 15. I strongly recommend create AWS resources only through CloudFormation to avoid human mistakes, using visual preview and resources review, reuse content and configuration, standard templates, roll back whole stack and don't loose something running.
+16. Connectivity between 

@@ -146,7 +146,7 @@ Resources:
         - Fn::ImportValue: !Sub ${Env}-sg-tls
       VpcEndpointType: 'Interface'
       ServiceName: !Sub "com.amazonaws.${AWS::Region}.secretsmanager"
-      PrivateDnsEnabled: false
+      PrivateDnsEnabled: true
       VpcId: !ImportValue VPCID
 
 Outputs:
