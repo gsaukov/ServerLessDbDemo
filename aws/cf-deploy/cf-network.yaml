@@ -53,9 +53,9 @@ Resources:
           Value: !Sub ${Env}-sg-aurora
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
-          SourceSecurityGroupId: !Ref TLSSecurityGroup
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref TLSSecurityGroup # This allows instances that are associated with the specified security group to access instances associated with this security group. Choosing this option does not add rules from the source security group to this security group.
       SecurityGroupEgress:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
