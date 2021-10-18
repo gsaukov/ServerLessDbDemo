@@ -112,7 +112,7 @@ databaseChangeLog:
                     foreignKeyName: FK_PRODUCT_ID
                     references: PRODUCT (ID)
         - createTable:
-            tableName: RELATION_TYPE
+            tableName: USER_RELATION_TYPE
             columns:
               - column:
                   name: ID
@@ -196,6 +196,13 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: ACCOUNT_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USER_ACCOUNT_ID
+                    references: ACCOUNTS (ID)
               - column:
                   name: USER_DESCRIPTION_ID
                   type: BIGINT
