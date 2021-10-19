@@ -34,6 +34,7 @@ databaseChangeLog:
                   type: DATE
                   constraints:
                     nullable: false
+
         - createTable:
             tableName: COMPANY
             columns:
@@ -64,6 +65,7 @@ databaseChangeLog:
                   type: varchar(40)
                   constraints:
                     nullable: false
+
         - createTable:
             tableName: FACTORY
             columns:
@@ -84,6 +86,7 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+
         - createTable:
             tableName: PRODUCT
             columns:
@@ -114,6 +117,7 @@ databaseChangeLog:
                   type: varchar(120)
                   constraints:
                     nullable: false
+
         - createTable:
             tableName: PRODUCT_DETAILS
             columns:
@@ -141,12 +145,13 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_PRODUCT_ID
                     references: PRODUCT (ID)
-              - createIndex:
-                  indexName: IDX_PRODUCT_DETAILS_PRODUCT_ID
-                  tableName: PRODUCT_DETAILS
-                  columns:
-                    - column:
-                        name: PRODUCT_ID
+        - createIndex:
+            indexName: IDX_PRODUCT_DETAILS_PRODUCT_ID
+            tableName: PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: PRODUCT_ID
+
         - createTable:
             tableName: USER_PRODUCER_RELATION
             columns:
@@ -171,18 +176,19 @@ databaseChangeLog:
                     nullable: true
                     foreignKeyName: FK_FACTORY_ID
                     references: FACTORY (ID)
-              - createIndex:
-                  indexName: IDX_USER_PRODUCER_RELATION_COMPANY_ID
-                  tableName: USER_PRODUCER_RELATION
-                  columns:
-                    - column:
-                        name: COMPANY_ID
-              - createIndex:
-                  indexName: IDX_USER_PRODUCER_RELATION_FACTORY_ID
-                  tableName: USER_PRODUCER_RELATION
-                  columns:
-                    - column:
-                        name: FACTORY_ID
+        - createIndex:
+            indexName: IDX_USER_PRODUCER_RELATION_COMPANY_ID
+            tableName: USER_PRODUCER_RELATION
+            columns:
+              - column:
+                  name: COMPANY_ID
+        - createIndex:
+            indexName: IDX_USER_PRODUCER_RELATION_FACTORY_ID
+            tableName: USER_PRODUCER_RELATION
+            columns:
+              - column:
+                  name: FACTORY_ID
+
         - createTable:
             tableName: ROLE
             columns:
@@ -199,6 +205,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+
         - createTable:
             tableName: USER_DESCRIPTION
             columns:
@@ -223,18 +230,19 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_ROLE_ID
                     references: ROLE (ID)
-              - createIndex:
-                  indexName: IDX_USER_DESCRIPTION_USER_PRODUCER_RELATION_ID
-                  tableName: USER_DESCRIPTION
-                  columns:
-                    - column:
-                        name: USER_PRODUCER_RELATION_ID
-              - createIndex:
-                  indexName: IDX_USER_DESCRIPTION_ROLE_ID
-                  tableName: USER_DESCRIPTION
-                  columns:
-                    - column:
-                        name: ROLE_ID
+        - createIndex:
+            indexName: IDX_USER_DESCRIPTION_USER_PRODUCER_RELATION_ID
+            tableName: USER_DESCRIPTION
+            columns:
+              - column:
+                  name: USER_PRODUCER_RELATION_ID
+        - createIndex:
+            indexName: IDX_USER_DESCRIPTION_ROLE_ID
+            tableName: USER_DESCRIPTION
+            columns:
+              - column:
+                  name: ROLE_ID
+
         - createTable:
             tableName: USERS
             columns:
@@ -270,18 +278,19 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_USER_DESCRIPTION_ID
                     references: USER_DESCRIPTION (ID)
-              - createIndex:
-                  indexName: IDX_USERS_ACCOUNT_ID
-                  tableName: USERS
-                  columns:
-                    - column:
-                        name: ACCOUNT_ID
-              - createIndex:
-                  indexName: IDX_USERS_USER_DESCRIPTION_ID
-                  tableName: USERS
-                  columns:
-                    - column:
-                        name: USER_DESCRIPTION_ID
+        - createIndex:
+            indexName: IDX_USERS_ACCOUNT_ID
+            tableName: USERS
+            columns:
+              - column:
+                  name: ACCOUNT_ID
+        - createIndex:
+            indexName: IDX_USERS_USER_DESCRIPTION_ID
+            tableName: USERS
+            columns:
+              - column:
+                  name: USER_DESCRIPTION_ID
+
         - createTable:
             tableName: AUTH_INFO_ENTITY
             columns:
@@ -309,12 +318,13 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_AUTH_USER_ID
                     references: USERS (ID)
-              - createIndex:
-                  indexName: IDX_AUTH_INFO_ENTITY_USERS_ID
-                  tableName: AUTH_INFO_ENTITY
-                  columns:
-                    - column:
-                        name: USER_ID
+        - createIndex:
+            indexName: IDX_AUTH_INFO_ENTITY_USERS_ID
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: USER_ID
+
         - createTable:
             tableName: ORDERS
             columns:
@@ -352,12 +362,13 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_USER_ID
                     references: USERS (ID)
-              - createIndex:
-                  indexName: IDX_ORDERS_USER_ID
-                  tableName: ORDERS
-                  columns:
-                    - column:
-                        name: USER_ID
+        - createIndex:
+            indexName: IDX_ORDERS_USER_ID
+            tableName: ORDERS
+            columns:
+              - column:
+                  name: USER_ID
+
         - createTable:
             tableName: ORDERS_PRODUCTS
             columns:
@@ -376,18 +387,19 @@ databaseChangeLog:
                     unique: true
                     foreignKeyName: FK_PRODUCT_DETAILS_ID
                     references: PRODUCT_DETAILS (ID)
-              - createIndex:
-                  indexName: IDX_ORDERS_PRODUCTS_ORDERS_ID
-                  tableName: ORDERS_PRODUCTS
-                  columns:
-                    - column:
-                        name: ORDERS_ID
-              - createIndex:
-                  indexName: IDX_ORDERS_PRODUCTS_PRODUCT_DETAILS_ID
-                  tableName: ORDERS_PRODUCTS
-                  columns:
-                    - column:
-                        name: PRODUCT_DETAILS_ID
+        - createIndex:
+            indexName: IDX_ORDERS_PRODUCTS_ORDERS_ID
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDERS_ID
+        - createIndex:
+            indexName: IDX_ORDERS_PRODUCTS_PRODUCT_DETAILS_ID
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: PRODUCT_DETAILS_ID
+
         - createTable:
             tableName: TRANSACTIONS
             columns:
@@ -434,24 +446,25 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_TO_ACCOUNT_ID
                     references: ACCOUNTS (ID)
-              - createIndex:
-                  indexName: IDX_TRANSACTIONS_TO_ACCOUNT_ID
-                  tableName: TRANSACTIONS
-                  columns:
-                    - column:
-                        name: TO_ACCOUNT_ID
-              - createIndex:
-                  indexName: IDX_TRANSACTIONS_FROM_ACCOUNT_ID
-                  tableName: TRANSACTIONS
-                  columns:
-                    - column:
-                        name: FROM_ACCOUNT_ID
-              - createIndex:
-                  indexName: IDX_TRANSACTIONS_ORDER_ID
-                  tableName: TRANSACTIONS
-                  columns:
-                    - column:
-                        name: ORDER_ID
+        - createIndex:
+            indexName: IDX_TRANSACTIONS_TO_ACCOUNT_ID
+            tableName: TRANSACTIONS
+            columns:
+              - column:
+                  name: TO_ACCOUNT_ID
+        - createIndex:
+            indexName: IDX_TRANSACTIONS_FROM_ACCOUNT_ID
+            tableName: TRANSACTIONS
+            columns:
+              - column:
+                  name: FROM_ACCOUNT_ID
+        - createIndex:
+            indexName: IDX_TRANSACTIONS_ORDER_ID
+            tableName: TRANSACTIONS
+            columns:
+              - column:
+                  name: ORDER_ID
+
   - changeSet:
       id: baseInserts
       author: gsaukov
