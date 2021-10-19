@@ -422,14 +422,14 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: FROM_ACCOUNT_ID
-                  type: DATE
+                  type: BIGINT
                   constraints:
                     nullable: false
                     foreignKeyName: FK_FROM_ACCOUNT_ID
                     references: ACCOUNTS (ID)
               - column:
                   name: TO_ACCOUNT_ID
-                  type: DATE
+                  type: BIGINT
                   constraints:
                     nullable: false
                     foreignKeyName: FK_TO_ACCOUNT_ID
