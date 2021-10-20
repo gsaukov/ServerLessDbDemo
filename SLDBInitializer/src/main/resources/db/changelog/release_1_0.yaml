@@ -72,6 +72,12 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_COMPANY_PRODUCER_ID
                     references: PRODUCT_PRODUCER (ID)
+        - createIndex:
+            indexName: IDX_COMPANY_PRODUCER_ID
+            tableName: COMPANY
+            columns:
+              - column:
+                  name: PRODUCER_ID
 
         - createTable:
             tableName: FACTORY
@@ -100,6 +106,12 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_FACTORY_PRODUCER_ID
                     references: PRODUCT_PRODUCER (ID)
+        - createIndex:
+            indexName: IDX_FACTORY_PRODUCER_ID
+            tableName: FACTORY
+            columns:
+              - column:
+                  name: PRODUCER_ID
 
         # Polymorphic association of a product with a Factory or Company
         - createTable:
@@ -150,6 +162,12 @@ databaseChangeLog:
                   type: varchar(120)
                   constraints:
                     nullable: false
+        - createIndex:
+            indexName: IDX_PRODUCT_PRODUCER_ID
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: PRODUCER_ID
 
         - createTable:
             tableName: PRODUCT_DETAILS
