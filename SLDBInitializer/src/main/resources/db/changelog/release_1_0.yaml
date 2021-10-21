@@ -359,81 +359,6 @@ databaseChangeLog:
                   name: USER_ID
 
         - createTable:
-            tableName: ORDERS
-            columns:
-              - column:
-                  name: ID
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: COST
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: END_DATE
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: START_DATE
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: STATUS
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: USER_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_USER_ID
-                    references: USERS (ID)
-        - createIndex:
-            indexName: IDX_ORDERS_USER_ID
-            tableName: ORDERS
-            columns:
-              - column:
-                  name: USER_ID
-
-        - createTable:
-            tableName: ORDERS_PRODUCTS
-            columns:
-              - column:
-                  name: ORDERS_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_ORDERS_ID
-                    references: ORDERS (ID)
-              - column:
-                  name: PRODUCT_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    unique: true
-                    foreignKeyName: FK_ORDERS_PRODUCTS_PRODUCT_ID
-                    references: PRODUCT (ID)
-        - createIndex:
-            indexName: IDX_ORDERS_PRODUCTS_ORDERS_ID
-            tableName: ORDERS_PRODUCTS
-            columns:
-              - column:
-                  name: ORDERS_ID
-        - createIndex:
-            indexName: IDX_ORDERS_PRODUCTS_PRODUCT_ID
-            tableName: ORDERS_PRODUCTS
-            columns:
-              - column:
-                  name: PRODUCT_ID
-
-        - createTable:
             tableName: TRANSACTIONS
             columns:
               - column:
@@ -448,13 +373,6 @@ databaseChangeLog:
                   type: VARCHAR2(255)
                   constraints:
                     nullable: false
-              - column:
-                  name: ORDER_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_ORDER_ID
-                    references: ORDERS (ID)
               - column:
                   name: AMOUNT
                   type: NUMBER
@@ -491,12 +409,94 @@ databaseChangeLog:
             columns:
               - column:
                   name: FROM_ACCOUNT_ID
-        - createIndex:
-            indexName: IDX_TRANSACTIONS_ORDER_ID
-            tableName: TRANSACTIONS
+
+        - createTable:
+            tableName: ORDERS
             columns:
               - column:
-                  name: ORDER_ID
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: TRANSACTION_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_ORDER_TRANSACTION_ID
+                    references: TRANSACTIONS (ID)
+              - column:
+                  name: COST
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: END_DATE
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: START_DATE
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STATUS
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: USER_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USER_ID
+                    references: USERS (ID)
+        - createIndex:
+            indexName: IDX_ORDERS_USER_ID
+            tableName: ORDERS
+            columns:
+              - column:
+                  name: USER_ID
+        - createIndex:
+            indexName: IDX_ORDERS_TRANSACTION_ID
+            tableName: ORDERS
+            columns:
+              - column:
+                  name: TRANSACTION_ID
+
+        - createTable:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDERS_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_ORDERS_ID
+                    references: ORDERS (ID)
+              - column:
+                  name: PRODUCT_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: FK_ORDERS_PRODUCTS_PRODUCT_ID
+                    references: PRODUCT (ID)
+        - createIndex:
+            indexName: IDX_ORDERS_PRODUCTS_ORDERS_ID
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDERS_ID
+        - createIndex:
+            indexName: IDX_ORDERS_PRODUCTS_PRODUCT_ID
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: PRODUCT_ID
 
 #  - changeSet:
 #      id: baseInserts
