@@ -229,37 +229,6 @@ databaseChangeLog:
                   name: PRODUCT_ID
 
         - createTable:
-            tableName: USERS_PRODUCERS
-            columns:
-              - column:
-                  name: USER_ID
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_USERS_PRODUCERS_USER_ID
-                    references: USERS (ID)
-              - column:
-                  name: PRODUCER_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_USERS_PRODUCERS_PRODUCER_ID
-                    references: PRODUCER (ID)
-        - createIndex:
-            indexName: IDX_USERS_PRODUCERS_PRODUCERS_ID
-            tableName: USERS_PRODUCERS
-            columns:
-              - column:
-                  name: PRODUCER_ID
-        - createIndex:
-            indexName: IDX_USERS_PRODUCERS_USER_ID
-            tableName: USERS_PRODUCERS
-            columns:
-              - column:
-                  name: USER_ID
-
-        - createTable:
             tableName: ROLE
             columns:
               - column:
@@ -305,13 +274,6 @@ databaseChangeLog:
                     foreignKeyName: FK_USER_ACCOUNT_ID
                     references: ACCOUNTS (ID)
               - column:
-                  name: USER_DESCRIPTION_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_USER_DESCRIPTION_ID
-                    references: USER_DESCRIPTION (ID)
-              - column:
                   name: ROLE_ID
                   type: BIGINT
                   constraints:
@@ -330,12 +292,37 @@ databaseChangeLog:
             columns:
               - column:
                   name: ACCOUNT_ID
-        - createIndex:
-            indexName: IDX_USERS_USER_DESCRIPTION_ID
-            tableName: USERS
+
+        - createTable:
+            tableName: USERS_PRODUCERS
             columns:
               - column:
-                  name: USER_DESCRIPTION_ID
+                  name: USER_ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USERS_PRODUCERS_USER_ID
+                    references: USERS (ID)
+              - column:
+                  name: PRODUCER_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USERS_PRODUCERS_PRODUCER_ID
+                    references: PRODUCER (ID)
+        - createIndex:
+            indexName: IDX_USERS_PRODUCERS_PRODUCERS_ID
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: PRODUCER_ID
+        - createIndex:
+            indexName: IDX_USERS_PRODUCERS_USER_ID
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
 
         - createTable:
             tableName: AUTH_INFO_ENTITY
