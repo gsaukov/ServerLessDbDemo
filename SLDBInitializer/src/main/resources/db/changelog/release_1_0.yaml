@@ -35,6 +35,23 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
+        # Polymorphic association of a product with a Factory or Company
+        - createTable:
+            tableName: PRODUCT_PRODUCER
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: TYPE
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+
         - createTable:
             tableName: COMPANY
             columns:
@@ -112,18 +129,6 @@ databaseChangeLog:
             columns:
               - column:
                   name: PRODUCER_ID
-
-        # Polymorphic association of a product with a Factory or Company
-        - createTable:
-            tableName: PRODUCT_PRODUCER
-            columns:
-              - column:
-                  name: ID
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
 
         - createTable:
             tableName: PRODUCT
