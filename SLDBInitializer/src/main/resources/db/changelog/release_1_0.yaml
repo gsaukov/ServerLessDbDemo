@@ -37,7 +37,7 @@ databaseChangeLog:
 
         # Polymorphic association of a product with a Factory or Company
         - createTable:
-            tableName: PRODUCT_PRODUCER
+            tableName: PRODUCER
             columns:
               - column:
                   name: ID
@@ -63,8 +63,13 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: COMPANY
+                  name: NAME
                   type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ADDRESS
+                  type: varchar(160)
                   constraints:
                     nullable: false
               - column:
@@ -88,7 +93,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: FK_COMPANY_PRODUCER_ID
-                    references: PRODUCT_PRODUCER (ID)
+                    references: PRODUCER (ID)
         - createIndex:
             indexName: IDX_COMPANY_PRODUCER_ID
             tableName: COMPANY
@@ -107,6 +112,16 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: NAME
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ADDRESS
+                  type: varchar(160)
+                  constraints:
+                    nullable: false
+              - column:
                   name: PHONE
                   type: varchar(40)
                   constraints:
@@ -117,12 +132,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: INDUSTRY
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+              - column:
                   name: PRODUCER_ID
                   type: BIGINT
                   constraints:
                     nullable: false
                     foreignKeyName: FK_FACTORY_PRODUCER_ID
-                    references: PRODUCT_PRODUCER (ID)
+                    references: PRODUCER (ID)
         - createIndex:
             indexName: IDX_FACTORY_PRODUCER_ID
             tableName: FACTORY
@@ -161,7 +181,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: FK_PRODUCT_PRODUCER_ID
-                    references: PRODUCT_PRODUCER (ID)
+                    references: PRODUCER (ID)
               - column:
                   name: TYPE
                   type: varchar(120)
@@ -209,41 +229,35 @@ databaseChangeLog:
                   name: PRODUCT_ID
 
         - createTable:
-            tableName: USER_PRODUCER_RELATION
+            tableName: USERS_PRODUCERS
             columns:
               - column:
-                  name: ID
+                  name: USER_ID
                   type: BIGINT
                   autoIncrement: true
                   constraints:
-                    primaryKey: true
                     nullable: false
+                    foreignKeyName: FK_USERS_PRODUCERS_USER_ID
+                    references: USERS (ID)
               - column:
-                  name: COMPANY_ID
+                  name: PRODUCER_ID
                   type: BIGINT
                   constraints:
-                    nullable: true
-                    foreignKeyName: FK_COMPANY_ID
-                    references: COMPANY (ID)
-              - column:
-                  name: FACTORY_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: true
-                    foreignKeyName: FK_FACTORY_ID
-                    references: FACTORY (ID)
+                    nullable: false
+                    foreignKeyName: FK_USERS_PRODUCERS_PRODUCER_ID
+                    references: PRODUCER (ID)
         - createIndex:
-            indexName: IDX_USER_PRODUCER_RELATION_COMPANY_ID
-            tableName: USER_PRODUCER_RELATION
+            indexName: IDX_USERS_PRODUCERS_PRODUCERS_ID
+            tableName: USERS_PRODUCERS
             columns:
               - column:
-                  name: COMPANY_ID
+                  name: PRODUCER_ID
         - createIndex:
-            indexName: IDX_USER_PRODUCER_RELATION_FACTORY_ID
-            tableName: USER_PRODUCER_RELATION
+            indexName: IDX_USERS_PRODUCERS_USER_ID
+            tableName: USERS_PRODUCERS
             columns:
               - column:
-                  name: FACTORY_ID
+                  name: USER_ID
 
         - createTable:
             tableName: ROLE
@@ -261,43 +275,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
-
-        - createTable:
-            tableName: USER_DESCRIPTION
-            columns:
-              - column:
-                  name: ID
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: USER_PRODUCER_RELATION_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_USER_PRODUCER_RELATION_ID
-                    references: USER_PRODUCER_RELATION (ID)
-              - column:
-                  name: ROLE_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_ROLE_ID
-                    references: ROLE (ID)
-        - createIndex:
-            indexName: IDX_USER_DESCRIPTION_USER_PRODUCER_RELATION_ID
-            tableName: USER_DESCRIPTION
-            columns:
-              - column:
-                  name: USER_PRODUCER_RELATION_ID
-        - createIndex:
-            indexName: IDX_USER_DESCRIPTION_ROLE_ID
-            tableName: USER_DESCRIPTION
-            columns:
-              - column:
-                  name: ROLE_ID
 
         - createTable:
             tableName: USERS
@@ -334,6 +311,19 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_USER_DESCRIPTION_ID
                     references: USER_DESCRIPTION (ID)
+              - column:
+                  name: ROLE_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USER_ROLE_ID
+                    references: ROLE (ID)
+        - createIndex:
+            indexName: IDX_USER_ROLE_ID
+            tableName: USERS
+            columns:
+              - column:
+                  name: ROLE_ID
         - createIndex:
             indexName: IDX_USERS_ACCOUNT_ID
             tableName: USERS
@@ -484,7 +474,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: DATA_TIME
+                  name: DATE_TIME
                   type: DATE
                   constraints:
                     nullable: false
