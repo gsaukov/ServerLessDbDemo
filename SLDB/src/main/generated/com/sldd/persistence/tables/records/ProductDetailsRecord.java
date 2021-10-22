@@ -7,9 +7,10 @@ package com.sldd.persistence.tables.records;
 import com.sldd.persistence.tables.ProductDetails;
 
 import org.jooq.Field;
+import org.jooq.JSONB;
 import org.jooq.Record1;
-import org.jooq.Record4;
-import org.jooq.Row4;
+import org.jooq.Record3;
+import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -17,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * The table <code>public.product_details</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsRecord> implements Record4<Long, Integer, Integer, Long> {
+public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsRecord> implements Record3<Long, JSONB, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,40 +38,25 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     }
 
     /**
-     * Setter for <code>public.product_details.quantity</code>.
+     * Setter for <code>public.product_details.product_description</code>.
      */
-    public ProductDetailsRecord setQuantity(Integer value) {
+    public ProductDetailsRecord setProductDescription(JSONB value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.product_details.quantity</code>.
+     * Getter for <code>public.product_details.product_description</code>.
      */
-    public Integer getQuantity() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>public.product_details.sell_cost</code>.
-     */
-    public ProductDetailsRecord setSellCost(Integer value) {
-        set(2, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>public.product_details.sell_cost</code>.
-     */
-    public Integer getSellCost() {
-        return (Integer) get(2);
+    public JSONB getProductDescription() {
+        return (JSONB) get(1);
     }
 
     /**
      * Setter for <code>public.product_details.product_id</code>.
      */
     public ProductDetailsRecord setProductId(Long value) {
-        set(3, value);
+        set(2, value);
         return this;
     }
 
@@ -78,7 +64,7 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
      * Getter for <code>public.product_details.product_id</code>.
      */
     public Long getProductId() {
-        return (Long) get(3);
+        return (Long) get(2);
     }
 
     // -------------------------------------------------------------------------
@@ -91,17 +77,17 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Record3 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, Integer, Integer, Long> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row3<Long, JSONB, Long> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 
     @Override
-    public Row4<Long, Integer, Integer, Long> valuesRow() {
-        return (Row4) super.valuesRow();
+    public Row3<Long, JSONB, Long> valuesRow() {
+        return (Row3) super.valuesRow();
     }
 
     @Override
@@ -110,17 +96,12 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     }
 
     @Override
-    public Field<Integer> field2() {
-        return ProductDetails.PRODUCT_DETAILS.QUANTITY;
+    public Field<JSONB> field2() {
+        return ProductDetails.PRODUCT_DETAILS.PRODUCT_DESCRIPTION;
     }
 
     @Override
-    public Field<Integer> field3() {
-        return ProductDetails.PRODUCT_DETAILS.SELL_COST;
-    }
-
-    @Override
-    public Field<Long> field4() {
+    public Field<Long> field3() {
         return ProductDetails.PRODUCT_DETAILS.PRODUCT_ID;
     }
 
@@ -130,17 +111,12 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     }
 
     @Override
-    public Integer component2() {
-        return getQuantity();
+    public JSONB component2() {
+        return getProductDescription();
     }
 
     @Override
-    public Integer component3() {
-        return getSellCost();
-    }
-
-    @Override
-    public Long component4() {
+    public Long component3() {
         return getProductId();
     }
 
@@ -150,17 +126,12 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     }
 
     @Override
-    public Integer value2() {
-        return getQuantity();
+    public JSONB value2() {
+        return getProductDescription();
     }
 
     @Override
-    public Integer value3() {
-        return getSellCost();
-    }
-
-    @Override
-    public Long value4() {
+    public Long value3() {
         return getProductId();
     }
 
@@ -171,29 +142,22 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     }
 
     @Override
-    public ProductDetailsRecord value2(Integer value) {
-        setQuantity(value);
+    public ProductDetailsRecord value2(JSONB value) {
+        setProductDescription(value);
         return this;
     }
 
     @Override
-    public ProductDetailsRecord value3(Integer value) {
-        setSellCost(value);
-        return this;
-    }
-
-    @Override
-    public ProductDetailsRecord value4(Long value) {
+    public ProductDetailsRecord value3(Long value) {
         setProductId(value);
         return this;
     }
 
     @Override
-    public ProductDetailsRecord values(Long value1, Integer value2, Integer value3, Long value4) {
+    public ProductDetailsRecord values(Long value1, JSONB value2, Long value3) {
         value1(value1);
         value2(value2);
         value3(value3);
-        value4(value4);
         return this;
     }
 
@@ -211,12 +175,11 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
     /**
      * Create a detached, initialised ProductDetailsRecord
      */
-    public ProductDetailsRecord(Long id, Integer quantity, Integer sellCost, Long productId) {
+    public ProductDetailsRecord(Long id, JSONB productDescription, Long productId) {
         super(ProductDetails.PRODUCT_DETAILS);
 
         setId(id);
-        setQuantity(quantity);
-        setSellCost(sellCost);
+        setProductDescription(productDescription);
         setProductId(productId);
     }
 
@@ -228,8 +191,7 @@ public class ProductDetailsRecord extends UpdatableRecordImpl<ProductDetailsReco
 
         if (value != null) {
             setId(value.getId());
-            setQuantity(value.getQuantity());
-            setSellCost(value.getSellCost());
+            setProductDescription(value.getProductDescription());
             setProductId(value.getProductId());
         }
     }

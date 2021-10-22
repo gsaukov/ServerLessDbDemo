@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -51,9 +51,14 @@ public class Orders extends TableImpl<OrdersRecord> {
     public final TableField<OrdersRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.orders.cost</code>.
+     * The column <code>public.orders.transaction_id</code>.
      */
-    public final TableField<OrdersRecord, Long> COST = createField(DSL.name("cost"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersRecord, Long> TRANSACTION_ID = createField(DSL.name("transaction_id"), SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
+     * The column <code>public.orders.total_cost</code>.
+     */
+    public final TableField<OrdersRecord, Long> TOTAL_COST = createField(DSL.name("total_cost"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.orders.end_date</code>.
@@ -71,9 +76,9 @@ public class Orders extends TableImpl<OrdersRecord> {
     public final TableField<OrdersRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>public.orders.users_id</code>.
+     * The column <code>public.orders.user_id</code>.
      */
-    public final TableField<OrdersRecord, Long> USERS_ID = createField(DSL.name("users_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private Orders(Name alias, Table<OrdersRecord> aliased) {
         this(alias, aliased, null);
@@ -146,11 +151,11 @@ public class Orders extends TableImpl<OrdersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, Long, LocalDate, LocalDate, String, Long> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, Long, Long, LocalDate, LocalDate, String, Long> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

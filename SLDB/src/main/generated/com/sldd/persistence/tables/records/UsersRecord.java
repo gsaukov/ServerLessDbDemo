@@ -8,8 +8,8 @@ import com.sldd.persistence.tables.Users;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record4;
-import org.jooq.Row4;
+import org.jooq.Record5;
+import org.jooq.Row5;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -17,7 +17,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * The table <code>public.users</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Record4<Long, String, String, Long> {
+public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Record5<Long, String, String, String, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,10 +52,25 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
     }
 
     /**
+     * Setter for <code>public.users.phone</code>.
+     */
+    public UsersRecord setPhone(String value) {
+        set(2, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.users.phone</code>.
+     */
+    public String getPhone() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>public.users.full_name</code>.
      */
     public UsersRecord setFullName(String value) {
-        set(2, value);
+        set(3, value);
         return this;
     }
 
@@ -63,22 +78,22 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
      * Getter for <code>public.users.full_name</code>.
      */
     public String getFullName() {
-        return (String) get(2);
+        return (String) get(3);
     }
 
     /**
-     * Setter for <code>public.users.user_description_id</code>.
+     * Setter for <code>public.users.account_id</code>.
      */
-    public UsersRecord setUserDescriptionId(Long value) {
-        set(3, value);
+    public UsersRecord setAccountId(Long value) {
+        set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.users.user_description_id</code>.
+     * Getter for <code>public.users.account_id</code>.
      */
-    public Long getUserDescriptionId() {
-        return (Long) get(3);
+    public Long getAccountId() {
+        return (Long) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -91,17 +106,17 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Record5 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, String, Long> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Long, String, String, String, Long> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 
     @Override
-    public Row4<Long, String, String, Long> valuesRow() {
-        return (Row4) super.valuesRow();
+    public Row5<Long, String, String, String, Long> valuesRow() {
+        return (Row5) super.valuesRow();
     }
 
     @Override
@@ -116,12 +131,17 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
 
     @Override
     public Field<String> field3() {
+        return Users.USERS.PHONE;
+    }
+
+    @Override
+    public Field<String> field4() {
         return Users.USERS.FULL_NAME;
     }
 
     @Override
-    public Field<Long> field4() {
-        return Users.USERS.USER_DESCRIPTION_ID;
+    public Field<Long> field5() {
+        return Users.USERS.ACCOUNT_ID;
     }
 
     @Override
@@ -136,12 +156,17 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
 
     @Override
     public String component3() {
+        return getPhone();
+    }
+
+    @Override
+    public String component4() {
         return getFullName();
     }
 
     @Override
-    public Long component4() {
-        return getUserDescriptionId();
+    public Long component5() {
+        return getAccountId();
     }
 
     @Override
@@ -156,12 +181,17 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
 
     @Override
     public String value3() {
+        return getPhone();
+    }
+
+    @Override
+    public String value4() {
         return getFullName();
     }
 
     @Override
-    public Long value4() {
-        return getUserDescriptionId();
+    public Long value5() {
+        return getAccountId();
     }
 
     @Override
@@ -178,22 +208,29 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
 
     @Override
     public UsersRecord value3(String value) {
+        setPhone(value);
+        return this;
+    }
+
+    @Override
+    public UsersRecord value4(String value) {
         setFullName(value);
         return this;
     }
 
     @Override
-    public UsersRecord value4(Long value) {
-        setUserDescriptionId(value);
+    public UsersRecord value5(Long value) {
+        setAccountId(value);
         return this;
     }
 
     @Override
-    public UsersRecord values(Long value1, String value2, String value3, Long value4) {
+    public UsersRecord values(Long value1, String value2, String value3, String value4, Long value5) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
+        value5(value5);
         return this;
     }
 
@@ -211,13 +248,14 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
     /**
      * Create a detached, initialised UsersRecord
      */
-    public UsersRecord(Long id, String email, String fullName, Long userDescriptionId) {
+    public UsersRecord(Long id, String email, String phone, String fullName, Long accountId) {
         super(Users.USERS);
 
         setId(id);
         setEmail(email);
+        setPhone(phone);
         setFullName(fullName);
-        setUserDescriptionId(userDescriptionId);
+        setAccountId(accountId);
     }
 
     /**
@@ -229,8 +267,9 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Rec
         if (value != null) {
             setId(value.getId());
             setEmail(value.getEmail());
+            setPhone(value.getPhone());
             setFullName(value.getFullName());
-            setUserDescriptionId(value.getUserDescriptionId());
+            setAccountId(value.getAccountId());
         }
     }
 }

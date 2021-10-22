@@ -17,35 +17,39 @@ public class Orders implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Long      id;
-    private final Long      cost;
+    private final Long      transactionId;
+    private final Long      totalCost;
     private final LocalDate endDate;
     private final LocalDate startDate;
     private final String    status;
-    private final Long      usersId;
+    private final Long      userId;
 
     public Orders(Orders value) {
         this.id = value.id;
-        this.cost = value.cost;
+        this.transactionId = value.transactionId;
+        this.totalCost = value.totalCost;
         this.endDate = value.endDate;
         this.startDate = value.startDate;
         this.status = value.status;
-        this.usersId = value.usersId;
+        this.userId = value.userId;
     }
 
     public Orders(
         Long      id,
-        Long      cost,
+        Long      transactionId,
+        Long      totalCost,
         LocalDate endDate,
         LocalDate startDate,
         String    status,
-        Long      usersId
+        Long      userId
     ) {
         this.id = id;
-        this.cost = cost;
+        this.transactionId = transactionId;
+        this.totalCost = totalCost;
         this.endDate = endDate;
         this.startDate = startDate;
         this.status = status;
-        this.usersId = usersId;
+        this.userId = userId;
     }
 
     /**
@@ -56,10 +60,17 @@ public class Orders implements Serializable {
     }
 
     /**
-     * Getter for <code>public.orders.cost</code>.
+     * Getter for <code>public.orders.transaction_id</code>.
      */
-    public Long getCost() {
-        return this.cost;
+    public Long getTransactionId() {
+        return this.transactionId;
+    }
+
+    /**
+     * Getter for <code>public.orders.total_cost</code>.
+     */
+    public Long getTotalCost() {
+        return this.totalCost;
     }
 
     /**
@@ -84,10 +95,10 @@ public class Orders implements Serializable {
     }
 
     /**
-     * Getter for <code>public.orders.users_id</code>.
+     * Getter for <code>public.orders.user_id</code>.
      */
-    public Long getUsersId() {
-        return this.usersId;
+    public Long getUserId() {
+        return this.userId;
     }
 
     @Override
@@ -105,11 +116,17 @@ public class Orders implements Serializable {
         }
         else if (!id.equals(other.id))
             return false;
-        if (cost == null) {
-            if (other.cost != null)
+        if (transactionId == null) {
+            if (other.transactionId != null)
                 return false;
         }
-        else if (!cost.equals(other.cost))
+        else if (!transactionId.equals(other.transactionId))
+            return false;
+        if (totalCost == null) {
+            if (other.totalCost != null)
+                return false;
+        }
+        else if (!totalCost.equals(other.totalCost))
             return false;
         if (endDate == null) {
             if (other.endDate != null)
@@ -129,11 +146,11 @@ public class Orders implements Serializable {
         }
         else if (!status.equals(other.status))
             return false;
-        if (usersId == null) {
-            if (other.usersId != null)
+        if (userId == null) {
+            if (other.userId != null)
                 return false;
         }
-        else if (!usersId.equals(other.usersId))
+        else if (!userId.equals(other.userId))
             return false;
         return true;
     }
@@ -143,11 +160,12 @@ public class Orders implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.cost == null) ? 0 : this.cost.hashCode());
+        result = prime * result + ((this.transactionId == null) ? 0 : this.transactionId.hashCode());
+        result = prime * result + ((this.totalCost == null) ? 0 : this.totalCost.hashCode());
         result = prime * result + ((this.endDate == null) ? 0 : this.endDate.hashCode());
         result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
-        result = prime * result + ((this.usersId == null) ? 0 : this.usersId.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
         return result;
     }
 
@@ -156,11 +174,12 @@ public class Orders implements Serializable {
         StringBuilder sb = new StringBuilder("Orders (");
 
         sb.append(id);
-        sb.append(", ").append(cost);
+        sb.append(", ").append(transactionId);
+        sb.append(", ").append(totalCost);
         sb.append(", ").append(endDate);
         sb.append(", ").append(startDate);
         sb.append(", ").append(status);
-        sb.append(", ").append(usersId);
+        sb.append(", ").append(userId);
 
         sb.append(")");
         return sb.toString();

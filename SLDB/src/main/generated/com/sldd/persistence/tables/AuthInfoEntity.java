@@ -59,9 +59,9 @@ public class AuthInfoEntity extends TableImpl<AuthInfoEntityRecord> {
     public final TableField<AuthInfoEntityRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
-     * The column <code>public.auth_info_entity.users_id</code>.
+     * The column <code>public.auth_info_entity.user_id</code>.
      */
-    public final TableField<AuthInfoEntityRecord, Long> USERS_ID = createField(DSL.name("users_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<AuthInfoEntityRecord, Long> USER_ID = createField(DSL.name("user_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private AuthInfoEntity(Name alias, Table<AuthInfoEntityRecord> aliased) {
         this(alias, aliased, null);

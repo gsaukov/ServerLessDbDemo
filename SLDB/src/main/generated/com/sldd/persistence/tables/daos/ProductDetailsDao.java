@@ -10,6 +10,7 @@ import com.sldd.persistence.tables.records.ProductDetailsRecord;
 import java.util.List;
 
 import org.jooq.Configuration;
+import org.jooq.JSONB;
 import org.jooq.impl.DAOImpl;
 
 
@@ -61,33 +62,18 @@ public class ProductDetailsDao extends DAOImpl<ProductDetailsRecord, com.sldd.pe
     }
 
     /**
-     * Fetch records that have <code>quantity BETWEEN lowerInclusive AND
-     * upperInclusive</code>
+     * Fetch records that have <code>product_description BETWEEN lowerInclusive
+     * AND upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchRangeOfQuantity(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(ProductDetails.PRODUCT_DETAILS.QUANTITY, lowerInclusive, upperInclusive);
+    public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchRangeOfProductDescription(JSONB lowerInclusive, JSONB upperInclusive) {
+        return fetchRange(ProductDetails.PRODUCT_DETAILS.PRODUCT_DESCRIPTION, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>quantity IN (values)</code>
+     * Fetch records that have <code>product_description IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchByQuantity(Integer... values) {
-        return fetch(ProductDetails.PRODUCT_DETAILS.QUANTITY, values);
-    }
-
-    /**
-     * Fetch records that have <code>sell_cost BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchRangeOfSellCost(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(ProductDetails.PRODUCT_DETAILS.SELL_COST, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>sell_cost IN (values)</code>
-     */
-    public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchBySellCost(Integer... values) {
-        return fetch(ProductDetails.PRODUCT_DETAILS.SELL_COST, values);
+    public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchByProductDescription(JSONB... values) {
+        return fetch(ProductDetails.PRODUCT_DETAILS.PRODUCT_DESCRIPTION, values);
     }
 
     /**

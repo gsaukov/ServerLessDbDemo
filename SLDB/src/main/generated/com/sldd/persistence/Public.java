@@ -4,17 +4,21 @@
 package com.sldd.persistence;
 
 
+import com.sldd.persistence.tables.Accounts;
 import com.sldd.persistence.tables.AuthInfoEntity;
-import com.sldd.persistence.tables.CompanyDescription;
-import com.sldd.persistence.tables.FactoryDescription;
+import com.sldd.persistence.tables.Company;
+import com.sldd.persistence.tables.Databasechangelog;
+import com.sldd.persistence.tables.Databasechangeloglock;
+import com.sldd.persistence.tables.Factory;
 import com.sldd.persistence.tables.Orders;
-import com.sldd.persistence.tables.OrdersProductDetails;
+import com.sldd.persistence.tables.OrdersProducts;
+import com.sldd.persistence.tables.Producer;
 import com.sldd.persistence.tables.Product;
 import com.sldd.persistence.tables.ProductDetails;
-import com.sldd.persistence.tables.RelationType;
 import com.sldd.persistence.tables.Role;
-import com.sldd.persistence.tables.UserDescription;
+import com.sldd.persistence.tables.Transactions;
 import com.sldd.persistence.tables.Users;
+import com.sldd.persistence.tables.UsersProducers;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,19 +42,34 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.accounts</code>.
+     */
+    public final Accounts ACCOUNTS = Accounts.ACCOUNTS;
+
+    /**
      * The table <code>public.auth_info_entity</code>.
      */
     public final AuthInfoEntity AUTH_INFO_ENTITY = AuthInfoEntity.AUTH_INFO_ENTITY;
 
     /**
-     * The table <code>public.company_description</code>.
+     * The table <code>public.company</code>.
      */
-    public final CompanyDescription COMPANY_DESCRIPTION = CompanyDescription.COMPANY_DESCRIPTION;
+    public final Company COMPANY = Company.COMPANY;
 
     /**
-     * The table <code>public.factory_description</code>.
+     * The table <code>public.databasechangelog</code>.
      */
-    public final FactoryDescription FACTORY_DESCRIPTION = FactoryDescription.FACTORY_DESCRIPTION;
+    public final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
+
+    /**
+     * The table <code>public.databasechangeloglock</code>.
+     */
+    public final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
+
+    /**
+     * The table <code>public.factory</code>.
+     */
+    public final Factory FACTORY = Factory.FACTORY;
 
     /**
      * The table <code>public.orders</code>.
@@ -58,9 +77,14 @@ public class Public extends SchemaImpl {
     public final Orders ORDERS = Orders.ORDERS;
 
     /**
-     * The table <code>public.orders_product_details</code>.
+     * The table <code>public.orders_products</code>.
      */
-    public final OrdersProductDetails ORDERS_PRODUCT_DETAILS = OrdersProductDetails.ORDERS_PRODUCT_DETAILS;
+    public final OrdersProducts ORDERS_PRODUCTS = OrdersProducts.ORDERS_PRODUCTS;
+
+    /**
+     * The table <code>public.producer</code>.
+     */
+    public final Producer PRODUCER = Producer.PRODUCER;
 
     /**
      * The table <code>public.product</code>.
@@ -73,24 +97,24 @@ public class Public extends SchemaImpl {
     public final ProductDetails PRODUCT_DETAILS = ProductDetails.PRODUCT_DETAILS;
 
     /**
-     * The table <code>public.relation_type</code>.
-     */
-    public final RelationType RELATION_TYPE = RelationType.RELATION_TYPE;
-
-    /**
      * The table <code>public.role</code>.
      */
     public final Role ROLE = Role.ROLE;
 
     /**
-     * The table <code>public.user_description</code>.
+     * The table <code>public.transactions</code>.
      */
-    public final UserDescription USER_DESCRIPTION = UserDescription.USER_DESCRIPTION;
+    public final Transactions TRANSACTIONS = Transactions.TRANSACTIONS;
 
     /**
      * The table <code>public.users</code>.
      */
     public final Users USERS = Users.USERS;
+
+    /**
+     * The table <code>public.users_producers</code>.
+     */
+    public final UsersProducers USERS_PRODUCERS = UsersProducers.USERS_PRODUCERS;
 
     /**
      * No further instances allowed
@@ -108,17 +132,21 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Accounts.ACCOUNTS,
             AuthInfoEntity.AUTH_INFO_ENTITY,
-            CompanyDescription.COMPANY_DESCRIPTION,
-            FactoryDescription.FACTORY_DESCRIPTION,
+            Company.COMPANY,
+            Databasechangelog.DATABASECHANGELOG,
+            Databasechangeloglock.DATABASECHANGELOGLOCK,
+            Factory.FACTORY,
             Orders.ORDERS,
-            OrdersProductDetails.ORDERS_PRODUCT_DETAILS,
+            OrdersProducts.ORDERS_PRODUCTS,
+            Producer.PRODUCER,
             Product.PRODUCT,
             ProductDetails.PRODUCT_DETAILS,
-            RelationType.RELATION_TYPE,
             Role.ROLE,
-            UserDescription.USER_DESCRIPTION,
-            Users.USERS
+            Transactions.TRANSACTIONS,
+            Users.USERS,
+            UsersProducers.USERS_PRODUCERS
         );
     }
 }

@@ -10,7 +10,7 @@ import com.sldd.persistence.tables.records.ProductRecord;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -62,6 +62,11 @@ public class Product extends TableImpl<ProductRecord> {
      * The column <code>public.product.prime_cost</code>.
      */
     public final TableField<ProductRecord, Integer> PRIME_COST = createField(DSL.name("prime_cost"), SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>public.product.producer_id</code>.
+     */
+    public final TableField<ProductRecord, Long> PRODUCER_ID = createField(DSL.name("producer_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.product.type</code>.
@@ -139,11 +144,11 @@ public class Product extends TableImpl<ProductRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, String, String, Integer, String> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Long, String, String, Integer, Long, String> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }

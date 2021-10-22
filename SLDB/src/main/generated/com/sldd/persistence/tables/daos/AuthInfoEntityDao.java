@@ -91,17 +91,17 @@ public class AuthInfoEntityDao extends DAOImpl<AuthInfoEntityRecord, com.sldd.pe
     }
 
     /**
-     * Fetch records that have <code>users_id BETWEEN lowerInclusive AND
+     * Fetch records that have <code>user_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.AuthInfoEntity> fetchRangeOfUsersId(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(AuthInfoEntity.AUTH_INFO_ENTITY.USERS_ID, lowerInclusive, upperInclusive);
+    public List<com.sldd.persistence.tables.pojos.AuthInfoEntity> fetchRangeOfUserId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(AuthInfoEntity.AUTH_INFO_ENTITY.USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>users_id IN (values)</code>
+     * Fetch records that have <code>user_id IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.AuthInfoEntity> fetchByUsersId(Long... values) {
-        return fetch(AuthInfoEntity.AUTH_INFO_ENTITY.USERS_ID, values);
+    public List<com.sldd.persistence.tables.pojos.AuthInfoEntity> fetchByUserId(Long... values) {
+        return fetch(AuthInfoEntity.AUTH_INFO_ENTITY.USER_ID, values);
     }
 }

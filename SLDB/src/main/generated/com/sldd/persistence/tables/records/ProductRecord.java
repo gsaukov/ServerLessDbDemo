@@ -8,8 +8,8 @@ import com.sldd.persistence.tables.Product;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record5;
-import org.jooq.Row5;
+import org.jooq.Record6;
+import org.jooq.Row6;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -17,7 +17,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * The table <code>public.product</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements Record5<Long, String, String, Integer, String> {
+public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements Record6<Long, String, String, Integer, Long, String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,10 +82,25 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     }
 
     /**
+     * Setter for <code>public.product.producer_id</code>.
+     */
+    public ProductRecord setProducerId(Long value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.product.producer_id</code>.
+     */
+    public Long getProducerId() {
+        return (Long) get(4);
+    }
+
+    /**
      * Setter for <code>public.product.type</code>.
      */
     public ProductRecord setType(String value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -93,7 +108,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
      * Getter for <code>public.product.type</code>.
      */
     public String getType() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -106,17 +121,17 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     }
 
     // -------------------------------------------------------------------------
-    // Record5 type implementation
+    // Record6 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, String, String, Integer, String> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Long, String, String, Integer, Long, String> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 
     @Override
-    public Row5<Long, String, String, Integer, String> valuesRow() {
-        return (Row5) super.valuesRow();
+    public Row6<Long, String, String, Integer, Long, String> valuesRow() {
+        return (Row6) super.valuesRow();
     }
 
     @Override
@@ -140,7 +155,12 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     }
 
     @Override
-    public Field<String> field5() {
+    public Field<Long> field5() {
+        return Product.PRODUCT.PRODUCER_ID;
+    }
+
+    @Override
+    public Field<String> field6() {
         return Product.PRODUCT.TYPE;
     }
 
@@ -165,7 +185,12 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     }
 
     @Override
-    public String component5() {
+    public Long component5() {
+        return getProducerId();
+    }
+
+    @Override
+    public String component6() {
         return getType();
     }
 
@@ -190,7 +215,12 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     }
 
     @Override
-    public String value5() {
+    public Long value5() {
+        return getProducerId();
+    }
+
+    @Override
+    public String value6() {
         return getType();
     }
 
@@ -219,18 +249,25 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     }
 
     @Override
-    public ProductRecord value5(String value) {
+    public ProductRecord value5(Long value) {
+        setProducerId(value);
+        return this;
+    }
+
+    @Override
+    public ProductRecord value6(String value) {
         setType(value);
         return this;
     }
 
     @Override
-    public ProductRecord values(Long value1, String value2, String value3, Integer value4, String value5) {
+    public ProductRecord values(Long value1, String value2, String value3, Integer value4, Long value5, String value6) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
         value5(value5);
+        value6(value6);
         return this;
     }
 
@@ -248,13 +285,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
     /**
      * Create a detached, initialised ProductRecord
      */
-    public ProductRecord(Long id, String category, String name, Integer primeCost, String type) {
+    public ProductRecord(Long id, String category, String name, Integer primeCost, Long producerId, String type) {
         super(Product.PRODUCT);
 
         setId(id);
         setCategory(category);
         setName(name);
         setPrimeCost(primeCost);
+        setProducerId(producerId);
         setType(type);
     }
 
@@ -269,6 +307,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements
             setCategory(value.getCategory());
             setName(value.getName());
             setPrimeCost(value.getPrimeCost());
+            setProducerId(value.getProducerId());
             setType(value.getType());
         }
     }

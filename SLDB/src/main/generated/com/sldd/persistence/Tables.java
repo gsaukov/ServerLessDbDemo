@@ -4,17 +4,21 @@
 package com.sldd.persistence;
 
 
+import com.sldd.persistence.tables.Accounts;
 import com.sldd.persistence.tables.AuthInfoEntity;
-import com.sldd.persistence.tables.CompanyDescription;
-import com.sldd.persistence.tables.FactoryDescription;
+import com.sldd.persistence.tables.Company;
+import com.sldd.persistence.tables.Databasechangelog;
+import com.sldd.persistence.tables.Databasechangeloglock;
+import com.sldd.persistence.tables.Factory;
 import com.sldd.persistence.tables.Orders;
-import com.sldd.persistence.tables.OrdersProductDetails;
+import com.sldd.persistence.tables.OrdersProducts;
+import com.sldd.persistence.tables.Producer;
 import com.sldd.persistence.tables.Product;
 import com.sldd.persistence.tables.ProductDetails;
-import com.sldd.persistence.tables.RelationType;
 import com.sldd.persistence.tables.Role;
-import com.sldd.persistence.tables.UserDescription;
+import com.sldd.persistence.tables.Transactions;
 import com.sldd.persistence.tables.Users;
+import com.sldd.persistence.tables.UsersProducers;
 
 
 /**
@@ -24,19 +28,34 @@ import com.sldd.persistence.tables.Users;
 public class Tables {
 
     /**
+     * The table <code>public.accounts</code>.
+     */
+    public static final Accounts ACCOUNTS = Accounts.ACCOUNTS;
+
+    /**
      * The table <code>public.auth_info_entity</code>.
      */
     public static final AuthInfoEntity AUTH_INFO_ENTITY = AuthInfoEntity.AUTH_INFO_ENTITY;
 
     /**
-     * The table <code>public.company_description</code>.
+     * The table <code>public.company</code>.
      */
-    public static final CompanyDescription COMPANY_DESCRIPTION = CompanyDescription.COMPANY_DESCRIPTION;
+    public static final Company COMPANY = Company.COMPANY;
 
     /**
-     * The table <code>public.factory_description</code>.
+     * The table <code>public.databasechangelog</code>.
      */
-    public static final FactoryDescription FACTORY_DESCRIPTION = FactoryDescription.FACTORY_DESCRIPTION;
+    public static final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
+
+    /**
+     * The table <code>public.databasechangeloglock</code>.
+     */
+    public static final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
+
+    /**
+     * The table <code>public.factory</code>.
+     */
+    public static final Factory FACTORY = Factory.FACTORY;
 
     /**
      * The table <code>public.orders</code>.
@@ -44,9 +63,14 @@ public class Tables {
     public static final Orders ORDERS = Orders.ORDERS;
 
     /**
-     * The table <code>public.orders_product_details</code>.
+     * The table <code>public.orders_products</code>.
      */
-    public static final OrdersProductDetails ORDERS_PRODUCT_DETAILS = OrdersProductDetails.ORDERS_PRODUCT_DETAILS;
+    public static final OrdersProducts ORDERS_PRODUCTS = OrdersProducts.ORDERS_PRODUCTS;
+
+    /**
+     * The table <code>public.producer</code>.
+     */
+    public static final Producer PRODUCER = Producer.PRODUCER;
 
     /**
      * The table <code>public.product</code>.
@@ -59,22 +83,22 @@ public class Tables {
     public static final ProductDetails PRODUCT_DETAILS = ProductDetails.PRODUCT_DETAILS;
 
     /**
-     * The table <code>public.relation_type</code>.
-     */
-    public static final RelationType RELATION_TYPE = RelationType.RELATION_TYPE;
-
-    /**
      * The table <code>public.role</code>.
      */
     public static final Role ROLE = Role.ROLE;
 
     /**
-     * The table <code>public.user_description</code>.
+     * The table <code>public.transactions</code>.
      */
-    public static final UserDescription USER_DESCRIPTION = UserDescription.USER_DESCRIPTION;
+    public static final Transactions TRANSACTIONS = Transactions.TRANSACTIONS;
 
     /**
      * The table <code>public.users</code>.
      */
     public static final Users USERS = Users.USERS;
+
+    /**
+     * The table <code>public.users_producers</code>.
+     */
+    public static final UsersProducers USERS_PRODUCERS = UsersProducers.USERS_PRODUCERS;
 }

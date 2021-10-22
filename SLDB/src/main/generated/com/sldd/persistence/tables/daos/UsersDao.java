@@ -83,6 +83,21 @@ public class UsersDao extends DAOImpl<UsersRecord, com.sldd.persistence.tables.p
     }
 
     /**
+     * Fetch records that have <code>phone BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Users> fetchRangeOfPhone(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Users.USERS.PHONE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>phone IN (values)</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Users> fetchByPhone(String... values) {
+        return fetch(Users.USERS.PHONE, values);
+    }
+
+    /**
      * Fetch records that have <code>full_name BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -98,17 +113,17 @@ public class UsersDao extends DAOImpl<UsersRecord, com.sldd.persistence.tables.p
     }
 
     /**
-     * Fetch records that have <code>user_description_id BETWEEN lowerInclusive
-     * AND upperInclusive</code>
+     * Fetch records that have <code>account_id BETWEEN lowerInclusive AND
+     * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Users> fetchRangeOfUserDescriptionId(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(Users.USERS.USER_DESCRIPTION_ID, lowerInclusive, upperInclusive);
+    public List<com.sldd.persistence.tables.pojos.Users> fetchRangeOfAccountId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(Users.USERS.ACCOUNT_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>user_description_id IN (values)</code>
+     * Fetch records that have <code>account_id IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Users> fetchByUserDescriptionId(Long... values) {
-        return fetch(Users.USERS.USER_DESCRIPTION_ID, values);
+    public List<com.sldd.persistence.tables.pojos.Users> fetchByAccountId(Long... values) {
+        return fetch(Users.USERS.ACCOUNT_ID, values);
     }
 }

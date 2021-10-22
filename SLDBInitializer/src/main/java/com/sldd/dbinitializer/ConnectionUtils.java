@@ -21,7 +21,7 @@ public class ConnectionUtils {
     }
 
     public Connection createConnection() throws Exception {
-        var properties = getConnectionProperties();
+        var properties = getLocalConnectionProperties();
         logger.log(properties + "\n");
         Connection conn;
         var url = properties.getUrl();

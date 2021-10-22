@@ -6,6 +6,8 @@ package com.sldd.persistence.tables.pojos;
 
 import java.io.Serializable;
 
+import org.jooq.JSONB;
+
 
 /**
  * The table <code>public.product_details</code>.
@@ -15,27 +17,23 @@ public class ProductDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long    id;
-    private final Integer quantity;
-    private final Integer sellCost;
-    private final Long    productId;
+    private final Long  id;
+    private final JSONB productDescription;
+    private final Long  productId;
 
     public ProductDetails(ProductDetails value) {
         this.id = value.id;
-        this.quantity = value.quantity;
-        this.sellCost = value.sellCost;
+        this.productDescription = value.productDescription;
         this.productId = value.productId;
     }
 
     public ProductDetails(
-        Long    id,
-        Integer quantity,
-        Integer sellCost,
-        Long    productId
+        Long  id,
+        JSONB productDescription,
+        Long  productId
     ) {
         this.id = id;
-        this.quantity = quantity;
-        this.sellCost = sellCost;
+        this.productDescription = productDescription;
         this.productId = productId;
     }
 
@@ -47,17 +45,10 @@ public class ProductDetails implements Serializable {
     }
 
     /**
-     * Getter for <code>public.product_details.quantity</code>.
+     * Getter for <code>public.product_details.product_description</code>.
      */
-    public Integer getQuantity() {
-        return this.quantity;
-    }
-
-    /**
-     * Getter for <code>public.product_details.sell_cost</code>.
-     */
-    public Integer getSellCost() {
-        return this.sellCost;
+    public JSONB getProductDescription() {
+        return this.productDescription;
     }
 
     /**
@@ -82,17 +73,11 @@ public class ProductDetails implements Serializable {
         }
         else if (!id.equals(other.id))
             return false;
-        if (quantity == null) {
-            if (other.quantity != null)
+        if (productDescription == null) {
+            if (other.productDescription != null)
                 return false;
         }
-        else if (!quantity.equals(other.quantity))
-            return false;
-        if (sellCost == null) {
-            if (other.sellCost != null)
-                return false;
-        }
-        else if (!sellCost.equals(other.sellCost))
+        else if (!productDescription.equals(other.productDescription))
             return false;
         if (productId == null) {
             if (other.productId != null)
@@ -108,8 +93,7 @@ public class ProductDetails implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.quantity == null) ? 0 : this.quantity.hashCode());
-        result = prime * result + ((this.sellCost == null) ? 0 : this.sellCost.hashCode());
+        result = prime * result + ((this.productDescription == null) ? 0 : this.productDescription.hashCode());
         result = prime * result + ((this.productId == null) ? 0 : this.productId.hashCode());
         return result;
     }
@@ -119,8 +103,7 @@ public class ProductDetails implements Serializable {
         StringBuilder sb = new StringBuilder("ProductDetails (");
 
         sb.append(id);
-        sb.append(", ").append(quantity);
-        sb.append(", ").append(sellCost);
+        sb.append(", ").append(productDescription);
         sb.append(", ").append(productId);
 
         sb.append(")");

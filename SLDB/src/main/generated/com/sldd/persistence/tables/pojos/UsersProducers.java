@@ -8,49 +8,49 @@ import java.io.Serializable;
 
 
 /**
- * The table <code>public.user_description</code>.
+ * The table <code>public.users_producers</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserDescription implements Serializable {
+public class UsersProducers implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long id;
-    private final Long relationTypeId;
+    private final Long userId;
+    private final Long producerId;
     private final Long roleId;
 
-    public UserDescription(UserDescription value) {
-        this.id = value.id;
-        this.relationTypeId = value.relationTypeId;
+    public UsersProducers(UsersProducers value) {
+        this.userId = value.userId;
+        this.producerId = value.producerId;
         this.roleId = value.roleId;
     }
 
-    public UserDescription(
-        Long id,
-        Long relationTypeId,
+    public UsersProducers(
+        Long userId,
+        Long producerId,
         Long roleId
     ) {
-        this.id = id;
-        this.relationTypeId = relationTypeId;
+        this.userId = userId;
+        this.producerId = producerId;
         this.roleId = roleId;
     }
 
     /**
-     * Getter for <code>public.user_description.id</code>.
+     * Getter for <code>public.users_producers.user_id</code>.
      */
-    public Long getId() {
-        return this.id;
+    public Long getUserId() {
+        return this.userId;
     }
 
     /**
-     * Getter for <code>public.user_description.relation_type_id</code>.
+     * Getter for <code>public.users_producers.producer_id</code>.
      */
-    public Long getRelationTypeId() {
-        return this.relationTypeId;
+    public Long getProducerId() {
+        return this.producerId;
     }
 
     /**
-     * Getter for <code>public.user_description.role_id</code>.
+     * Getter for <code>public.users_producers.role_id</code>.
      */
     public Long getRoleId() {
         return this.roleId;
@@ -64,18 +64,18 @@ public class UserDescription implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final UserDescription other = (UserDescription) obj;
-        if (id == null) {
-            if (other.id != null)
+        final UsersProducers other = (UsersProducers) obj;
+        if (userId == null) {
+            if (other.userId != null)
                 return false;
         }
-        else if (!id.equals(other.id))
+        else if (!userId.equals(other.userId))
             return false;
-        if (relationTypeId == null) {
-            if (other.relationTypeId != null)
+        if (producerId == null) {
+            if (other.producerId != null)
                 return false;
         }
-        else if (!relationTypeId.equals(other.relationTypeId))
+        else if (!producerId.equals(other.producerId))
             return false;
         if (roleId == null) {
             if (other.roleId != null)
@@ -90,18 +90,18 @@ public class UserDescription implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.relationTypeId == null) ? 0 : this.relationTypeId.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.producerId == null) ? 0 : this.producerId.hashCode());
         result = prime * result + ((this.roleId == null) ? 0 : this.roleId.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("UserDescription (");
+        StringBuilder sb = new StringBuilder("UsersProducers (");
 
-        sb.append(id);
-        sb.append(", ").append(relationTypeId);
+        sb.append(userId);
+        sb.append(", ").append(producerId);
         sb.append(", ").append(roleId);
 
         sb.append(")");

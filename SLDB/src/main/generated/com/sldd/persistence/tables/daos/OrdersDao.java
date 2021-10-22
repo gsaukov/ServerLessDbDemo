@@ -62,18 +62,33 @@ public class OrdersDao extends DAOImpl<OrdersRecord, com.sldd.persistence.tables
     }
 
     /**
-     * Fetch records that have <code>cost BETWEEN lowerInclusive AND
+     * Fetch records that have <code>transaction_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfCost(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(Orders.ORDERS.COST, lowerInclusive, upperInclusive);
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfTransactionId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(Orders.ORDERS.TRANSACTION_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>cost IN (values)</code>
+     * Fetch records that have <code>transaction_id IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchByCost(Long... values) {
-        return fetch(Orders.ORDERS.COST, values);
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchByTransactionId(Long... values) {
+        return fetch(Orders.ORDERS.TRANSACTION_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>total_cost BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfTotalCost(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(Orders.ORDERS.TOTAL_COST, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>total_cost IN (values)</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchByTotalCost(Long... values) {
+        return fetch(Orders.ORDERS.TOTAL_COST, values);
     }
 
     /**
@@ -122,17 +137,17 @@ public class OrdersDao extends DAOImpl<OrdersRecord, com.sldd.persistence.tables
     }
 
     /**
-     * Fetch records that have <code>users_id BETWEEN lowerInclusive AND
+     * Fetch records that have <code>user_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfUsersId(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(Orders.ORDERS.USERS_ID, lowerInclusive, upperInclusive);
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfUserId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(Orders.ORDERS.USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>users_id IN (values)</code>
+     * Fetch records that have <code>user_id IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchByUsersId(Long... values) {
-        return fetch(Orders.ORDERS.USERS_ID, values);
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchByUserId(Long... values) {
+        return fetch(Orders.ORDERS.USER_ID, values);
     }
 }

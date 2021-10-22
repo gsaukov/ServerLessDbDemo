@@ -13,7 +13,7 @@ import java.util.List;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -57,14 +57,19 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(180).nullable(false), this, "");
 
     /**
+     * The column <code>public.users.phone</code>.
+     */
+    public final TableField<UsersRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(40).nullable(false), this, "");
+
+    /**
      * The column <code>public.users.full_name</code>.
      */
     public final TableField<UsersRecord, String> FULL_NAME = createField(DSL.name("full_name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>public.users.user_description_id</code>.
+     * The column <code>public.users.account_id</code>.
      */
-    public final TableField<UsersRecord, Long> USER_DESCRIPTION_ID = createField(DSL.name("user_description_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UsersRecord, Long> ACCOUNT_ID = createField(DSL.name("account_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private Users(Name alias, Table<UsersRecord> aliased) {
         this(alias, aliased, null);
@@ -144,11 +149,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, String, Long> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Long, String, String, String, Long> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 }

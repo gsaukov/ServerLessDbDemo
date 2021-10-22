@@ -106,6 +106,21 @@ public class ProductDao extends DAOImpl<ProductRecord, com.sldd.persistence.tabl
     }
 
     /**
+     * Fetch records that have <code>producer_id BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Product> fetchRangeOfProducerId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(Product.PRODUCT.PRODUCER_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>producer_id IN (values)</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Product> fetchByProducerId(Long... values) {
+        return fetch(Product.PRODUCT.PRODUCER_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>type BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

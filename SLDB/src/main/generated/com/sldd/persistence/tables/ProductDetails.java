@@ -9,8 +9,9 @@ import com.sldd.persistence.tables.records.ProductDetailsRecord;
 
 import org.jooq.Field;
 import org.jooq.Identity;
+import org.jooq.JSONB;
 import org.jooq.Name;
-import org.jooq.Row4;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -49,14 +50,9 @@ public class ProductDetails extends TableImpl<ProductDetailsRecord> {
     public final TableField<ProductDetailsRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.product_details.quantity</code>.
+     * The column <code>public.product_details.product_description</code>.
      */
-    public final TableField<ProductDetailsRecord, Integer> QUANTITY = createField(DSL.name("quantity"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>public.product_details.sell_cost</code>.
-     */
-    public final TableField<ProductDetailsRecord, Integer> SELL_COST = createField(DSL.name("sell_cost"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ProductDetailsRecord, JSONB> PRODUCT_DESCRIPTION = createField(DSL.name("product_description"), SQLDataType.JSONB, this, "");
 
     /**
      * The column <code>public.product_details.product_id</code>.
@@ -134,11 +130,11 @@ public class ProductDetails extends TableImpl<ProductDetailsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, Integer, Integer, Long> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row3<Long, JSONB, Long> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 }

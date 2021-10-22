@@ -67,17 +67,17 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
     }
 
     /**
-     * Setter for <code>public.auth_info_entity.users_id</code>.
+     * Setter for <code>public.auth_info_entity.user_id</code>.
      */
-    public AuthInfoEntityRecord setUsersId(Long value) {
+    public AuthInfoEntityRecord setUserId(Long value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.auth_info_entity.users_id</code>.
+     * Getter for <code>public.auth_info_entity.user_id</code>.
      */
-    public Long getUsersId() {
+    public Long getUserId() {
         return (Long) get(3);
     }
 
@@ -121,7 +121,7 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
 
     @Override
     public Field<Long> field4() {
-        return AuthInfoEntity.AUTH_INFO_ENTITY.USERS_ID;
+        return AuthInfoEntity.AUTH_INFO_ENTITY.USER_ID;
     }
 
     @Override
@@ -141,7 +141,7 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
 
     @Override
     public Long component4() {
-        return getUsersId();
+        return getUserId();
     }
 
     @Override
@@ -161,7 +161,7 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
 
     @Override
     public Long value4() {
-        return getUsersId();
+        return getUserId();
     }
 
     @Override
@@ -184,7 +184,7 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
 
     @Override
     public AuthInfoEntityRecord value4(Long value) {
-        setUsersId(value);
+        setUserId(value);
         return this;
     }
 
@@ -211,13 +211,13 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
     /**
      * Create a detached, initialised AuthInfoEntityRecord
      */
-    public AuthInfoEntityRecord(Long id, String login, String password, Long usersId) {
+    public AuthInfoEntityRecord(Long id, String login, String password, Long userId) {
         super(AuthInfoEntity.AUTH_INFO_ENTITY);
 
         setId(id);
         setLogin(login);
         setPassword(password);
-        setUsersId(usersId);
+        setUserId(userId);
     }
 
     /**
@@ -230,7 +230,7 @@ public class AuthInfoEntityRecord extends UpdatableRecordImpl<AuthInfoEntityReco
             setId(value.getId());
             setLogin(value.getLogin());
             setPassword(value.getPassword());
-            setUsersId(value.getUsersId());
+            setUserId(value.getUserId());
         }
     }
 }

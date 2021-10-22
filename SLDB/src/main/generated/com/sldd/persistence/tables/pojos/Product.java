@@ -19,6 +19,7 @@ public class Product implements Serializable {
     private final String  category;
     private final String  name;
     private final Integer primeCost;
+    private final Long    producerId;
     private final String  type;
 
     public Product(Product value) {
@@ -26,6 +27,7 @@ public class Product implements Serializable {
         this.category = value.category;
         this.name = value.name;
         this.primeCost = value.primeCost;
+        this.producerId = value.producerId;
         this.type = value.type;
     }
 
@@ -34,12 +36,14 @@ public class Product implements Serializable {
         String  category,
         String  name,
         Integer primeCost,
+        Long    producerId,
         String  type
     ) {
         this.id = id;
         this.category = category;
         this.name = name;
         this.primeCost = primeCost;
+        this.producerId = producerId;
         this.type = type;
     }
 
@@ -69,6 +73,13 @@ public class Product implements Serializable {
      */
     public Integer getPrimeCost() {
         return this.primeCost;
+    }
+
+    /**
+     * Getter for <code>public.product.producer_id</code>.
+     */
+    public Long getProducerId() {
+        return this.producerId;
     }
 
     /**
@@ -111,6 +122,12 @@ public class Product implements Serializable {
         }
         else if (!primeCost.equals(other.primeCost))
             return false;
+        if (producerId == null) {
+            if (other.producerId != null)
+                return false;
+        }
+        else if (!producerId.equals(other.producerId))
+            return false;
         if (type == null) {
             if (other.type != null)
                 return false;
@@ -128,6 +145,7 @@ public class Product implements Serializable {
         result = prime * result + ((this.category == null) ? 0 : this.category.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.primeCost == null) ? 0 : this.primeCost.hashCode());
+        result = prime * result + ((this.producerId == null) ? 0 : this.producerId.hashCode());
         result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
         return result;
     }
@@ -140,6 +158,7 @@ public class Product implements Serializable {
         sb.append(", ").append(category);
         sb.append(", ").append(name);
         sb.append(", ").append(primeCost);
+        sb.append(", ").append(producerId);
         sb.append(", ").append(type);
 
         sb.append(")");

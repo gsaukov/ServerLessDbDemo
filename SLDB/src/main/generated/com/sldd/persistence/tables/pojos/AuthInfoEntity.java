@@ -18,25 +18,25 @@ public class AuthInfoEntity implements Serializable {
     private final Long   id;
     private final String login;
     private final String password;
-    private final Long   usersId;
+    private final Long   userId;
 
     public AuthInfoEntity(AuthInfoEntity value) {
         this.id = value.id;
         this.login = value.login;
         this.password = value.password;
-        this.usersId = value.usersId;
+        this.userId = value.userId;
     }
 
     public AuthInfoEntity(
         Long   id,
         String login,
         String password,
-        Long   usersId
+        Long   userId
     ) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.usersId = usersId;
+        this.userId = userId;
     }
 
     /**
@@ -61,10 +61,10 @@ public class AuthInfoEntity implements Serializable {
     }
 
     /**
-     * Getter for <code>public.auth_info_entity.users_id</code>.
+     * Getter for <code>public.auth_info_entity.user_id</code>.
      */
-    public Long getUsersId() {
-        return this.usersId;
+    public Long getUserId() {
+        return this.userId;
     }
 
     @Override
@@ -94,11 +94,11 @@ public class AuthInfoEntity implements Serializable {
         }
         else if (!password.equals(other.password))
             return false;
-        if (usersId == null) {
-            if (other.usersId != null)
+        if (userId == null) {
+            if (other.userId != null)
                 return false;
         }
-        else if (!usersId.equals(other.usersId))
+        else if (!userId.equals(other.userId))
             return false;
         return true;
     }
@@ -110,7 +110,7 @@ public class AuthInfoEntity implements Serializable {
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.login == null) ? 0 : this.login.hashCode());
         result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
-        result = prime * result + ((this.usersId == null) ? 0 : this.usersId.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
         return result;
     }
 
@@ -121,7 +121,7 @@ public class AuthInfoEntity implements Serializable {
         sb.append(id);
         sb.append(", ").append(login);
         sb.append(", ").append(password);
-        sb.append(", ").append(usersId);
+        sb.append(", ").append(userId);
 
         sb.append(")");
         return sb.toString();
