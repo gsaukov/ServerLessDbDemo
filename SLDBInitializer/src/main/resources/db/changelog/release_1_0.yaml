@@ -73,6 +73,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: PHONE
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
                   name: DISCOUNT
                   type: INT
                   constraints:
@@ -80,11 +85,6 @@ databaseChangeLog:
               - column:
                   name: INFO
                   type: varchar(512)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: PHONE
-                  type: varchar(40)
                   constraints:
                     nullable: false
               - column:
@@ -205,15 +205,8 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: QUANTITY
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: SELL_COST
-                  type: int
-                  constraints:
-                    nullable: false
+                  name: PRODUCT_DESCRIPTION
+                  type: JSONB
               - column:
                   name: PRODUCT_ID
                   type: BIGINT
@@ -262,6 +255,11 @@ databaseChangeLog:
                     unique: true
                     nullable: false
               - column:
+                  name: PHONE
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
                   name: FULL_NAME
                   type: varchar(255)
                   constraints:
@@ -273,19 +271,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_USER_ACCOUNT_ID
                     references: ACCOUNTS (ID)
-              - column:
-                  name: ROLE_ID
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_USER_ROLE_ID
-                    references: ROLE (ID)
-        - createIndex:
-            indexName: IDX_USER_ROLE_ID
-            tableName: USERS
-            columns:
-              - column:
-                  name: ROLE_ID
         - createIndex:
             indexName: IDX_USERS_ACCOUNT_ID
             tableName: USERS
@@ -311,6 +296,19 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_USERS_PRODUCERS_PRODUCER_ID
                     references: PRODUCER (ID)
+              - column:
+                  name: ROLE_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_USERS_PRODUCERS_ROLE_ID
+                    references: ROLE (ID)
+        - createIndex:
+            indexName: IDX_USERS_PRODUCERS_ROLE_ID
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: ROLE_ID
         - createIndex:
             indexName: IDX_USERS_PRODUCERS_PRODUCERS_ID
             tableName: USERS_PRODUCERS
@@ -428,7 +426,7 @@ databaseChangeLog:
                     foreignKeyName: FK_ORDER_TRANSACTION_ID
                     references: TRANSACTIONS (ID)
               - column:
-                  name: COST
+                  name: TOTAL_COST
                   type: BIGINT
                   constraints:
                     nullable: false
@@ -485,6 +483,21 @@ databaseChangeLog:
                     unique: true
                     foreignKeyName: FK_ORDERS_PRODUCTS_PRODUCT_ID
                     references: PRODUCT (ID)
+              - column:
+                  name: QUANTITY
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PRODUCT_COST
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  type: BIGINT
+                  constraints:
+                    nullable: false
         - createIndex:
             indexName: IDX_ORDERS_PRODUCTS_ORDERS_ID
             tableName: ORDERS_PRODUCTS
