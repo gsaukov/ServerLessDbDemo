@@ -303,6 +303,10 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: FK_USERS_PRODUCERS_ROLE_ID
                     references: ROLE (ID)
+        - addUniqueConstraint:
+            constraintName: UNQ_USER_ID_PRODUCER_ID
+            tableName: USERS_PRODUCERS
+            columnNames: USER_ID, PRODUCER_ID
         - createIndex:
             indexName: IDX_USERS_PRODUCERS_ROLE_ID
             tableName: USERS_PRODUCERS
