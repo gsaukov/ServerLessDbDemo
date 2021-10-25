@@ -1,28 +1,10 @@
 databaseChangeLog:
 
   - changeSet:
-      id: baseInserts
+      id: insertRoles01
       author: gsaukov
       changes:
         - insert:
-            tableName: ACCOUNTS
-            columns:
-              - column:
-                  name: ID
-                  value: 1
-              - column:
-                  name: ACCOUNT_NUMBER
-                  value: 7453872364872
-              - column:
-                  name: AMOUNT
-                  value: 100000.00
-              - column:
-                  name: OPENING_DATE
-                  valueDate: CURRENT_TIMESTAMP()
-              - column:
-                  name: VALIDITY_PERIOD
-                  valueDate: CURRENT_TIMESTAMP() + interval '1 year'
-        - insert:
             tableName: ROLE
             columns:
               - column:
@@ -30,7 +12,7 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: NAME
-                  value: "USER"
+                  value: "AGENT"
         - insert:
             tableName: ROLE
             columns:
@@ -39,7 +21,72 @@ databaseChangeLog:
                   value: 2
               - column:
                   name: NAME
-                  value: "ADMIN"
+                  value: "MANAGER"
+        - insert:
+            tableName: ROLE
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: NAME
+                  value: "REVIEWER"
+        - insert:
+            tableName: ROLE
+            columns:
+              - column:
+                  name: ID
+                  value: 4
+              - column:
+                  name: NAME
+                  value: "APPROVER"
+
+  - changeSet:
+      id: insertProducers01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: PRODUCER
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: TYPE
+                  value: "FACTORY"
+        - insert:
+            tableName: PRODUCER
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: TYPE
+                  value: "FACTORY"
+        - insert:
+            tableName: PRODUCER
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: TYPE
+                  value: "COMPANY"
+        - insert:
+            tableName: PRODUCER
+            columns:
+              - column:
+                  name: ID
+                  value: 4
+              - column:
+                  name: TYPE
+                  value: "COMPANY"
+
+
+  - changeSet:
+      id: insertFactories01
+      author: gsaukov
+      changes:
         - insert:
             tableName: FACTORY
             columns:
@@ -47,11 +94,23 @@ databaseChangeLog:
                   name: ID
                   value: 1
               - column:
+                  name: NAME
+                  value: "Big Factory"
+              - column:
+                  name: ADDRESS
+                  value: "Somewhere there"
+              - column:
                   name: PHONE
-                  value: "+111111111111111"
+                  value: "+34 838843246"
               - column:
                   name: POSITION
-                  value: "CEO"
+                  value: "Absolute"
+              - column:
+                  name: INDUSTRY
+                  value: "Machinery"
+              - column:
+                  name: PRODUCER_ID
+                  value: 1
         - insert:
             tableName: FACTORY
             columns:
@@ -59,11 +118,28 @@ databaseChangeLog:
                   name: ID
                   value: 2
               - column:
+                  name: NAME
+                  value: "Small Factory"
+              - column:
+                  name: ADDRESS
+                  value: "Not here"
+              - column:
                   name: PHONE
-                  value: "+1111111111111111"
+                  value: "+7 (394) 78911"
               - column:
                   name: POSITION
-                  value: "PRODUCTion manager"
+                  value: "Relative"
+              - column:
+                  name: INDUSTRY
+                  value: "Chemical"
+              - column:
+                  name: PRODUCER_ID
+                  value: 2
+
+  - changeSet:
+      id: insertCompanies01
+      author: gsaukov
+      changes:
         - insert:
             tableName: COMPANY
             columns:
@@ -71,176 +147,44 @@ databaseChangeLog:
                   name: ID
                   value: 1
               - column:
-                  name: COMPANY
-                  value: "Some company"
+                  name: NAME
+                  value: "Big company"
               - column:
-                  name: DISCOUNT
-                  value: 10
-              - column:
-                  name: INFO
-                  value: "Sales"
+                  name: ADDRESS
+                  value: "In Germany"
               - column:
                   name: PHONE
-                  value: "+1111111111111111"
-        - insert:
-            tableName: USER_PRODUCER_RELATION
-            columns:
+                  value: "+49 1574443"
               - column:
-                  name: FACTORY_ID
-                  value: 1
-        - insert:
-            tableName: USER_PRODUCER_RELATION
-            columns:
+                  name: DISCOUNT
+                  value: 20
               - column:
-                  name: FACTORY_ID
-                  value: 2
-        - insert:
-            tableName: USER_PRODUCER_RELATION
-            columns:
+                  name: INFO
+                  value: "Not that bad company"
               - column:
-                  name: COMPANY_ID
-                  value: 1
-        - insert:
-            tableName: USER_DESCRIPTION
-            columns:
-              - column:
-                  name: USER_PRODUCER_RELATION_ID
-                  value: 1
-              - column:
-                  name: ROLE_ID
-                  value: 2
-        - insert:
-            tableName: USER_DESCRIPTION
-            columns:
-              - column:
-                  name: USER_PRODUCER_RELATION_ID
-                  value: 2
-              - column:
-                  name: ROLE_ID
-                  value: 2
-        - insert:
-            tableName: USER_DESCRIPTION
-            columns:
-              - column:
-                  name: USER_PRODUCER_RELATION_ID
-                  value: 3
-              - column:
-                  name: ROLE_ID
-                  value: 1
-        - insert:
-            tableName: USERS
-            columns:
-              - column:
-                  name: EMAIL
-                  value: "gs@mail.com"
-              - column:
-                  name: FULL_NAME
-                  value: "G S"
-              - column:
-                  name: USER_DESCRIPTION_ID
-                  value: 1
-        - insert:
-            tableName: USERS
-            columns:
-              - column:
-                  name: EMAIL
-                  value: "vs@mail.com"
-              - column:
-                  name: FULL_NAME
-                  value: "V S"
-              - column:
-                  name: USER_DESCRIPTION_ID
-                  value: 2
-        - insert:
-            tableName: USERS
-            columns:
-              - column:
-                  name: EMAIL
-                  value: "ts@mail.com"
-              - column:
-                  name: FULL_NAME
-                  value: "T S"
-              - column:
-                  name: USER_DESCRIPTION_ID
+                  name: PRODUCER_ID
                   value: 3
         - insert:
-            tableName: AUTH_INFO_ENTITY
+            tableName: COMPANY
             columns:
               - column:
-                  name: LOGIN
-                  value: "gs@mail.com"
-              - column:
-                  name: PASSWORD
-                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
-              - column:
-                  name: USERS_ID
-                  value: 1
-        - insert:
-            tableName: AUTH_INFO_ENTITY
-            columns:
-              - column:
-                  name: LOGIN
-                  value: "vs@mail.com"
-              - column:
-                  name: PASSWORD
-                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
-              - column:
-                  name: USERS_ID
-                  value: 2
-        - insert:
-            tableName: AUTH_INFO_ENTITY
-            columns:
-              - column:
-                  name: LOGIN
-                  value: "ts@mail.com"
-              - column:
-                  name: PASSWORD
-                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
-              - column:
-                  name: USERS_ID
-                  value: 3
-        - insert:
-            tableName: PRODUCT
-            columns:
-              - column:
-                  name: CATEGORY
-                  value: "Plate"
-              - column:
-                  name: NAME
-                  value: "Prime"
-              - column:
-                  name: PRIME_COST
+                  name: ID
                   value: 2
               - column:
-                  name: TYPE
-                  value: "Dishware"
-        - insert:
-            tableName: PRODUCT
-            columns:
-              - column:
-                  name: CATEGORY
-                  value: "Spoon"
-              - column:
                   name: NAME
-                  value: "Elite"
+                  value: "Small company"
               - column:
-                  name: PRIME_COST
-                  value: 40
+                  name: ADDRESS
+                  value: "In Austria"
               - column:
-                  name: TYPE
-                  value: "Cutlery"
-        - insert:
-            tableName: PRODUCT
-            columns:
+                  name: PHONE
+                  value: "+8823 328932"
               - column:
-                  name: CATEGORY
-                  value: "Fork"
+                  name: DISCOUNT
+                  value: 5
               - column:
-                  name: NAME
-                  value: "Elite"
+                  name: INFO
+                  value: "Good company"
               - column:
-                  name: PRIME_COST
-                  value: 12
-              - column:
-                  name: TYPE
-                  value: "Cutlery"
+                  name: PRODUCER_ID
+                  value: 4
