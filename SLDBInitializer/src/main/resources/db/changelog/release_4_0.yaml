@@ -1,0 +1,241 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: usersInserts01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: EMAIL
+                  value: "gs@mail.com"
+              - column:
+                  name: FULL_NAME
+                  value: "G S"
+              - column:
+                  name: PHONE
+                  value: +49 937897548
+              - column:
+                  name: ACCOUNT_ID
+                  value: 1
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: EMAIL
+                  value: "vs@mail.com"
+              - column:
+                  name: FULL_NAME
+                  value: "V S"
+              - column:
+                  name: PHONE
+                  value: +49 949495757
+              - column:
+                  name: ACCOUNT_ID
+                  value: 2
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: EMAIL
+                  value: "ts@mail.com"
+              - column:
+                  name: FULL_NAME
+                  value: "T S"
+              - column:
+                  name: PHONE
+                  value: +7 926-948-38-94
+              - column:
+                  name: ACCOUNT_ID
+                  value: 2
+
+  - changeSet:
+      id: authInfoInserts01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: LOGIN
+                  value: "gs@mail.com"
+              - column:
+                  name: PASSWORD
+                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+              - column:
+                  name: USER_ID
+                  value: 1
+        - insert:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: LOGIN
+                  value: "vs@mail.com"
+              - column:
+                  name: PASSWORD
+                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+              - column:
+                  name: USER_ID
+                  value: 2
+        - insert:
+            tableName: AUTH_INFO_ENTITY
+            columns:
+              - column:
+                  name: LOGIN
+                  value: "ts@mail.com"
+              - column:
+                  name: PASSWORD
+                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+              - column:
+                  name: USER_ID
+                  value: 3
+
+  - changeSet:
+      id: usersProducersInserts
+      author: gsaukov
+      changes:
+      #User 1 manager
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 1
+              - column:
+                  name: PRODUCER_ID
+                  value: 1
+              - column:
+                  name: ROLE_ID
+                  value: 2
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 1
+              - column:
+                  name: PRODUCER_ID
+                  value: 2
+              - column:
+                  name: ROLE_ID
+                  value: 2
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 1
+              - column:
+                  name: PRODUCER_ID
+                  value: 3
+              - column:
+                  name: ROLE_ID
+                  value: 2
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 1
+              - column:
+                  name: PRODUCER_ID
+                  value: 4
+              - column:
+                  name: ROLE_ID
+                  value: 2
+        #User 2 agent
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 2
+              - column:
+                  name: PRODUCER_ID
+                  value: 1
+              - column:
+                  name: ROLE_ID
+                  value: 1
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 2
+              - column:
+                  name: PRODUCER_ID
+                  value: 2
+              - column:
+                  name: ROLE_ID
+                  value: 1
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 2
+              - column:
+                  name: PRODUCER_ID
+                  value: 3
+              - column:
+                  name: ROLE_ID
+                  value: 1
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 2
+              - column:
+                  name: PRODUCER_ID
+                  value: 4
+              - column:
+                  name: ROLE_ID
+                  value: 1
+        #User 3 REVIEWER/APPROVER
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 3
+              - column:
+                  name: PRODUCER_ID
+                  value: 1
+              - column:
+                  name: ROLE_ID
+                  value: 3
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 3
+              - column:
+                  name: PRODUCER_ID
+                  value: 2
+              - column:
+                  name: ROLE_ID
+                  value: 3
+        - insert:
+            tableName: USERS_PRODUCERS
+            columns:
+              - column:
+                  name: USER_ID
+                  value: 3
+              - column:
+                  name: PRODUCER_ID
+                  value: 3
+              - column:
+                  name: ROLE_ID
+                  value: 4

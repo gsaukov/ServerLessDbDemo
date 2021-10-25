@@ -6,3 +6,5 @@ databaseChangeLog:
       file: db/changelog/release_2_0.yaml
   - include:
       file: db/changelog/release_3_0.yaml
+  - include:
+      file: db/changelog/release_4_0.yaml
