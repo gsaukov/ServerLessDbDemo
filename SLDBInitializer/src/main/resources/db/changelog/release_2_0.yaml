@@ -21,7 +21,7 @@ databaseChangeLog:
                   valueDate: CURRENT_TIMESTAMP()
               - column:
                   name: VALIDITY_PERIOD
-                  valueDate: CURRENT_TIMESTAMP() + interval '1 year'
+                  valueDate: (NOW() + interval '1 year')
         - insert:
             tableName: ACCOUNTS
             columns:
@@ -39,4 +39,4 @@ databaseChangeLog:
                   valueDate: CURRENT_TIMESTAMP()
               - column:
                   name: VALIDITY_PERIOD
-                  valueDate: CURRENT_TIMESTAMP() + interval '1 year'
+                  valueDate: (NOW() + interval '1 year')
