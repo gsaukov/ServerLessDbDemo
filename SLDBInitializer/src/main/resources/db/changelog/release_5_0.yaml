@@ -94,3 +94,82 @@ databaseChangeLog:
               - column:
                   name: PRODUCER_ID
                   value: 4
+
+  - changeSet:
+      id: productInserts01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: PRODUCT_DESCRIPTION
+                  value: >
+                  {
+                    "productName": "TKSTAR GPS Tracker",
+                    "productPrice": 46.99,
+                    "productDesc": "A small GPS tracker with a long three-month battery life allows you a quick, convenient, and cheap way to keep track of your possessions, from car to suitcase. And for now, you can enjoy 10% off the TKSTAR GPS Tracker, which is a good quality, robust, and reliable device.",
+                    "productKeyFs": [
+                        "Long Battery Life",
+                        "Good Quality",
+                        "Robust GPS Tracker"
+                    ]}
+              - column:
+                  name: PRODUCT_ID
+                  value: 1
+        - insert:
+            tableName: PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: PRODUCT_DESCRIPTION
+                  value: >
+                  {
+                    "productName": "TKSTAR GPS Tracker",
+                    "productPrice": 46.99,
+                    "productDesc": "A small GPS tracker with a long three-month battery life allows you a quick, convenient, and cheap way to keep track of your possessions, from car to suitcase. And for now, you can enjoy 10% off the TKSTAR GPS Tracker, which is a good quality, robust, and reliable device.",
+                    "productKeyFs": [
+                        "Long Battery Life",
+                        "Good Quality",
+                        "Robust GPS Tracker"
+                    ]}
+              - column:
+                  name: PRODUCT_ID
+                  value: 2
+        - insert:
+            tableName: PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: PRODUCT_DESCRIPTION
+                  value: >
+                  {
+                    "productName": "TKSTAR GPS Tracker",
+                    "productPrice": 46.99,
+                    "productDesc": "A small GPS tracker with a long three-month battery life allows you a quick, convenient, and cheap way to keep track of your possessions, from car to suitcase. And for now, you can enjoy 10% off the TKSTAR GPS Tracker, which is a good quality, robust, and reliable device.",
+                    "productKeyFs": [
+                        "Long Battery Life",
+                        "Good Quality",
+                        "Robust GPS Tracker"
+                    ]}
+              - column:
+                  name: PRODUCT_ID
+                  value: 3
+        - insert:
+            tableName: PRODUCT_DETAILS
+            columns:
+              - column:
+                  name: PRODUCT_DESCRIPTION
+                  value: >
+                  {
+                    "productName": "TKSTAR GPS Tracker",
+                    "productPrice": 46.99,
+                    "productDesc": "A small GPS tracker with a long three-month battery life allows you a quick, convenient, and cheap way to keep track of your possessions, from car to suitcase. And for now, you can enjoy 10% off the TKSTAR GPS Tracker, which is a good quality, robust, and reliable device.",
+                    "productKeyFs": [
+                        "Long Battery Life",
+                        "Good Quality",
+                        "Robust GPS Tracker"
+                    ]}
+              - column:
+                  name: PRODUCT_ID
+                  value: 4
+
+
