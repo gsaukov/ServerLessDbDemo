@@ -1,0 +1,96 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: productInserts01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Spoon"
+              - column:
+                  name: NAME
+                  value: "Elite"
+              - column:
+                  name: PRIME_COST
+                  value: 40
+              - column:
+                  name: TYPE
+                  value: "Cutlery"
+              - column:
+                  name: PRODUCER_ID
+                  value: 1
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Fork"
+              - column:
+                  name: NAME
+                  value: "Elite"
+              - column:
+                  name: PRIME_COST
+                  value: 12
+              - column:
+                  name: TYPE
+                  value: "Cutlery"
+              - column:
+                  name: PRODUCER_ID
+                  value: 1
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Knife"
+              - column:
+                  name: NAME
+                  value: "Samurai"
+              - column:
+                  name: PRIME_COST
+                  value: 140
+              - column:
+                  name: TYPE
+                  value: "Cutlery"
+              - column:
+                  name: PRODUCER_ID
+                  value: 2
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Chair"
+              - column:
+                  name: NAME
+                  value: "Boss"
+              - column:
+                  name: PRIME_COST
+                  value: 200
+              - column:
+                  name: TYPE
+                  value: "Furniture"
+              - column:
+                  name: PRODUCER_ID
+                  value: 3
+        - insert:
+            tableName: PRODUCT
+            columns:
+              - column:
+                  name: CATEGORY
+                  value: "Table"
+              - column:
+                  name: NAME
+                  value: "-"
+              - column:
+                  name: PRIME_COST
+                  value: 299
+              - column:
+                  name: TYPE
+                  value: "Furniture"
+              - column:
+                  name: PRODUCER_ID
+                  value: 4
