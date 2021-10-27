@@ -1,6 +1,14 @@
 databaseChangeLog:
 
   - changeSet:
+      id: installUUIDExtension
+      author: gsaukov
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
+
+  - changeSet:
       id: baseSchema
       author: gsaukov
       changes:
@@ -372,6 +380,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: EXTERNAL_ID
+                  type: UUID
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: TRANSACTION_TYPE
                   type: VARCHAR2(255)
                   constraints:
@@ -474,11 +488,11 @@ databaseChangeLog:
             tableName: ORDERS_PRODUCTS
             columns:
               - column:
-                  name: ORDERS_ID
+                  name: ORDER_ID
                   type: BIGINT
                   constraints:
                     nullable: false
-                    foreignKeyName: FK_ORDERS_ID
+                    foreignKeyName: FK_ORDERS_PRODUCTS_ORDER_ID
                     references: ORDERS (ID)
               - column:
                   name: PRODUCT_ID
@@ -503,11 +517,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createIndex:
-            indexName: IDX_ORDERS_PRODUCTS_ORDERS_ID
+            indexName: IDX_ORDERS_PRODUCTS_ORDER_ID
             tableName: ORDERS_PRODUCTS
             columns:
               - column:
-                  name: ORDERS_ID
+                  name: ORDER_ID
         - createIndex:
             indexName: IDX_ORDERS_PRODUCTS_PRODUCT_ID
             tableName: ORDERS_PRODUCTS

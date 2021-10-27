@@ -1,0 +1,83 @@
+databaseChangeLog:
+
+  - property:
+      name: GENERATE_UUID
+      value: uuid_generate_v4()
+      dbms: postgresql
+
+  - changeSet:
+      id: ordersProductsInserts01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: TRANSACTIONS
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: EXTERNAL_ID
+                  valueComputed: ${GENERATE_UUID}
+              - column:
+                  name: TRANSACTION_TYPE
+                  value: SEPA
+              - column:
+                  name: AMOUNT
+                  value: 1882.99
+              - column:
+                  name: DATE_TIME
+                  valueDate: CURRENT_TIMESTAMP()
+              - column:
+                  name: FROM_ACCOUNT_ID
+                  value: 1
+              - column:
+                  name: TO_ACCOUNT_ID
+                  value: 2
+        - insert:
+            tableName: TRANSACTIONS
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: EXTERNAL_ID
+                  valueComputed: ${GENERATE_UUID}
+              - column:
+                  name: TRANSACTION_TYPE
+                  value: SEPA
+              - column:
+                  name: AMOUNT
+                  value: 6455.00
+              - column:
+                  name: DATE_TIME
+                  valueDate: CURRENT_TIMESTAMP()
+              - column:
+                  name: FROM_ACCOUNT_ID
+                  value: 2
+              - column:
+                  name: TO_ACCOUNT_ID
+                  value: 1
+        - insert:
+            tableName: TRANSACTIONS
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: EXTERNAL_ID
+                  valueComputed: ${GENERATE_UUID}
+              - column:
+                  name: TRANSACTION_TYPE
+                  value: DIRECT
+              - column:
+                  name: AMOUNT
+                  value: 57622.40
+              - column:
+                  name: DATE_TIME
+                  valueDate: CURRENT_TIMESTAMP()
+              - column:
+                  name: FROM_ACCOUNT_ID
+                  value: 2
+              - column:
+                  name: TO_ACCOUNT_ID
+                  value: 1
