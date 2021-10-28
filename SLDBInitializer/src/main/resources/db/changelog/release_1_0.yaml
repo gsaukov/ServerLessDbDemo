@@ -501,19 +501,21 @@ databaseChangeLog:
                     references: PRODUCT (ID)
               - column:
                   name: QUANTITY
-                  type: BIGINT
+                  type: NUMBER
                   constraints:
                     nullable: false
               - column:
                   name: PRODUCT_COST
-                  type: BIGINT
+                  type: NUMBER
                   constraints:
                     nullable: false
               - column:
                   name: DISCOUNT_AMOUNT
-                  type: BIGINT
-                  constraints:
-                    nullable: false
+                  type: NUMBER
+        - addUniqueConstraint:
+            constraintName: UNQ_ORDER_ID_PRODUCT_ID
+            tableName: ORDERS_PRODUCTS
+            columnNames: ORDER_ID, PRODUCT_ID
         - createIndex:
             indexName: IDX_ORDERS_PRODUCTS_ORDER_ID
             tableName: ORDERS_PRODUCTS

@@ -41,9 +41,6 @@ databaseChangeLog:
                   name: TOTAL_COST
                   value: 6800.00
               - column:
-                  name: END_DATE
-                  valueDate: (NOW() + interval '30 days')
-              - column:
                   name: START_DATE
                   valueDate: CURRENT_TIMESTAMP()
               - column:
@@ -76,3 +73,116 @@ databaseChangeLog:
               - column:
                   name: USER_ID
                   value: 1
+
+  - changeSet:
+      id: ordersProductsInserts01
+      author: gsaukov
+      changes:
+        - insert:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDER_ID
+                  value: 1
+              - column:
+                  name: PRODUCT_ID
+                  value: 2
+              - column:
+                  name: QUANTITY
+                  value: 70
+              - column:
+                  name: PRODUCT_COST
+                  value: 120.55
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  value: 0
+        - insert:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDER_ID
+                  value: 1
+              - column:
+                  name: PRODUCT_ID
+                  value: 3
+              - column:
+                  name: QUANTITY
+                  value: 22
+              - column:
+                  name: PRODUCT_COST
+                  value: 343.82
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  value: 0
+        - insert:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDER_ID
+                  value: 1
+              - column:
+                  name: PRODUCT_ID
+                  value: 4
+              - column:
+                  name: QUANTITY
+                  value: 2
+              - column:
+                  name: PRODUCT_COST
+                  value: 126.35
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  value: 23.65
+        - insert:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDER_ID
+                  value: 2
+              - column:
+                  name: PRODUCT_ID
+                  value: 1
+              - column:
+                  name: QUANTITY
+                  value: 25
+              - column:
+                  name: PRODUCT_COST
+                  value: 1500.00
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  value: 0
+        - insert:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDER_ID
+                  value: 2
+              - column:
+                  name: PRODUCT_ID
+                  value: 4
+              - column:
+                  name: QUANTITY
+                  value: 5
+              - column:
+                  name: PRODUCT_COST
+                  value: 6873.44
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  value: 0
+        - insert:
+            tableName: ORDERS_PRODUCTS
+            columns:
+              - column:
+                  name: ORDER_ID
+                  value: 3
+              - column:
+                  name: PRODUCT_ID
+                  value: 3
+              - column:
+                  name: QUANTITY
+                  value: 8700
+              - column:
+                  name: PRODUCT_COST
+                  value: 35000.00
+              - column:
+                  name: DISCOUNT_AMOUNT
+                  value: 4883.55
