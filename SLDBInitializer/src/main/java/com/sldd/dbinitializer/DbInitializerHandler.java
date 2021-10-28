@@ -38,7 +38,7 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
             return Status.FAILED;
         } finally {
             try {
-                if (!conn.isClosed() || conn != null) {
+                if (conn != null && !conn.isClosed()) {
                     conn.close();
                 }
             } catch (Exception e) {

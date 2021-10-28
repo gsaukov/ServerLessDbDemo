@@ -446,14 +446,12 @@ databaseChangeLog:
                     references: TRANSACTIONS (ID)
               - column:
                   name: TOTAL_COST
-                  type: BIGINT
+                  type: NUMBER
                   constraints:
                     nullable: false
               - column:
                   name: END_DATE
                   type: TIMESTAMP
-                  constraints:
-                    nullable: false
               - column:
                   name: START_DATE
                   type: TIMESTAMP
