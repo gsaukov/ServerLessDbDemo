@@ -90,4 +90,11 @@ public class ProductDetailsDao extends DAOImpl<ProductDetailsRecord, com.sldd.pe
     public List<com.sldd.persistence.tables.pojos.ProductDetails> fetchByProductId(Long... values) {
         return fetch(ProductDetails.PRODUCT_DETAILS.PRODUCT_ID, values);
     }
+
+    /**
+     * Fetch a unique record that has <code>product_id = value</code>
+     */
+    public com.sldd.persistence.tables.pojos.ProductDetails fetchOneByProductId(Long value) {
+        return fetchOne(ProductDetails.PRODUCT_DETAILS.PRODUCT_ID, value);
+    }
 }

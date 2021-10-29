@@ -5,6 +5,7 @@ package com.sldd.persistence.tables.pojos;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 /**
@@ -15,14 +16,14 @@ public class OrdersProducts implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long ordersId;
-    private final Long productId;
-    private final Long quantity;
-    private final Long productCost;
-    private final Long discountAmount;
+    private final Long       orderId;
+    private final Long       productId;
+    private final BigDecimal quantity;
+    private final BigDecimal productCost;
+    private final BigDecimal discountAmount;
 
     public OrdersProducts(OrdersProducts value) {
-        this.ordersId = value.ordersId;
+        this.orderId = value.orderId;
         this.productId = value.productId;
         this.quantity = value.quantity;
         this.productCost = value.productCost;
@@ -30,13 +31,13 @@ public class OrdersProducts implements Serializable {
     }
 
     public OrdersProducts(
-        Long ordersId,
-        Long productId,
-        Long quantity,
-        Long productCost,
-        Long discountAmount
+        Long       orderId,
+        Long       productId,
+        BigDecimal quantity,
+        BigDecimal productCost,
+        BigDecimal discountAmount
     ) {
-        this.ordersId = ordersId;
+        this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
         this.productCost = productCost;
@@ -44,10 +45,10 @@ public class OrdersProducts implements Serializable {
     }
 
     /**
-     * Getter for <code>public.orders_products.orders_id</code>.
+     * Getter for <code>public.orders_products.order_id</code>.
      */
-    public Long getOrdersId() {
-        return this.ordersId;
+    public Long getOrderId() {
+        return this.orderId;
     }
 
     /**
@@ -60,21 +61,21 @@ public class OrdersProducts implements Serializable {
     /**
      * Getter for <code>public.orders_products.quantity</code>.
      */
-    public Long getQuantity() {
+    public BigDecimal getQuantity() {
         return this.quantity;
     }
 
     /**
      * Getter for <code>public.orders_products.product_cost</code>.
      */
-    public Long getProductCost() {
+    public BigDecimal getProductCost() {
         return this.productCost;
     }
 
     /**
      * Getter for <code>public.orders_products.discount_amount</code>.
      */
-    public Long getDiscountAmount() {
+    public BigDecimal getDiscountAmount() {
         return this.discountAmount;
     }
 
@@ -87,11 +88,11 @@ public class OrdersProducts implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final OrdersProducts other = (OrdersProducts) obj;
-        if (ordersId == null) {
-            if (other.ordersId != null)
+        if (orderId == null) {
+            if (other.orderId != null)
                 return false;
         }
-        else if (!ordersId.equals(other.ordersId))
+        else if (!orderId.equals(other.orderId))
             return false;
         if (productId == null) {
             if (other.productId != null)
@@ -124,7 +125,7 @@ public class OrdersProducts implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.ordersId == null) ? 0 : this.ordersId.hashCode());
+        result = prime * result + ((this.orderId == null) ? 0 : this.orderId.hashCode());
         result = prime * result + ((this.productId == null) ? 0 : this.productId.hashCode());
         result = prime * result + ((this.quantity == null) ? 0 : this.quantity.hashCode());
         result = prime * result + ((this.productCost == null) ? 0 : this.productCost.hashCode());
@@ -136,7 +137,7 @@ public class OrdersProducts implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("OrdersProducts (");
 
-        sb.append(ordersId);
+        sb.append(orderId);
         sb.append(", ").append(productId);
         sb.append(", ").append(quantity);
         sb.append(", ").append(productCost);

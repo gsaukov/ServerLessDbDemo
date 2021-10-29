@@ -7,6 +7,9 @@ package com.sldd.persistence.tables;
 import com.sldd.persistence.Public;
 import com.sldd.persistence.tables.records.UsersProducersRecord;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
@@ -15,7 +18,9 @@ import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -93,6 +98,13 @@ public class UsersProducers extends TableImpl<UsersProducersRecord> {
     @Override
     public Identity<UsersProducersRecord, Long> getIdentity() {
         return (Identity<UsersProducersRecord, Long>) super.getIdentity();
+    }
+
+    @Override
+    public List<UniqueKey<UsersProducersRecord>> getUniqueKeys() {
+        return Arrays.asList(
+            Internal.createUniqueKey(UsersProducers.USERS_PRODUCERS, DSL.name("unq_user_id_producer_id"), new TableField[] { UsersProducers.USERS_PRODUCERS.USER_ID, UsersProducers.USERS_PRODUCERS.PRODUCER_ID }, true)
+        );
     }
 
     @Override

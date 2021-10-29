@@ -8,8 +8,9 @@ import com.sldd.persistence.tables.Transactions;
 import com.sldd.persistence.tables.records.TransactionsRecord;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -63,6 +64,28 @@ public class TransactionsDao extends DAOImpl<TransactionsRecord, com.sldd.persis
     }
 
     /**
+     * Fetch records that have <code>external_id BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Transactions> fetchRangeOfExternalId(UUID lowerInclusive, UUID upperInclusive) {
+        return fetchRange(Transactions.TRANSACTIONS.EXTERNAL_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>external_id IN (values)</code>
+     */
+    public List<com.sldd.persistence.tables.pojos.Transactions> fetchByExternalId(UUID... values) {
+        return fetch(Transactions.TRANSACTIONS.EXTERNAL_ID, values);
+    }
+
+    /**
+     * Fetch a unique record that has <code>external_id = value</code>
+     */
+    public com.sldd.persistence.tables.pojos.Transactions fetchOneByExternalId(UUID value) {
+        return fetchOne(Transactions.TRANSACTIONS.EXTERNAL_ID, value);
+    }
+
+    /**
      * Fetch records that have <code>transaction_type BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -96,14 +119,14 @@ public class TransactionsDao extends DAOImpl<TransactionsRecord, com.sldd.persis
      * Fetch records that have <code>date_time BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Transactions> fetchRangeOfDateTime(LocalDate lowerInclusive, LocalDate upperInclusive) {
+    public List<com.sldd.persistence.tables.pojos.Transactions> fetchRangeOfDateTime(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Transactions.TRANSACTIONS.DATE_TIME, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>date_time IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Transactions> fetchByDateTime(LocalDate... values) {
+    public List<com.sldd.persistence.tables.pojos.Transactions> fetchByDateTime(LocalDateTime... values) {
         return fetch(Transactions.TRANSACTIONS.DATE_TIME, values);
     }
 

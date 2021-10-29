@@ -5,7 +5,8 @@ package com.sldd.persistence.tables.pojos;
 
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 /**
@@ -16,13 +17,13 @@ public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long      id;
-    private final Long      transactionId;
-    private final Long      totalCost;
-    private final LocalDate endDate;
-    private final LocalDate startDate;
-    private final String    status;
-    private final Long      userId;
+    private final Long          id;
+    private final Long          transactionId;
+    private final BigDecimal    totalCost;
+    private final LocalDateTime endDate;
+    private final LocalDateTime startDate;
+    private final String        status;
+    private final Long          userId;
 
     public Orders(Orders value) {
         this.id = value.id;
@@ -35,13 +36,13 @@ public class Orders implements Serializable {
     }
 
     public Orders(
-        Long      id,
-        Long      transactionId,
-        Long      totalCost,
-        LocalDate endDate,
-        LocalDate startDate,
-        String    status,
-        Long      userId
+        Long          id,
+        Long          transactionId,
+        BigDecimal    totalCost,
+        LocalDateTime endDate,
+        LocalDateTime startDate,
+        String        status,
+        Long          userId
     ) {
         this.id = id;
         this.transactionId = transactionId;
@@ -69,21 +70,21 @@ public class Orders implements Serializable {
     /**
      * Getter for <code>public.orders.total_cost</code>.
      */
-    public Long getTotalCost() {
+    public BigDecimal getTotalCost() {
         return this.totalCost;
     }
 
     /**
      * Getter for <code>public.orders.end_date</code>.
      */
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return this.endDate;
     }
 
     /**
      * Getter for <code>public.orders.start_date</code>.
      */
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return this.startDate;
     }
 

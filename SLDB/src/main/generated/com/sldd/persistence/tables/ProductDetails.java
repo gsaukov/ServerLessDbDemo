@@ -7,6 +7,9 @@ package com.sldd.persistence.tables;
 import com.sldd.persistence.Public;
 import com.sldd.persistence.tables.records.ProductDetailsRecord;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.JSONB;
@@ -101,6 +104,13 @@ public class ProductDetails extends TableImpl<ProductDetailsRecord> {
     @Override
     public UniqueKey<ProductDetailsRecord> getPrimaryKey() {
         return Internal.createUniqueKey(ProductDetails.PRODUCT_DETAILS, DSL.name("PRODUCT_DETAILS_pkey"), new TableField[] { ProductDetails.PRODUCT_DETAILS.ID }, true);
+    }
+
+    @Override
+    public List<UniqueKey<ProductDetailsRecord>> getUniqueKeys() {
+        return Arrays.asList(
+            Internal.createUniqueKey(ProductDetails.PRODUCT_DETAILS, DSL.name("product_details_product_id_key"), new TableField[] { ProductDetails.PRODUCT_DETAILS.PRODUCT_ID }, true)
+        );
     }
 
     @Override

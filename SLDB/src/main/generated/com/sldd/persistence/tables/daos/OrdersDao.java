@@ -7,7 +7,8 @@ package com.sldd.persistence.tables.daos;
 import com.sldd.persistence.tables.Orders;
 import com.sldd.persistence.tables.records.OrdersRecord;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.jooq.Configuration;
@@ -80,14 +81,14 @@ public class OrdersDao extends DAOImpl<OrdersRecord, com.sldd.persistence.tables
      * Fetch records that have <code>total_cost BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfTotalCost(Long lowerInclusive, Long upperInclusive) {
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfTotalCost(BigDecimal lowerInclusive, BigDecimal upperInclusive) {
         return fetchRange(Orders.ORDERS.TOTAL_COST, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>total_cost IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchByTotalCost(Long... values) {
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchByTotalCost(BigDecimal... values) {
         return fetch(Orders.ORDERS.TOTAL_COST, values);
     }
 
@@ -95,14 +96,14 @@ public class OrdersDao extends DAOImpl<OrdersRecord, com.sldd.persistence.tables
      * Fetch records that have <code>end_date BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfEndDate(LocalDate lowerInclusive, LocalDate upperInclusive) {
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfEndDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Orders.ORDERS.END_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>end_date IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchByEndDate(LocalDate... values) {
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchByEndDate(LocalDateTime... values) {
         return fetch(Orders.ORDERS.END_DATE, values);
     }
 
@@ -110,14 +111,14 @@ public class OrdersDao extends DAOImpl<OrdersRecord, com.sldd.persistence.tables
      * Fetch records that have <code>start_date BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfStartDate(LocalDate lowerInclusive, LocalDate upperInclusive) {
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchRangeOfStartDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Orders.ORDERS.START_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>start_date IN (values)</code>
      */
-    public List<com.sldd.persistence.tables.pojos.Orders> fetchByStartDate(LocalDate... values) {
+    public List<com.sldd.persistence.tables.pojos.Orders> fetchByStartDate(LocalDateTime... values) {
         return fetch(Orders.ORDERS.START_DATE, values);
     }
 

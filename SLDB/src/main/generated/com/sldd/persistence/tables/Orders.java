@@ -7,7 +7,8 @@ package com.sldd.persistence.tables;
 import com.sldd.persistence.Public;
 import com.sldd.persistence.tables.records.OrdersRecord;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Identity;
@@ -58,17 +59,17 @@ public class Orders extends TableImpl<OrdersRecord> {
     /**
      * The column <code>public.orders.total_cost</code>.
      */
-    public final TableField<OrdersRecord, Long> TOTAL_COST = createField(DSL.name("total_cost"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersRecord, BigDecimal> TOTAL_COST = createField(DSL.name("total_cost"), SQLDataType.NUMERIC.nullable(false), this, "");
 
     /**
      * The column <code>public.orders.end_date</code>.
      */
-    public final TableField<OrdersRecord, LocalDate> END_DATE = createField(DSL.name("end_date"), SQLDataType.LOCALDATE.nullable(false), this, "");
+    public final TableField<OrdersRecord, LocalDateTime> END_DATE = createField(DSL.name("end_date"), SQLDataType.LOCALDATETIME(6), this, "");
 
     /**
      * The column <code>public.orders.start_date</code>.
      */
-    public final TableField<OrdersRecord, LocalDate> START_DATE = createField(DSL.name("start_date"), SQLDataType.LOCALDATE.nullable(false), this, "");
+    public final TableField<OrdersRecord, LocalDateTime> START_DATE = createField(DSL.name("start_date"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
 
     /**
      * The column <code>public.orders.status</code>.
@@ -155,7 +156,7 @@ public class Orders extends TableImpl<OrdersRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Long, Long, Long, LocalDate, LocalDate, String, Long> fieldsRow() {
+    public Row7<Long, Long, BigDecimal, LocalDateTime, LocalDateTime, String, Long> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 }

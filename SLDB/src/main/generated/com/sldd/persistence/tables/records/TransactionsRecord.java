@@ -7,12 +7,13 @@ package com.sldd.persistence.tables.records;
 import com.sldd.persistence.tables.Transactions;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record6;
-import org.jooq.Row6;
+import org.jooq.Record7;
+import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -20,7 +21,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * The table <code>public.transactions</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> implements Record6<Long, String, BigDecimal, LocalDate, Long, Long> {
+public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> implements Record7<Long, UUID, String, BigDecimal, LocalDateTime, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,10 +41,25 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     }
 
     /**
+     * Setter for <code>public.transactions.external_id</code>.
+     */
+    public TransactionsRecord setExternalId(UUID value) {
+        set(1, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.transactions.external_id</code>.
+     */
+    public UUID getExternalId() {
+        return (UUID) get(1);
+    }
+
+    /**
      * Setter for <code>public.transactions.transaction_type</code>.
      */
     public TransactionsRecord setTransactionType(String value) {
-        set(1, value);
+        set(2, value);
         return this;
     }
 
@@ -51,14 +67,14 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
      * Getter for <code>public.transactions.transaction_type</code>.
      */
     public String getTransactionType() {
-        return (String) get(1);
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>public.transactions.amount</code>.
      */
     public TransactionsRecord setAmount(BigDecimal value) {
-        set(2, value);
+        set(3, value);
         return this;
     }
 
@@ -66,29 +82,29 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
      * Getter for <code>public.transactions.amount</code>.
      */
     public BigDecimal getAmount() {
-        return (BigDecimal) get(2);
+        return (BigDecimal) get(3);
     }
 
     /**
      * Setter for <code>public.transactions.date_time</code>.
      */
-    public TransactionsRecord setDateTime(LocalDate value) {
-        set(3, value);
+    public TransactionsRecord setDateTime(LocalDateTime value) {
+        set(4, value);
         return this;
     }
 
     /**
      * Getter for <code>public.transactions.date_time</code>.
      */
-    public LocalDate getDateTime() {
-        return (LocalDate) get(3);
+    public LocalDateTime getDateTime() {
+        return (LocalDateTime) get(4);
     }
 
     /**
      * Setter for <code>public.transactions.from_account_id</code>.
      */
     public TransactionsRecord setFromAccountId(Long value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -96,14 +112,14 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
      * Getter for <code>public.transactions.from_account_id</code>.
      */
     public Long getFromAccountId() {
-        return (Long) get(4);
+        return (Long) get(5);
     }
 
     /**
      * Setter for <code>public.transactions.to_account_id</code>.
      */
     public TransactionsRecord setToAccountId(Long value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -111,7 +127,7 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
      * Getter for <code>public.transactions.to_account_id</code>.
      */
     public Long getToAccountId() {
-        return (Long) get(5);
+        return (Long) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -124,17 +140,17 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Record7 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, String, BigDecimal, LocalDate, Long, Long> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, UUID, String, BigDecimal, LocalDateTime, Long, Long> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     @Override
-    public Row6<Long, String, BigDecimal, LocalDate, Long, Long> valuesRow() {
-        return (Row6) super.valuesRow();
+    public Row7<Long, UUID, String, BigDecimal, LocalDateTime, Long, Long> valuesRow() {
+        return (Row7) super.valuesRow();
     }
 
     @Override
@@ -143,27 +159,32 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     }
 
     @Override
-    public Field<String> field2() {
+    public Field<UUID> field2() {
+        return Transactions.TRANSACTIONS.EXTERNAL_ID;
+    }
+
+    @Override
+    public Field<String> field3() {
         return Transactions.TRANSACTIONS.TRANSACTION_TYPE;
     }
 
     @Override
-    public Field<BigDecimal> field3() {
+    public Field<BigDecimal> field4() {
         return Transactions.TRANSACTIONS.AMOUNT;
     }
 
     @Override
-    public Field<LocalDate> field4() {
+    public Field<LocalDateTime> field5() {
         return Transactions.TRANSACTIONS.DATE_TIME;
     }
 
     @Override
-    public Field<Long> field5() {
+    public Field<Long> field6() {
         return Transactions.TRANSACTIONS.FROM_ACCOUNT_ID;
     }
 
     @Override
-    public Field<Long> field6() {
+    public Field<Long> field7() {
         return Transactions.TRANSACTIONS.TO_ACCOUNT_ID;
     }
 
@@ -173,27 +194,32 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     }
 
     @Override
-    public String component2() {
+    public UUID component2() {
+        return getExternalId();
+    }
+
+    @Override
+    public String component3() {
         return getTransactionType();
     }
 
     @Override
-    public BigDecimal component3() {
+    public BigDecimal component4() {
         return getAmount();
     }
 
     @Override
-    public LocalDate component4() {
+    public LocalDateTime component5() {
         return getDateTime();
     }
 
     @Override
-    public Long component5() {
+    public Long component6() {
         return getFromAccountId();
     }
 
     @Override
-    public Long component6() {
+    public Long component7() {
         return getToAccountId();
     }
 
@@ -203,27 +229,32 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     }
 
     @Override
-    public String value2() {
+    public UUID value2() {
+        return getExternalId();
+    }
+
+    @Override
+    public String value3() {
         return getTransactionType();
     }
 
     @Override
-    public BigDecimal value3() {
+    public BigDecimal value4() {
         return getAmount();
     }
 
     @Override
-    public LocalDate value4() {
+    public LocalDateTime value5() {
         return getDateTime();
     }
 
     @Override
-    public Long value5() {
+    public Long value6() {
         return getFromAccountId();
     }
 
     @Override
-    public Long value6() {
+    public Long value7() {
         return getToAccountId();
     }
 
@@ -234,43 +265,50 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     }
 
     @Override
-    public TransactionsRecord value2(String value) {
+    public TransactionsRecord value2(UUID value) {
+        setExternalId(value);
+        return this;
+    }
+
+    @Override
+    public TransactionsRecord value3(String value) {
         setTransactionType(value);
         return this;
     }
 
     @Override
-    public TransactionsRecord value3(BigDecimal value) {
+    public TransactionsRecord value4(BigDecimal value) {
         setAmount(value);
         return this;
     }
 
     @Override
-    public TransactionsRecord value4(LocalDate value) {
+    public TransactionsRecord value5(LocalDateTime value) {
         setDateTime(value);
         return this;
     }
 
     @Override
-    public TransactionsRecord value5(Long value) {
+    public TransactionsRecord value6(Long value) {
         setFromAccountId(value);
         return this;
     }
 
     @Override
-    public TransactionsRecord value6(Long value) {
+    public TransactionsRecord value7(Long value) {
         setToAccountId(value);
         return this;
     }
 
     @Override
-    public TransactionsRecord values(Long value1, String value2, BigDecimal value3, LocalDate value4, Long value5, Long value6) {
+    public TransactionsRecord values(Long value1, UUID value2, String value3, BigDecimal value4, LocalDateTime value5, Long value6, Long value7) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
         value5(value5);
         value6(value6);
+        value7(value7);
         return this;
     }
 
@@ -288,10 +326,11 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
     /**
      * Create a detached, initialised TransactionsRecord
      */
-    public TransactionsRecord(Long id, String transactionType, BigDecimal amount, LocalDate dateTime, Long fromAccountId, Long toAccountId) {
+    public TransactionsRecord(Long id, UUID externalId, String transactionType, BigDecimal amount, LocalDateTime dateTime, Long fromAccountId, Long toAccountId) {
         super(Transactions.TRANSACTIONS);
 
         setId(id);
+        setExternalId(externalId);
         setTransactionType(transactionType);
         setAmount(amount);
         setDateTime(dateTime);
@@ -307,6 +346,7 @@ public class TransactionsRecord extends UpdatableRecordImpl<TransactionsRecord> 
 
         if (value != null) {
             setId(value.getId());
+            setExternalId(value.getExternalId());
             setTransactionType(value.getTransactionType());
             setAmount(value.getAmount());
             setDateTime(value.getDateTime());

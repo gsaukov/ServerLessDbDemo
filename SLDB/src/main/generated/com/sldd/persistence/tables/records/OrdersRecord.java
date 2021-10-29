@@ -6,7 +6,8 @@ package com.sldd.persistence.tables.records;
 
 import com.sldd.persistence.tables.Orders;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
@@ -19,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * The table <code>public.orders</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements Record7<Long, Long, Long, LocalDate, LocalDate, String, Long> {
+public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements Record7<Long, Long, BigDecimal, LocalDateTime, LocalDateTime, String, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +57,7 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     /**
      * Setter for <code>public.orders.total_cost</code>.
      */
-    public OrdersRecord setTotalCost(Long value) {
+    public OrdersRecord setTotalCost(BigDecimal value) {
         set(2, value);
         return this;
     }
@@ -64,14 +65,14 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     /**
      * Getter for <code>public.orders.total_cost</code>.
      */
-    public Long getTotalCost() {
-        return (Long) get(2);
+    public BigDecimal getTotalCost() {
+        return (BigDecimal) get(2);
     }
 
     /**
      * Setter for <code>public.orders.end_date</code>.
      */
-    public OrdersRecord setEndDate(LocalDate value) {
+    public OrdersRecord setEndDate(LocalDateTime value) {
         set(3, value);
         return this;
     }
@@ -79,14 +80,14 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     /**
      * Getter for <code>public.orders.end_date</code>.
      */
-    public LocalDate getEndDate() {
-        return (LocalDate) get(3);
+    public LocalDateTime getEndDate() {
+        return (LocalDateTime) get(3);
     }
 
     /**
      * Setter for <code>public.orders.start_date</code>.
      */
-    public OrdersRecord setStartDate(LocalDate value) {
+    public OrdersRecord setStartDate(LocalDateTime value) {
         set(4, value);
         return this;
     }
@@ -94,8 +95,8 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     /**
      * Getter for <code>public.orders.start_date</code>.
      */
-    public LocalDate getStartDate() {
-        return (LocalDate) get(4);
+    public LocalDateTime getStartDate() {
+        return (LocalDateTime) get(4);
     }
 
     /**
@@ -142,12 +143,12 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Long, Long, Long, LocalDate, LocalDate, String, Long> fieldsRow() {
+    public Row7<Long, Long, BigDecimal, LocalDateTime, LocalDateTime, String, Long> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 
     @Override
-    public Row7<Long, Long, Long, LocalDate, LocalDate, String, Long> valuesRow() {
+    public Row7<Long, Long, BigDecimal, LocalDateTime, LocalDateTime, String, Long> valuesRow() {
         return (Row7) super.valuesRow();
     }
 
@@ -162,17 +163,17 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     }
 
     @Override
-    public Field<Long> field3() {
+    public Field<BigDecimal> field3() {
         return Orders.ORDERS.TOTAL_COST;
     }
 
     @Override
-    public Field<LocalDate> field4() {
+    public Field<LocalDateTime> field4() {
         return Orders.ORDERS.END_DATE;
     }
 
     @Override
-    public Field<LocalDate> field5() {
+    public Field<LocalDateTime> field5() {
         return Orders.ORDERS.START_DATE;
     }
 
@@ -197,17 +198,17 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     }
 
     @Override
-    public Long component3() {
+    public BigDecimal component3() {
         return getTotalCost();
     }
 
     @Override
-    public LocalDate component4() {
+    public LocalDateTime component4() {
         return getEndDate();
     }
 
     @Override
-    public LocalDate component5() {
+    public LocalDateTime component5() {
         return getStartDate();
     }
 
@@ -232,17 +233,17 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     }
 
     @Override
-    public Long value3() {
+    public BigDecimal value3() {
         return getTotalCost();
     }
 
     @Override
-    public LocalDate value4() {
+    public LocalDateTime value4() {
         return getEndDate();
     }
 
     @Override
-    public LocalDate value5() {
+    public LocalDateTime value5() {
         return getStartDate();
     }
 
@@ -269,19 +270,19 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     }
 
     @Override
-    public OrdersRecord value3(Long value) {
+    public OrdersRecord value3(BigDecimal value) {
         setTotalCost(value);
         return this;
     }
 
     @Override
-    public OrdersRecord value4(LocalDate value) {
+    public OrdersRecord value4(LocalDateTime value) {
         setEndDate(value);
         return this;
     }
 
     @Override
-    public OrdersRecord value5(LocalDate value) {
+    public OrdersRecord value5(LocalDateTime value) {
         setStartDate(value);
         return this;
     }
@@ -299,7 +300,7 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     }
 
     @Override
-    public OrdersRecord values(Long value1, Long value2, Long value3, LocalDate value4, LocalDate value5, String value6, Long value7) {
+    public OrdersRecord values(Long value1, Long value2, BigDecimal value3, LocalDateTime value4, LocalDateTime value5, String value6, Long value7) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -324,7 +325,7 @@ public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements R
     /**
      * Create a detached, initialised OrdersRecord
      */
-    public OrdersRecord(Long id, Long transactionId, Long totalCost, LocalDate endDate, LocalDate startDate, String status, Long userId) {
+    public OrdersRecord(Long id, Long transactionId, BigDecimal totalCost, LocalDateTime endDate, LocalDateTime startDate, String status, Long userId) {
         super(Orders.ORDERS);
 
         setId(id);

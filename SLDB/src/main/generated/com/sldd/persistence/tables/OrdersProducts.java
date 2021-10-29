@@ -7,6 +7,7 @@ package com.sldd.persistence.tables;
 import com.sldd.persistence.Public;
 import com.sldd.persistence.tables.records.OrdersProductsRecord;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,9 +47,9 @@ public class OrdersProducts extends TableImpl<OrdersProductsRecord> {
     }
 
     /**
-     * The column <code>public.orders_products.orders_id</code>.
+     * The column <code>public.orders_products.order_id</code>.
      */
-    public final TableField<OrdersProductsRecord, Long> ORDERS_ID = createField(DSL.name("orders_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersProductsRecord, Long> ORDER_ID = createField(DSL.name("order_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.orders_products.product_id</code>.
@@ -58,17 +59,17 @@ public class OrdersProducts extends TableImpl<OrdersProductsRecord> {
     /**
      * The column <code>public.orders_products.quantity</code>.
      */
-    public final TableField<OrdersProductsRecord, Long> QUANTITY = createField(DSL.name("quantity"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersProductsRecord, BigDecimal> QUANTITY = createField(DSL.name("quantity"), SQLDataType.NUMERIC.nullable(false), this, "");
 
     /**
      * The column <code>public.orders_products.product_cost</code>.
      */
-    public final TableField<OrdersProductsRecord, Long> PRODUCT_COST = createField(DSL.name("product_cost"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersProductsRecord, BigDecimal> PRODUCT_COST = createField(DSL.name("product_cost"), SQLDataType.NUMERIC.nullable(false), this, "");
 
     /**
      * The column <code>public.orders_products.discount_amount</code>.
      */
-    public final TableField<OrdersProductsRecord, Long> DISCOUNT_AMOUNT = createField(DSL.name("discount_amount"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<OrdersProductsRecord, BigDecimal> DISCOUNT_AMOUNT = createField(DSL.name("discount_amount"), SQLDataType.NUMERIC, this, "");
 
     private OrdersProducts(Name alias, Table<OrdersProductsRecord> aliased) {
         this(alias, aliased, null);
@@ -107,7 +108,7 @@ public class OrdersProducts extends TableImpl<OrdersProductsRecord> {
     @Override
     public List<UniqueKey<OrdersProductsRecord>> getUniqueKeys() {
         return Arrays.asList(
-            Internal.createUniqueKey(OrdersProducts.ORDERS_PRODUCTS, DSL.name("orders_products_product_id_key"), new TableField[] { OrdersProducts.ORDERS_PRODUCTS.PRODUCT_ID }, true)
+            Internal.createUniqueKey(OrdersProducts.ORDERS_PRODUCTS, DSL.name("unq_order_id_product_id"), new TableField[] { OrdersProducts.ORDERS_PRODUCTS.ORDER_ID, OrdersProducts.ORDERS_PRODUCTS.PRODUCT_ID }, true)
         );
     }
 
@@ -142,7 +143,7 @@ public class OrdersProducts extends TableImpl<OrdersProductsRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, Long, Long, Long, Long> fieldsRow() {
+    public Row5<Long, Long, BigDecimal, BigDecimal, BigDecimal> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 }

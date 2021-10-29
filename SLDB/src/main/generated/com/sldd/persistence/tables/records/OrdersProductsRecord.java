@@ -6,6 +6,8 @@ package com.sldd.persistence.tables.records;
 
 import com.sldd.persistence.tables.OrdersProducts;
 
+import java.math.BigDecimal;
+
 import org.jooq.Field;
 import org.jooq.Record5;
 import org.jooq.Row5;
@@ -16,22 +18,22 @@ import org.jooq.impl.TableRecordImpl;
  * The table <code>public.orders_products</code>.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> implements Record5<Long, Long, Long, Long, Long> {
+public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> implements Record5<Long, Long, BigDecimal, BigDecimal, BigDecimal> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>public.orders_products.orders_id</code>.
+     * Setter for <code>public.orders_products.order_id</code>.
      */
-    public OrdersProductsRecord setOrdersId(Long value) {
+    public OrdersProductsRecord setOrderId(Long value) {
         set(0, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.orders_products.orders_id</code>.
+     * Getter for <code>public.orders_products.order_id</code>.
      */
-    public Long getOrdersId() {
+    public Long getOrderId() {
         return (Long) get(0);
     }
 
@@ -53,7 +55,7 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     /**
      * Setter for <code>public.orders_products.quantity</code>.
      */
-    public OrdersProductsRecord setQuantity(Long value) {
+    public OrdersProductsRecord setQuantity(BigDecimal value) {
         set(2, value);
         return this;
     }
@@ -61,14 +63,14 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     /**
      * Getter for <code>public.orders_products.quantity</code>.
      */
-    public Long getQuantity() {
-        return (Long) get(2);
+    public BigDecimal getQuantity() {
+        return (BigDecimal) get(2);
     }
 
     /**
      * Setter for <code>public.orders_products.product_cost</code>.
      */
-    public OrdersProductsRecord setProductCost(Long value) {
+    public OrdersProductsRecord setProductCost(BigDecimal value) {
         set(3, value);
         return this;
     }
@@ -76,14 +78,14 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     /**
      * Getter for <code>public.orders_products.product_cost</code>.
      */
-    public Long getProductCost() {
-        return (Long) get(3);
+    public BigDecimal getProductCost() {
+        return (BigDecimal) get(3);
     }
 
     /**
      * Setter for <code>public.orders_products.discount_amount</code>.
      */
-    public OrdersProductsRecord setDiscountAmount(Long value) {
+    public OrdersProductsRecord setDiscountAmount(BigDecimal value) {
         set(4, value);
         return this;
     }
@@ -91,8 +93,8 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     /**
      * Getter for <code>public.orders_products.discount_amount</code>.
      */
-    public Long getDiscountAmount() {
-        return (Long) get(4);
+    public BigDecimal getDiscountAmount() {
+        return (BigDecimal) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -100,18 +102,18 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, Long, Long, Long, Long> fieldsRow() {
+    public Row5<Long, Long, BigDecimal, BigDecimal, BigDecimal> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 
     @Override
-    public Row5<Long, Long, Long, Long, Long> valuesRow() {
+    public Row5<Long, Long, BigDecimal, BigDecimal, BigDecimal> valuesRow() {
         return (Row5) super.valuesRow();
     }
 
     @Override
     public Field<Long> field1() {
-        return OrdersProducts.ORDERS_PRODUCTS.ORDERS_ID;
+        return OrdersProducts.ORDERS_PRODUCTS.ORDER_ID;
     }
 
     @Override
@@ -120,23 +122,23 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     }
 
     @Override
-    public Field<Long> field3() {
+    public Field<BigDecimal> field3() {
         return OrdersProducts.ORDERS_PRODUCTS.QUANTITY;
     }
 
     @Override
-    public Field<Long> field4() {
+    public Field<BigDecimal> field4() {
         return OrdersProducts.ORDERS_PRODUCTS.PRODUCT_COST;
     }
 
     @Override
-    public Field<Long> field5() {
+    public Field<BigDecimal> field5() {
         return OrdersProducts.ORDERS_PRODUCTS.DISCOUNT_AMOUNT;
     }
 
     @Override
     public Long component1() {
-        return getOrdersId();
+        return getOrderId();
     }
 
     @Override
@@ -145,23 +147,23 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     }
 
     @Override
-    public Long component3() {
+    public BigDecimal component3() {
         return getQuantity();
     }
 
     @Override
-    public Long component4() {
+    public BigDecimal component4() {
         return getProductCost();
     }
 
     @Override
-    public Long component5() {
+    public BigDecimal component5() {
         return getDiscountAmount();
     }
 
     @Override
     public Long value1() {
-        return getOrdersId();
+        return getOrderId();
     }
 
     @Override
@@ -170,23 +172,23 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     }
 
     @Override
-    public Long value3() {
+    public BigDecimal value3() {
         return getQuantity();
     }
 
     @Override
-    public Long value4() {
+    public BigDecimal value4() {
         return getProductCost();
     }
 
     @Override
-    public Long value5() {
+    public BigDecimal value5() {
         return getDiscountAmount();
     }
 
     @Override
     public OrdersProductsRecord value1(Long value) {
-        setOrdersId(value);
+        setOrderId(value);
         return this;
     }
 
@@ -197,25 +199,25 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     }
 
     @Override
-    public OrdersProductsRecord value3(Long value) {
+    public OrdersProductsRecord value3(BigDecimal value) {
         setQuantity(value);
         return this;
     }
 
     @Override
-    public OrdersProductsRecord value4(Long value) {
+    public OrdersProductsRecord value4(BigDecimal value) {
         setProductCost(value);
         return this;
     }
 
     @Override
-    public OrdersProductsRecord value5(Long value) {
+    public OrdersProductsRecord value5(BigDecimal value) {
         setDiscountAmount(value);
         return this;
     }
 
     @Override
-    public OrdersProductsRecord values(Long value1, Long value2, Long value3, Long value4, Long value5) {
+    public OrdersProductsRecord values(Long value1, Long value2, BigDecimal value3, BigDecimal value4, BigDecimal value5) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -238,10 +240,10 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
     /**
      * Create a detached, initialised OrdersProductsRecord
      */
-    public OrdersProductsRecord(Long ordersId, Long productId, Long quantity, Long productCost, Long discountAmount) {
+    public OrdersProductsRecord(Long orderId, Long productId, BigDecimal quantity, BigDecimal productCost, BigDecimal discountAmount) {
         super(OrdersProducts.ORDERS_PRODUCTS);
 
-        setOrdersId(ordersId);
+        setOrderId(orderId);
         setProductId(productId);
         setQuantity(quantity);
         setProductCost(productCost);
@@ -255,7 +257,7 @@ public class OrdersProductsRecord extends TableRecordImpl<OrdersProductsRecord> 
         super(OrdersProducts.ORDERS_PRODUCTS);
 
         if (value != null) {
-            setOrdersId(value.getOrdersId());
+            setOrderId(value.getOrderId());
             setProductId(value.getProductId());
             setQuantity(value.getQuantity());
             setProductCost(value.getProductCost());

@@ -6,7 +6,8 @@ package com.sldd.persistence.tables.pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 /**
@@ -17,15 +18,17 @@ public class Transactions implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long       id;
-    private final String     transactionType;
-    private final BigDecimal amount;
-    private final LocalDate  dateTime;
-    private final Long       fromAccountId;
-    private final Long       toAccountId;
+    private final Long          id;
+    private final UUID          externalId;
+    private final String        transactionType;
+    private final BigDecimal    amount;
+    private final LocalDateTime dateTime;
+    private final Long          fromAccountId;
+    private final Long          toAccountId;
 
     public Transactions(Transactions value) {
         this.id = value.id;
+        this.externalId = value.externalId;
         this.transactionType = value.transactionType;
         this.amount = value.amount;
         this.dateTime = value.dateTime;
@@ -34,14 +37,16 @@ public class Transactions implements Serializable {
     }
 
     public Transactions(
-        Long       id,
-        String     transactionType,
-        BigDecimal amount,
-        LocalDate  dateTime,
-        Long       fromAccountId,
-        Long       toAccountId
+        Long          id,
+        UUID          externalId,
+        String        transactionType,
+        BigDecimal    amount,
+        LocalDateTime dateTime,
+        Long          fromAccountId,
+        Long          toAccountId
     ) {
         this.id = id;
+        this.externalId = externalId;
         this.transactionType = transactionType;
         this.amount = amount;
         this.dateTime = dateTime;
@@ -54,6 +59,13 @@ public class Transactions implements Serializable {
      */
     public Long getId() {
         return this.id;
+    }
+
+    /**
+     * Getter for <code>public.transactions.external_id</code>.
+     */
+    public UUID getExternalId() {
+        return this.externalId;
     }
 
     /**
@@ -73,7 +85,7 @@ public class Transactions implements Serializable {
     /**
      * Getter for <code>public.transactions.date_time</code>.
      */
-    public LocalDate getDateTime() {
+    public LocalDateTime getDateTime() {
         return this.dateTime;
     }
 
@@ -105,6 +117,12 @@ public class Transactions implements Serializable {
                 return false;
         }
         else if (!id.equals(other.id))
+            return false;
+        if (externalId == null) {
+            if (other.externalId != null)
+                return false;
+        }
+        else if (!externalId.equals(other.externalId))
             return false;
         if (transactionType == null) {
             if (other.transactionType != null)
@@ -144,6 +162,7 @@ public class Transactions implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.externalId == null) ? 0 : this.externalId.hashCode());
         result = prime * result + ((this.transactionType == null) ? 0 : this.transactionType.hashCode());
         result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
         result = prime * result + ((this.dateTime == null) ? 0 : this.dateTime.hashCode());
@@ -157,6 +176,7 @@ public class Transactions implements Serializable {
         StringBuilder sb = new StringBuilder("Transactions (");
 
         sb.append(id);
+        sb.append(", ").append(externalId);
         sb.append(", ").append(transactionType);
         sb.append(", ").append(amount);
         sb.append(", ").append(dateTime);

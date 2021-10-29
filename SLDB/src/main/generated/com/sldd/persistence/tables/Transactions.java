@@ -8,12 +8,15 @@ import com.sldd.persistence.Public;
 import com.sldd.persistence.tables.records.TransactionsRecord;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -52,6 +55,11 @@ public class Transactions extends TableImpl<TransactionsRecord> {
     public final TableField<TransactionsRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
+     * The column <code>public.transactions.external_id</code>.
+     */
+    public final TableField<TransactionsRecord, UUID> EXTERNAL_ID = createField(DSL.name("external_id"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
      * The column <code>public.transactions.transaction_type</code>.
      */
     public final TableField<TransactionsRecord, String> TRANSACTION_TYPE = createField(DSL.name("transaction_type"), SQLDataType.VARCHAR(255).nullable(false), this, "");
@@ -64,7 +72,7 @@ public class Transactions extends TableImpl<TransactionsRecord> {
     /**
      * The column <code>public.transactions.date_time</code>.
      */
-    public final TableField<TransactionsRecord, LocalDate> DATE_TIME = createField(DSL.name("date_time"), SQLDataType.LOCALDATE.nullable(false), this, "");
+    public final TableField<TransactionsRecord, LocalDateTime> DATE_TIME = createField(DSL.name("date_time"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "");
 
     /**
      * The column <code>public.transactions.from_account_id</code>.
@@ -121,6 +129,13 @@ public class Transactions extends TableImpl<TransactionsRecord> {
     }
 
     @Override
+    public List<UniqueKey<TransactionsRecord>> getUniqueKeys() {
+        return Arrays.asList(
+            Internal.createUniqueKey(Transactions.TRANSACTIONS, DSL.name("transactions_external_id_key"), new TableField[] { Transactions.TRANSACTIONS.EXTERNAL_ID }, true)
+        );
+    }
+
+    @Override
     public Transactions as(String alias) {
         return new Transactions(DSL.name(alias), this);
     }
@@ -147,11 +162,11 @@ public class Transactions extends TableImpl<TransactionsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, String, BigDecimal, LocalDate, Long, Long> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, UUID, String, BigDecimal, LocalDateTime, Long, Long> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }
