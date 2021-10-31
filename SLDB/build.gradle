@@ -16,6 +16,7 @@ dependencies {
     jooqGenerator "org.postgresql:postgresql:${postgresqlVersion}"
 
     compile "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
+    compile "com.google.code.gson:gson:${gsonVersion}"
 }
 
 sourceSets.main.java.srcDirs += ['src/main/generated']
