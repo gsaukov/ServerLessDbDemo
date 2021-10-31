@@ -18,6 +18,8 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
 
     private LambdaLogger logger;
 
+    private static String CHANGE_LOG = "/db/changelog-master.yaml";
+
     @Override
     public Object handleRequest(Map<String, Object> input, Context context) {
         logger = context.getLogger();
@@ -31,7 +33,7 @@ public class DbInitializerHandler implements RequestHandler<Map<String, Object>,
         try {
             conn = connectionUtils.createConnection();
             Database dataBase = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
-            Liquibase liquiBase = new Liquibase("/db/changelog-master.yaml", new ClassLoaderResourceAccessor(), dataBase);
+            Liquibase liquiBase = new Liquibase(CHANGE_LOG, new ClassLoaderResourceAccessor(), dataBase);
             liquiBase.update(new Contexts(), new LabelExpression());
         } catch (Exception e) {
             logger.log(e.getMessage());
