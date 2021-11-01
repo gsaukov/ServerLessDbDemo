@@ -58,7 +58,6 @@ Resources:
     Type: AWS::CloudFormation::CustomResource
     DependsOn:
       - SLDBInitializerLambda
-      - SLDBInitializerDependencyLayer
     Version: "1.0"
     Properties:
       ServiceToken: !GetAtt SLDBInitializerLambda.Arn
