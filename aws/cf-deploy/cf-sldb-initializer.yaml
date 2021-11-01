@@ -49,14 +49,16 @@ Resources:
 
   SLDBInitializerDependencyLayer:
     Type: 'AWS::Serverless::LayerVersion'
-    compatibleRuntimes:
+    CompatibleRuntimes:
       - java11
     Properties:
       ContentUri: s3://my-new-lambda-bucket-6328764287365/SLDBInitializer-dependencies.zip
 
-#  InvokeSLDBInitializerLambda:
-#    Type: AWS::CloudFormation::CustomResource
-#    DependsOn: SLDBInitializerLambda
-#    Version: "1.0"
-#    Properties:
-#      ServiceToken: !GetAtt SLDBInitializerLambda.Arn
+  InvokeSLDBInitializerLambda:
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn:
+      - SLDBInitializerLambda
+      - SLDBInitializerDependencyLayer
+    Version: "1.0"
+    Properties:
+      ServiceToken: !GetAtt SLDBInitializerLambda.Arn
