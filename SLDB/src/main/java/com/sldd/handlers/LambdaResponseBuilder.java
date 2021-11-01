@@ -89,7 +89,7 @@ public class LambdaResponseBuilder {
                 .build();
     }
 
-    public static APIGatewayProxyResponseEvent successBody() {
+    public static APIGatewayProxyResponseEvent successNoBody() {
         return new LambdaResponseBuilder()
                 .setStatusCode(200)
                 .build();
