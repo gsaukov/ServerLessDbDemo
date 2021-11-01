@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: An AWS Serverless Specification template describing your function.
+
+Parameters:
+  Env:
+    Type: String
+    Description: environment
+    Default: dev
+    AllowedValues:
+      - dev
+      - uat
+      - prd
+  LambdaExecutionRole:
+    Description: Arn of a lambda execution role with
+    Type: String
+
+Resources:
+  SLDBProductHandler:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: "com.sldd.handlers.product.GetProduct::handleRequest"
+      Runtime: java11
+      CodeUri: s3://my-new-lambda-bucket-6328764287365/SLDB-0.1.0.jar
+      Description: ""
+      MemorySize: 512
+      Timeout: 30
+      Role: !Ref LambdaExecutionRole
+      Layers:
+        - !Ref SLDBDependencyLayer
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /sldb/product
+            Method: GET
+
+
+
+
+  SLDBDependencyLayer:
+    Type: 'AWS::Serverless::LayerVersion'
+    #    CompatibleArchitectures:
+    compatibleRuntimes:
+      - java11
+    Properties:
+      ContentUri: s3://my-new-lambda-bucket-6328764287365/SLDB-dependencies.zip

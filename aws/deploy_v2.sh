@@ -11,6 +11,9 @@ echo '==================   Copying resource to s3 STARTED   ====================
 aws s3 cp ../SLDBInitializer/build/libs/SLDBInitializer-0.1.0.jar s3://my-new-lambda-bucket-6328764287365/
 aws s3 cp ../SLDBInitializer/build/distributions/SLDBInitializer-dependencies.zip s3://my-new-lambda-bucket-6328764287365/
 
+aws s3 cp ../SLDB/build/libs/SLDB-0.1.0.jar s3://my-new-lambda-bucket-6328764287365/
+aws s3 cp ../SLDB/build/distributions/SLDB-dependencies.zip s3://my-new-lambda-bucket-6328764287365/
+
 aws s3 cp ./cf-deploy/cf-network.yaml s3://my-new-lambda-bucket-6328764287365/
 aws s3 cp ./cf-deploy/cf-aurora-serverless.yaml s3://my-new-lambda-bucket-6328764287365/
 aws s3 cp ./cf-deploy/cf-sldb-initializer.yaml s3://my-new-lambda-bucket-6328764287365/
