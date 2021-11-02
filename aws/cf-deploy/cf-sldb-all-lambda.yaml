@@ -35,13 +35,10 @@ Resources:
             Path: /sldb/product
             Method: GET
 
-
-
-
   SLDBDependencyLayer:
-    Type: 'AWS::Serverless::LayerVersion'
+    Type: AWS::Serverless::LayerVersion
     #    CompatibleArchitectures:
-    compatibleRuntimes:
+    CompatibleRuntimes:
       - java11
     Properties:
       ContentUri: s3://my-new-lambda-bucket-6328764287365/SLDB-dependencies.zip

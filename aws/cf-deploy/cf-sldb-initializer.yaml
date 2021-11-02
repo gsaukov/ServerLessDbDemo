@@ -17,6 +17,21 @@ Parameters:
 
 
 Resources:
+
+  #Lambda is responsible for asynchronous response to cloudformation after processing liquibase scripts
+  CloudFormationVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      SubnetIds:
+        - Fn::ImportValue: !Sub ${Env}-private-subnet1
+        - Fn::ImportValue: !Sub ${Env}-private-subnet2
+      SecurityGroupIds:
+        - Fn::ImportValue: !Sub ${Env}-sg-tls
+      VpcEndpointType: 'Interface'
+      ServiceName: !Sub "com.amazonaws.${AWS::Region}.cloudformation"
+      PrivateDnsEnabled: true
+      VpcId: !ImportValue VPCID
+
   SLDBInitializerLambda:
     Type: AWS::Serverless::Function
     Properties:

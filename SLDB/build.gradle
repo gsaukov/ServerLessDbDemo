@@ -30,14 +30,15 @@ sourceSets.main.java.srcDirs += ['src/main/generated']
 //}
 
 //or build dependency zip layer
-task zipDependencies(type: Zip) {
-    from {
-        archiveFileName = "SLDB-dependencies.zip"
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+
+task buildLayerArchive(type: Zip) {
+    archiveFileName = "SLDB-dependencies.zip"
+    into('java/lib') {
+        from configurations.runtime
     }
 }
 
-build.finalizedBy(zipDependencies)
+build.dependsOn buildLayerArchive
 
 test {
     useJUnitPlatform()
