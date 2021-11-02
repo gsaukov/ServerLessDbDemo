@@ -15,3 +15,6 @@
 14. CloudFormation stacks is the best way to understand what your cloud is. Both at Macro and Micro levels. You can search across you resources and see the references between them. It is a lot more visual and transparent way to have a grip on your cloud resources. Neither CLI, nor console gives you such posibilities.
 15. I strongly recommend create AWS resources only through CloudFormation to avoid human mistakes, using visual preview and resources review, reuse content and configuration, standard templates, roll back whole stack and don't loose something running.
 16. Integration events library aws-lambda-java-events 
+17. Use CloudFormationCustomResourceEvent to respond to cloud formation.
+18. Lack of framework may turn code in to a mess full of different approaches and functions, you should be very cautious. 
+19. Lambda hibrid environment with supportive lambda functions and EKS/ECS cluster.
