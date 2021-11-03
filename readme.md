@@ -1,3 +1,6 @@
+YOU REALLY HAVE TO UNDERSTAND WHAT YOU ARE DOING
+SERVERLESS IS INFINITE PAIN IN THE ASS
+
 1. make sure you have gradle wrapper in every subproject otherwise you will not be able to run lambdas locally.
 2. Sam template Fn::ImportValue is not supported locally, should work in cloud see: https://stackoverflow.com/questions/59928691/aws-sam-local-start-api-cannot-resolve-fnimportvalue
 3. Make sure that lambda uses proper layer version and environment runtime, it may result in classnotfound error.
@@ -12,7 +15,7 @@
 11. Start up time is crucial. 
 12. Connection, Exception, Transaction handlers is now your responsibility.
 13. Lambda must have access to your VPC/Subnet/Security Group to access resources such as database and EC2.
-14. CloudFormation stacks is the best way to understand what your cloud is. Both at Macro and Micro levels. You can search across you resources and see the references between them. It is a lot more visual and transparent way to have a grip on your cloud resources. Neither CLI, nor console gives you such posibilities.
+14. CloudFormation stacks is the best way to understand what your cloud is. Both at Macro and Micro levels. You can search across you resources and see the references between them. It is a lot more visual and transparent way to have a grip on your cloud resources. Neither CLI, nor console gives you such posibilities. You can also decorate your stacks with comments which is not possible with UI or console.
 15. I strongly recommend create AWS resources only through CloudFormation to avoid human mistakes, using visual preview and resources review, reuse content and configuration, standard templates, roll back whole stack and don't loose something running.
 16. Integration events library aws-lambda-java-events 
 17. Use CloudFormationCustomResourceEvent to respond to cloud formation.
@@ -26,6 +29,7 @@ https://medium.com/hackernoon/im-afraid-you-re-thinking-about-aws-lambda-cold-st
 https://dzone.com/articles/how-to-use-mongodb-connection-pooling-on-aws-lambd
 https://blog.ippon.tech/lambda-execution-context-demystified/
 https://medium.com/@iamarkadyt/3-things-i-wish-i-knew-about-aws-lambda-functions-early-on-4dbb2b176d8f
+https://towardsaws.com/starter-guide-things-i-wish-i-knew-before-for-aws-lambda-fe36ce2fd4cb
 
 AWS Serverless with spring:
 https://github.com/awslabs/aws-serverless-java-container
