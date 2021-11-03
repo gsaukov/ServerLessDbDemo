@@ -17,4 +17,15 @@
 16. Integration events library aws-lambda-java-events 
 17. Use CloudFormationCustomResourceEvent to respond to cloud formation.
 18. Lack of framework may turn code in to a mess full of different approaches and functions, you should be very cautious. 
-19. Lambda hibrid environment with supportive lambda functions and EKS/ECS cluster.
+19. Lambda hybrid environment with supportive lambda functions and EKS/ECS cluster.
+
+
+Some good articles:
+https://towardsdatascience.com/aws-lambda-7-things-i-wished-someone-told-me-63ec2021a772
+https://medium.com/hackernoon/im-afraid-you-re-thinking-about-aws-lambda-cold-starts-all-wrong-7d907f278a4f
+https://dzone.com/articles/how-to-use-mongodb-connection-pooling-on-aws-lambd
+https://blog.ippon.tech/lambda-execution-context-demystified/
+https://medium.com/@iamarkadyt/3-things-i-wish-i-knew-about-aws-lambda-functions-early-on-4dbb2b176d8f
+
+AWS Serverless with spring:
+https://github.com/awslabs/aws-serverless-java-container
