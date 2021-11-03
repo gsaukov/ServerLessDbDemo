@@ -19,18 +19,38 @@ Parameters:
 Resources:
 
   #Lambda is responsible for asynchronous response to cloudformation after processing liquibase scripts
-  CloudFormationVPCEndpoint:
+#  CloudFormationVPCEndpoint:
+#    Type: AWS::EC2::VPCEndpoint
+#    Properties:
+#      SubnetIds:
+#        - Fn::ImportValue: !Sub ${Env}-private-subnet1
+#        - Fn::ImportValue: !Sub ${Env}-private-subnet2
+#      SecurityGroupIds:
+#        - Fn::ImportValue: !Sub ${Env}-sg-tls
+#      VpcEndpointType: 'Interface'
+#      ServiceName: !Sub "com.amazonaws.${AWS::Region}.cloudformation"
+#      PrivateDnsEnabled: true
+#      VpcId: !ImportValue VPCID
+
+# cloud formation custom response is PUT to s3 bucket actually, cheers!
+  CloudFormationS3VPCEndpoint:
     Type: AWS::EC2::VPCEndpoint
     Properties:
-      SubnetIds:
-        - Fn::ImportValue: !Sub ${Env}-private-subnet1
-        - Fn::ImportValue: !Sub ${Env}-private-subnet2
-      SecurityGroupIds:
-        - Fn::ImportValue: !Sub ${Env}-sg-tls
-      VpcEndpointType: 'Interface'
-      ServiceName: !Sub "com.amazonaws.${AWS::Region}.cloudformation"
-      PrivateDnsEnabled: true
       VpcId: !ImportValue VPCID
+      ServiceName: !Sub "com.amazonaws.${AWS::Region}.s3"
+      VpcEndpointType: "Gateway"
+      RouteTableIds:
+        - rtb-00e64a5156515d282 # <<<< fix it parameterize it.
+#      PolicyDocument:
+#        Version: 2012-10-17
+#        Statement:
+#          - Effect: Allow
+#            Principal: "*"
+#            Action:
+#              - "s3:PutObject"
+#            Resource:
+#              - !Sub "arn:aws:s3:::cloudformation-waitcondition-${AWS::Region}/*"
+
 
   SLDBInitializerLambda:
     Type: AWS::Serverless::Function
