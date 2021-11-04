@@ -14,7 +14,9 @@ Parameters:
   LambdaExecutionRole:
     Description: Arn of a lambda execution role with
     Type: String
-
+  RouteTableId:
+    Description: Arn of a default route table used to attach S3 gateway endpoint
+    Type: String
 
 Resources:
 
@@ -40,7 +42,7 @@ Resources:
       ServiceName: !Sub "com.amazonaws.${AWS::Region}.s3"
       VpcEndpointType: "Gateway"
       RouteTableIds:
-        - rtb-00e64a5156515d282 # <<<< fix it parameterize it.
+        - !Ref RouteTableId
 #      PolicyDocument:
 #        Version: 2012-10-17
 #        Statement:
