@@ -21,6 +21,7 @@ SERVERLESS IS INFINITE PAIN IN THE ASS
 17. Use CloudFormationCustomResourceEvent to respond to cloud formation.
 18. Lack of framework may turn code in to a mess full of different approaches and functions, you should be very cautious. 
 19. Lambda hybrid environment with supportive lambda functions and EKS/ECS cluster.
+20. Who will close the connections when Lambda container is killed?
 
 
 Some good articles:
