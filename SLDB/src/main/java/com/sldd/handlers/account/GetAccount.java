@@ -1,4 +1,4 @@
-package com.sldd.handlers.product;
+package com.sldd.handlers.account;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
@@ -11,7 +11,7 @@ import com.sldd.handlers.SharedContext;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GetProduct implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetAccount implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
         LambdaLogger logger = context.getLogger();
@@ -23,10 +23,10 @@ public class GetProduct implements RequestHandler<APIGatewayProxyRequestEvent, A
 
     private void adjustContext() {
         Map<String, Object> ctx = SharedContext.getContext();
-        if (ctx.containsKey("GetProduct")) {
-            ((AtomicInteger) ctx.get("GetProduct")).incrementAndGet();
+        if (ctx.containsKey("GetAccount")) {
+            ((AtomicInteger) ctx.get("GetAccount")).incrementAndGet();
         } else {
-            ctx.put("GetProduct", new AtomicInteger(1));
+            ctx.put("GetAccount", new AtomicInteger(1));
         }
     }
 }
