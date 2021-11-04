@@ -48,7 +48,7 @@ aws cloudformation wait stack-create-complete --stack-name cf-aurora-serverless
 
 aws cloudformation create-stack --stack-name cf-sldb-initializer --template-url https://s3.amazonaws.com/my-new-lambda-bucket-6328764287365/cf-sldb-initializer.yaml \
 --capabilities CAPABILITY_AUTO_EXPAND CAPABILITY_IAM --region=us-east-1 \
---parameters [{"ParameterKey":"LambdaExecutionRole","ParameterValue":$lambda_role_arn}, {"ParameterKey":"RouteTableId","ParameterValue":$route_table_id}]
+--parameters ParameterKey=LambdaExecutionRole,ParameterValue=$lambda_role_arn ParameterKey=RouteTableId,ParameterValue=$route_table_id
 aws cloudformation wait stack-create-complete --stack-name cf-sldb-initializer
 
 echo '==================   Stack creation COMPLETE        =========================='
