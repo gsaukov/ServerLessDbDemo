@@ -18,6 +18,7 @@ public class GetAccount implements RequestHandler<APIGatewayProxyRequestEvent, A
         logger.log("INPUT: " + input);
         logger.log("CONTEXT: " + context);
         adjustContext();
+        context
         return LambdaResponseBuilder.successWithBody(SharedContext.getContext());
     }
 

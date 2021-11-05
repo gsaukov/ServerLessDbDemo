@@ -31,6 +31,9 @@ https://dzone.com/articles/how-to-use-mongodb-connection-pooling-on-aws-lambd
 https://blog.ippon.tech/lambda-execution-context-demystified/
 https://medium.com/@iamarkadyt/3-things-i-wish-i-knew-about-aws-lambda-functions-early-on-4dbb2b176d8f
 https://towardsaws.com/starter-guide-things-i-wish-i-knew-before-for-aws-lambda-fe36ce2fd4cb
+https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html
+https://stackoverflow.com/questions/48878490/how-to-create-a-class-with-multiple-functions-in-aws-lambda-funciton
+
 
 AWS Serverless with spring:
 https://github.com/awslabs/aws-serverless-java-container
