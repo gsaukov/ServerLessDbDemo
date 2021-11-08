@@ -71,7 +71,7 @@ databaseChangeLog:
                   value: "gs@mail.com"
               - column:
                   name: PASSWORD
-                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+                  value: "$2a$10$m/yuJ2UeT2x3BXV64.01F.JRbt6qK2peEqFyGZ0olesntqAT7I/7m"
               - column:
                   name: USER_ID
                   value: 1
@@ -83,7 +83,7 @@ databaseChangeLog:
                   value: "vs@mail.com"
               - column:
                   name: PASSWORD
-                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+                  value: "$2a$10$m/yuJ2UeT2x3BXV64.01F.JRbt6qK2peEqFyGZ0olesntqAT7I/7m"
               - column:
                   name: USER_ID
                   value: 2
@@ -95,7 +95,7 @@ databaseChangeLog:
                   value: "ts@mail.com"
               - column:
                   name: PASSWORD
-                  value: "$2a$12$vahRQ448Xfywwhqb7SA.teVFJDSOgepL.KDQ7N/FoYeGhlZsns6bO"
+                  value: "$2a$10$m/yuJ2UeT2x3BXV64.01F.JRbt6qK2peEqFyGZ0olesntqAT7I/7m"
               - column:
                   name: USER_ID
                   value: 3
