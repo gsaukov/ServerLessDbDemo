@@ -2,7 +2,7 @@ YOU REALLY HAVE TO UNDERSTAND WHAT YOU ARE DOING
 SERVERLESS IS INFINITE PAIN IN THE ASS
 
 1. Lambda is just a container with function that AWS will start and stop for you. While it is stating, you should be very patient and wait. 
-2. The only use case for lambda I see is sporadic/spontaneous infrequent heavy work load once a month or even seldom. 
+2. The only use case for lambda I see is sporadic/spontaneous infrequent heavy work load once a month or even less often. 
 3. make sure you have gradle wrapper in every subproject otherwise you will not be able to run lambdas locally.
 4. Sam template Fn::ImportValue is not supported locally, should work in cloud see: https://stackoverflow.com/questions/59928691/aws-sam-local-start-api-cannot-resolve-fnimportvalue
 5. Make sure that lambda uses proper layer version and environment runtime, it may result in classnotfound error.
