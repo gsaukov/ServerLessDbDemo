@@ -22,19 +22,20 @@ SERVERLESS IS INFINITE PAIN IN THE ASS
 18. Lack of framework may turn code in to a mess full of different approaches and functions, you should be very cautious. 
 19. Lambda hybrid environment with supportive lambda functions and EKS/ECS cluster.
 20. Who will close the connections when Lambda container is killed? - No one lambda is just a container.
-21. Lambda authorizer is additional auth layer used to produce policy to that will allow lambda invocation. For authorization better do it inside invoked lambda? 
+21. Lambda authorizer is additional auth layer used to produce policy to that will allow lambda invocation. For authorization better do it inside invoked lambda? https://medium.com/@Da_vidgf/http-basic-auth-with-api-gateway-and-serverless-5ae14ad0a270 
+22. If you need to access VPC/Subnet from lambda you will need ENI(Elastic network interface, i.e. virtual network card) its creation significantly increase your cold start time.
 
 
 Some good articles:
-https://towardsdatascience.com/aws-lambda-7-things-i-wished-someone-told-me-63ec2021a772
-https://medium.com/hackernoon/im-afraid-you-re-thinking-about-aws-lambda-cold-starts-all-wrong-7d907f278a4f
-https://dzone.com/articles/how-to-use-mongodb-connection-pooling-on-aws-lambd
-https://blog.ippon.tech/lambda-execution-context-demystified/
-https://medium.com/@iamarkadyt/3-things-i-wish-i-knew-about-aws-lambda-functions-early-on-4dbb2b176d8f
-https://towardsaws.com/starter-guide-things-i-wish-i-knew-before-for-aws-lambda-fe36ce2fd4cb
-https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html
-https://stackoverflow.com/questions/48878490/how-to-create-a-class-with-multiple-functions-in-aws-lambda-funciton
+https://towardsdatascience.com/aws-lambda-7-things-i-wished-someone-told-me-63ec2021a772  
+https://medium.com/hackernoon/im-afraid-you-re-thinking-about-aws-lambda-cold-starts-all-wrong-7d907f278a4f  
+https://dzone.com/articles/how-to-use-mongodb-connection-pooling-on-aws-lambd  
+https://blog.ippon.tech/lambda-execution-context-demystified/  
+https://medium.com/@iamarkadyt/3-things-i-wish-i-knew-about-aws-lambda-functions-early-on-4dbb2b176d8f  
+https://towardsaws.com/starter-guide-things-i-wish-i-knew-before-for-aws-lambda-fe36ce2fd4cb  
+https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html  
+https://stackoverflow.com/questions/48878490/how-to-create-a-class-with-multiple-functions-in-aws-lambda-funciton  
 
 
-AWS Serverless with spring:
+AWS Serverless with spring:  
 https://github.com/awslabs/aws-serverless-java-container
