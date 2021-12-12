@@ -26,7 +26,7 @@ SERVERLESS IS INFINITE PAIN IN THE ASS
 22. Who will close the connections when Lambda container is killed? - No one lambda is just a container.
 23. Lambda authorizer is additional auth layer used to produce policy to that will allow lambda invocation. For authorization better do it inside invoked lambda? https://medium.com/@Da_vidgf/http-basic-auth-with-api-gateway-and-serverless-5ae14ad0a270 
 24. If you need to access VPC/Subnet from lambda you will need ENI(Elastic network interface, i.e. virtual network card) its creation significantly increase your cold start time.
-
+25. One lambda handler is one lambda container so for CRUD operations on one resource you will get 5 separate containers.
 
 Some good articles:
 https://towardsdatascience.com/aws-lambda-7-things-i-wished-someone-told-me-63ec2021a772  
