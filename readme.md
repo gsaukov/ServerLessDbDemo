@@ -42,3 +42,6 @@ https://stackoverflow.com/questions/48878490/how-to-create-a-class-with-multiple
 
 AWS Serverless with spring:  
 https://github.com/awslabs/aws-serverless-java-container
+
+Very good full of pain article about Serverless, Lambda, Elastic Beanstalk, EKS, DynamoDB.  
+https://mailslurp.medium.com/how-i-reduced-infrastructure-costs-by-10x-from-aws-to-kops-kubernetes-leaving-dynamo-for-c6af8c0c80e6
