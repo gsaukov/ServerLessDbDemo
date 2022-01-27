@@ -12,12 +12,14 @@
     "eslint-config-airbnb": "^6.1.0",
     "lodash": "^4.6.1",
     "eslint-plugin-react": "^4.2.0",
-    "logr": "^1.5.0"
+    "logr": "^1.5.0",
+    "imagemagick": "^0.1.3"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy:lambda": "./scripts/deploy-lambda"
+    "deploy:lambda": "./scripts/deploy-lambda",
+    "locally": "node -e \"console.log(require('./function').handler(require('./event.json')));\""
   },
   "author": "",
   "license": "ISC"
