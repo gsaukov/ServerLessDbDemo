@@ -31,7 +31,7 @@ const handlePOST = (event, context) => {
   async.auto({
     resized: (done) => {
       im.resize({
-        srcData: new Buffer(event.data, 'base64'),
+        srcData: Buffer.from(event.data, 'base64'),
         width: '50%',
         height: '50%'
       }, (err, stdout, stderr) => {
