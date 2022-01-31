@@ -18,7 +18,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy:lambda": "./scripts/deploy-lambda",
+    "deploy": "serverless deploy",
     "locally": "node -e \"console.log(require('./function').handler(require('./testEvent.json')));\""
   },
   "author": "",
